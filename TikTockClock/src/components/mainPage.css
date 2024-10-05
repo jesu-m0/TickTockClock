@@ -1,0 +1,37 @@
+.mbView{
+    @apply grid grid-cols-4
+}
+
+.mdView{
+    @apply grid grid-cols-6
+}
+
+.lgView{
+    @apply grid grid-cols-12
+}
+
+/*cards*/
+.xsCard{
+    @apply col-span-2
+}
+
+.sCard{
+    @apply col-span-3
+}
+
+.mCard{
+    @apply col-span-4
+}
+
+.lCard{
+    @apply col-span-6
+}
+
+.xlCard{
+    @apply col-span-12
+}
+
+.card{
+    @apply rounded p-4
+}
+
