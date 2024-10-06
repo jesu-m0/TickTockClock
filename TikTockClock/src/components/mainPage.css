@@ -65,7 +65,7 @@
 }
 
 .modeSelected{
-    @apply bg-saffron text-eerieBlack rounded-xl py-3 mx-20
+    @apply border border-saffron text-floralWhite rounded-xl py-3 mx-20
 }
 
 .modeUnselected{

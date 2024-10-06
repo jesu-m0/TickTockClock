@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import clockImage from '../assets/clock.jpg'
+
 import './MainPage.css';
 
 const MainPage: React.FC = () => {
@@ -45,20 +47,24 @@ const MainPage: React.FC = () => {
         <div className="grid grid-cols-12 gap-5 auto-rows-[100px]">
 
           {/* Name */}
-          <div className='col-span-4 row-span-1 rounded-xl bg-eerieBlack content-center'>
-            <p className='font-bold text-timberwolf text-6xl text-center'>
+          <div className='col-span-7 p-4 row-span-1 rounded-3xl bg-eerieBlack'>
+            <p className='font-extrabold text-timberwolf text-6xl text-center'>
               <span className='text-burntSienna'>Tick</span>
               <span className='text-burntSienna'>Tock</span>
               <span className='text-jade'>Clock</span>
             </p>
           </div>
 
-          <div className='col-span-7 row-span-1 rounded-xl bg-eerieBlack content-center'>
-            <p className='font-bold text-timberwolf text-6xl text-center'>Interval timer</p>
+
+
+
+
+          <div className='col-span-4 p-4 row-span-1 rounded-3xl bg-eerieBlack'>
+            <p className='font-bold text-timberwolf rounded text-6xl text-center'>Interval timer</p>
           </div>
 
           {/* Light / Dark button */}
-          <div className='col-span-1 row-span-1 rounded-xl bg-eerieBlack flex justify-center items-center cursor-pointer' onClick={toggleTheme}>
+          <div className='col-span-1 row-span-1 rounded-full bg-eerieBlack flex justify-center items-center cursor-pointer' onClick={toggleTheme}>
             {isDarkMode ? (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -81,48 +87,117 @@ const MainPage: React.FC = () => {
           </div>
 
           {/*Clock */}
-          <div className="col-span-4 row-span-2 bg-eerieBlack p-4 rounded-xl content-center">
-            <div className='flex px-8'>
-              <p className="font-medium text-timberwolf text-sm text-center w-1/2">min</p>
-              <p className="font-medium text-timberwolf text-sm text-center w-1/2">sec</p>
+          <div className="col-span-4 row-span-3 bg-eerieBlack rounded-3xl content-center flex flex-col">
+            <div className='p-4 h-full flex flex-col justify-center items-center'>
+              <p className="font-black text-timberwolf text-9xl text-center">00:00</p>
+              <div className='flex px-8 w-full'>
+                <p className="font-medium text-timberwolf text-lg text-center w-1/2">min</p>
+                <p className="font-medium text-timberwolf text-lg text-center w-1/2">sec</p>
+              </div>
             </div>
-            <p className="font-black text-timberwolf text-9xl text-center">00:00</p>
+            <div className='w-full flex flex-row'>
+              <div className='bg-timberwolf h-6 flex-1 rounded-bl-3xl'></div>
+              <div className='bg-burntSienna h-6 flex-1'></div>
+              <div className='bg-timberwolf h-6 flex-1'></div>
+              <div className='bg-burntSienna h-6 flex-1'></div>
+              <div className='bg-timberwolf h-6 flex-1'></div>
+              <div className='bg-burntSienna h-6 flex-1 rounded-br-3xl'></div>
+            </div>
           </div>
 
           {/*Mode selection*/}
-          <div className='col-span-8 row-span-1 rounded-xl content-center flex'>
+          <div className='col-span-8 row-span-1 rounded-3xl content-center flex'>
 
             {/*Simple btn*/}
-            <div className='w-1/2 h-full p-4 rounded-xl content-center bg-eerieBlack cursor-pointer' onClick={changeToSimple}>
-              <p className={`font-extrabold text-4xl text-center transition-colors duration-300
-              ${isSimpleMode ? 'modeSelected' : 'modeUnselected'}
-              `}>
-                Simple
-              </p>
+            <div className='w-1/2 h-full rounded-3xl content-center bg-eerieBlack cursor-pointer flex flex-col' onClick={changeToSimple}>
+              <div className='pt-4 px-4 h-full'>
+                <p className={`font-extrabold text-timberwolf text-4xl text-center pt-2 transition-colors duration-300`}>
+                  Simple
+                </p>
+              </div>
+              <div className='w-full flex flex-row'>
+                <div className={`
+                ${isSimpleMode ? (
+                    'bg-jade'
+                  ) : (
+                    'bg-eerieBlack'
+                  )}
+                h-6 flex-1 rounded-b-3xl transform duration-300`}></div>
+              </div>
+
             </div>
 
             {/*Custom btn*/}
-            <div className='w-1/2 h-full p-4 rounded-xl content-center bg-eerieBlack cursor-pointer' onClick={changeToCustom}>
-              <p className={`font-extrabold text-4xl text-center transition-colors duration-300
-              ${isSimpleMode ? 'modeUnselected' : 'modeSelected'}
-              `}>
-                Custom
-              </p>
+            <div className='w-1/2 h-full rounded-3xl content-center bg-eerieBlack cursor-pointer flex flex-col' onClick={changeToCustom}>
+              <div className='pt-4 px-4 h-full'>
+                <p className={`font-extrabold text-timberwolf text-4xl text-center pt-2 transition-colors duration-300`}>
+                  Custom
+                </p>
+              </div>
+              <div className='w-full flex flex-row'>
+                <div className={`
+                ${isSimpleMode ? (
+                    'bg-eerieBlack'
+                  ) : (
+                    'bg-jade'
+                  )}
+                h-6 flex-1 rounded-b-3xl transform duration-300`}></div>
+              </div>
+
             </div>
 
           </div>
 
           {/* Mode info */}
-          <div className='col-span-8 row-span-6 rounded-xl content-center bg-eerieBlack'>
+          <div className='col-span-8 row-span-4 rounded-3xl content-center bg-eerieBlack flex flex-col'>
+
+            <div className='h-1/2 rounded-t-3xl bg-burntSienna items-center flex'>
+
+
+              <div className='flex flex-col items-center w-1/2'>
+                <p className="text-timberwolf text-center text-5xl font-black mb-4">Work lap</p>
+                <div className='p-4 bg-timberwolf rounded-3xl mx-auto mt-2 w-4/5'>
+                  <p className='text-7xl font-black text-eerieBlack w-full text-center'>00:00</p>
+                </div>
+              </div>
+
+              <div className='flex flex-col w-1/2 items-center'>
+                <a className='text-5xl w-3/5 font-black text-timberwolf bg-eerieBlack rounded-full text-center cursor-pointer flex justify-center items-center leading-none h-16 my-2'>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className='w-8 h-8 fill-timberwolf'><path d="M201.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L224 205.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z" /></svg>
+                </a>
+
+                <a className='text-5xl w-3/5 font-black text-timberwolf bg-eerieBlack rounded-full text-center cursor-pointer flex justify-center items-center leading-none h-16 my-2'>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className='w-8 h-8 fill-timberwolf'><path d="M201.4 374.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 306.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" /></svg>
+                </a>
+              </div>
+
+            </div>
+            <div className='h-1/2 rounded-b-3xl bg-jade items-center flex'>
+              <div className='flex flex-col items-center w-1/2'>
+                <p className="text-timberwolf text-center text-5xl font-black mb-4">Rest lap</p>
+                <div className='p-4 bg-timberwolf rounded-3xl mx-auto mt-2 w-4/5'>
+                  <p className='text-7xl font-black text-eerieBlack w-full text-center'>00:00</p>
+                </div>
+              </div>
+              <div className='flex flex-col w-1/2 items-center'>
+                <a className='text-5xl w-3/5 font-black text-timberwolf bg-eerieBlack rounded-full text-center cursor-pointer flex justify-center items-center leading-none h-16 my-2'>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className='w-8 h-8 fill-timberwolf'><path d="M201.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L224 205.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z" /></svg>
+                </a>
+
+                <a className='text-5xl w-3/5 font-black text-timberwolf bg-eerieBlack rounded-full text-center cursor-pointer flex justify-center items-center leading-none h-16 my-2'>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className='w-8 h-8 fill-timberwolf'><path d="M201.4 374.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 306.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" /></svg>
+                </a>
+              </div>
+            </div>
 
           </div>
           {/*Reset*/}
-          <div className='col-span-2 row-span-1 bg-timberwolf p-4 rounded-xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer'>
+          <div className='col-span-2 row-span-1 bg-timberwolf p-4 rounded-3xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer'>
             <p className='font-bold text-eerieBlack text-6xl text-center'>Reset</p>
           </div>
 
           {/*Start/stop*/}
-          <div className={`col-span-2 row-span-1 p-4 rounded-xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer
+          <div className={`col-span-2 row-span-1 p-4 rounded-3xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer
           ${isPaused ? 'bg-saffron' : 'bg-burntSienna'}
           ${isClicked ? 'scale-animation' : ''}`}
             onClick={handlePauseStart}>
@@ -132,7 +207,7 @@ const MainPage: React.FC = () => {
           </div>
 
           {/*Expand clock*/}
-          <div className='col-span-4 row-span-1 bg-eerieBlack p-4 rounded-xl flex justify-center items-center hover:scale-105 transition-transform duration-200 cursor-pointer'>
+          <div className='col-span-4 row-span-1 bg-eerieBlack p-4 rounded-3xl flex justify-center items-center hover:scale-105 transition-transform duration-200 cursor-pointer'>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className='w-12 h-12 fill-timberwolf mr-4'><path d="M32 32C14.3 32 0 46.3 0 64l0 96c0 17.7 14.3 32 32 32s32-14.3 32-32l0-64 64 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L32 32zM64 352c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 96c0 17.7 14.3 32 32 32l96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-64 0 0-64zM320 32c-17.7 0-32 14.3-32 32s14.3 32 32 32l64 0 0 64c0 17.7 14.3 32 32 32s32-14.3 32-32l0-96c0-17.7-14.3-32-32-32l-96 0zM448 352c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 64-64 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l96 0c17.7 0 32-14.3 32-32l0-96z" /></svg>
             <p className='font-bold text-timberwolf text-5xl text-center'>Expand</p>
           </div>
