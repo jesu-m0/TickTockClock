@@ -87,20 +87,20 @@ const MainPage: React.FC = () => {
           </div>
 
           {/*Clock */}
-          <div className="col-span-4 row-span-3 bg-eerieBlack rounded-3xl content-center flex flex-col">
+          <div className="col-span-4 row-span-3 bg-timberwolf rounded-3xl content-center flex flex-col">
             <div className='p-4 h-full flex flex-col justify-center items-center'>
-              <p className="font-black text-timberwolf text-9xl text-center">00:00</p>
+              <p className="font-black text-eerieBlack text-9xl text-center">00:00</p>
               <div className='flex px-8 w-full'>
-                <p className="font-medium text-timberwolf text-lg text-center w-1/2">min</p>
-                <p className="font-medium text-timberwolf text-lg text-center w-1/2">sec</p>
+                <p className="font-medium text-eerieBlack text-lg text-center w-1/2">min</p>
+                <p className="font-medium text-eerieBlack text-lg text-center w-1/2">sec</p>
               </div>
             </div>
             <div className='w-full flex flex-row'>
-              <div className='bg-timberwolf h-6 flex-1 rounded-bl-3xl'></div>
+              <div className='bg-jade h-6 flex-1 rounded-bl-3xl'></div>
               <div className='bg-burntSienna h-6 flex-1'></div>
-              <div className='bg-timberwolf h-6 flex-1'></div>
+              <div className='bg-jade h-6 flex-1'></div>
               <div className='bg-burntSienna h-6 flex-1'></div>
-              <div className='bg-timberwolf h-6 flex-1'></div>
+              <div className='bg-jade h-6 flex-1'></div>
               <div className='bg-burntSienna h-6 flex-1 rounded-br-3xl'></div>
             </div>
           </div>
