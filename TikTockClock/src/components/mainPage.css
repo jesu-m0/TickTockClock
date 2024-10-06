@@ -65,7 +65,7 @@
 }
 
 .modeSelected{
-    @apply bg-timberwolf text-eerieBlack rounded-xl py-3 mx-20
+    @apply bg-saffron text-eerieBlack rounded-xl py-3 mx-20
 }
 
 .modeUnselected{
