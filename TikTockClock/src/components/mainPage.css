@@ -56,3 +56,18 @@
 .scale-animation {
     animation: clickScale 300ms ease-out;
 }
+
+.customDashed {
+    background-image: repeating-linear-gradient(0deg, #ccc5b9, #ccc5b9 13px, transparent 13px, transparent 24px, #ccc5b9 24px), repeating-linear-gradient(90deg, #ccc5b9, #ccc5b9 13px, transparent 13px, transparent 24px, #ccc5b9 24px), repeating-linear-gradient(180deg, #ccc5b9, #ccc5b9 13px, transparent 13px, transparent 24px, #ccc5b9 24px), repeating-linear-gradient(270deg, #ccc5b9, #ccc5b9 13px, transparent 13px, transparent 24px, #ccc5b9 24px);
+    background-size: 3px 100%, 100% 3px, 3px 100%, 100% 3px;
+    background-position: 0 0, 0 0, 100% 0, 0 100%;
+    background-repeat: no-repeat;
+}
+
+.modeSelected{
+    @apply bg-timberwolf text-eerieBlack rounded-xl py-3 mx-20
+}
+
+.modeUnselected{
+    @apply text-timberwolf hover:text-floralWhite hover:bg-blackOlive rounded-xl py-3 mx-20
+}

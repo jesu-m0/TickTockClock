@@ -6,6 +6,15 @@ const MainPage: React.FC = () => {
   const [isPaused, setIsPaused] = useState(true);
   const [isClicked, setIsClicked] = useState(false);
 
+  const [isSimpleMode, setIsSimpleMode] = useState(true);
+
+  const changeToSimple = () => {
+    setIsSimpleMode(true);
+  }
+
+  const changeToCustom = () => {
+    setIsSimpleMode(false);
+  }
 
   const handlePauseStart = () => {
     setIsPaused(!isPaused);
@@ -41,15 +50,29 @@ const MainPage: React.FC = () => {
             </p>
           </div>
 
+          {/*Mode selection*/}
           <div className='col-span-6 row-span-1 rounded-xl content-center flex'>
-            <div className='w-1/2 h-full p-4 rounded-xl content-center bg-eerieBlack border-r-2 border-dashed border-timberwolf'>
 
+            {/*Simple btn*/}
+            <div className='w-1/2 h-full p-4 rounded-xl content-center bg-eerieBlack' onClick={changeToSimple}>
+              <p className={`font-extrabold text-4xl text-center transition-colors duration-300
+              ${isSimpleMode ? 'modeSelected' : 'modeUnselected'}
+              `}>
+                Simple
+              </p>
             </div>
-            <div className='w-1/2 h-full p-4 rounded-xl content-center bg-eerieBlack'>
 
+            {/*Custom btn*/}
+            <div className='w-1/2 h-full p-4 rounded-xl content-center bg-eerieBlack' onClick={changeToCustom}>
+              <p className={`font-extrabold text-4xl text-center transition-colors duration-300
+              ${isSimpleMode ? 'modeUnselected' : 'modeSelected'}
+              `}>
+                Custom
+              </p>
             </div>
 
           </div>
+
 
 
 
