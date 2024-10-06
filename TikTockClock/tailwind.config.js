@@ -9,9 +9,12 @@ export default {
       colors: {
         blackOlive: '#403D39',
         eerieBlack: '#252422',
-        flame: '#EB5E28',
+        burntSienna: '#E76F51',
         timberwolf: '#CCC5B9',
-        floralWhite: '#FFFCF2'
+        floralWhite: '#FFFCF2',
+        saffron: '#E9C46A',
+        jade: '#44Af69'
+
       },
     },
   },

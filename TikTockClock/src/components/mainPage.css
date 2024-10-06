@@ -1,37 +1,58 @@
-.mbView{
+.mbView {
     @apply grid grid-cols-4
 }
 
-.mdView{
+.mdView {
     @apply grid grid-cols-6
 }
 
-.lgView{
+.lgView {
     @apply grid grid-cols-12
 }
 
 /*cards*/
-.xsCard{
+.xsCard {
     @apply col-span-2
 }
 
-.sCard{
+.sCard {
     @apply col-span-3
 }
 
-.mCard{
+.mCard {
     @apply col-span-4
 }
 
-.lCard{
+.lCard {
     @apply col-span-6
 }
 
-.xlCard{
+.xlCard {
     @apply col-span-12
 }
 
-.card{
-    @apply rounded p-4
+.card {
+    @apply rounded-3xl
 }
 
+@keyframes clickScale {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(0.95);
+    }
+
+    75% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.scale-animation {
+    animation: clickScale 300ms ease-out;
+}
