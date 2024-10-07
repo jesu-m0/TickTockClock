@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import clockImage from '../assets/clock.jpg'
-
+import Header from './Header/Header.tsx';
 import './MainPage.css';
 
 const MainPage: React.FC = () => {
@@ -46,6 +45,8 @@ const MainPage: React.FC = () => {
       <div className="container mx-auto p-5">
         <div className="grid grid-cols-12 gap-5 auto-rows-[100px]">
 
+          <Header toggleTheme={toggleTheme} isDarkMode={isDarkMode}></Header>
+
           {/* Name */}
           <div className='col-span-7 p-4 row-span-1 rounded-3xl bg-eerieBlack'>
             <p className='font-extrabold text-timberwolf text-6xl text-center'>
@@ -54,10 +55,6 @@ const MainPage: React.FC = () => {
               <span className='text-jade'>Clock</span>
             </p>
           </div>
-
-
-
-
 
           <div className='col-span-4 p-4 row-span-1 rounded-3xl bg-eerieBlack'>
             <p className='font-bold text-timberwolf rounded text-6xl text-center'>Interval timer</p>
