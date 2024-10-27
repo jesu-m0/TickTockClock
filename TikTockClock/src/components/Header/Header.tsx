@@ -2,11 +2,11 @@ import React from 'react';
 import ThemeToggleButton from './ThemeToggleButton.tsx';
 
 interface HeaderProps {
-    toggleTheme: () => void;
+    setDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
     isDarkMode: boolean;
 }
 
-const Header: React.FC<HeaderProps> = ({ toggleTheme, isDarkMode }) => {
+const Header: React.FC<HeaderProps> = ({ setDarkMode, isDarkMode }) => {
     return (
         <header className="contents">
             <div className='col-span-7 p-4 row-span-1 rounded-3xl bg-eerieBlack'>
@@ -20,7 +20,7 @@ const Header: React.FC<HeaderProps> = ({ toggleTheme, isDarkMode }) => {
             <div className='col-span-4 p-4 row-span-1 rounded-3xl bg-eerieBlack'>
                 <h2 className='font-bold text-timberwolf rounded text-6xl text-center'>Interval timer</h2>
             </div>
-            <ThemeToggleButton toggleTheme={toggleTheme} isDarkMode={isDarkMode} />
+            <ThemeToggleButton setDarkMode={setDarkMode} isDarkMode={isDarkMode} />
         </header>
     );
 };
