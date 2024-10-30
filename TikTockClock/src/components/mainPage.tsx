@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Header from './Header/Header.tsx';
+import Clock from './Header/Clock.tsx';
 import './MainPage.css';
 
 const MainPage: React.FC = () => {
@@ -12,7 +13,9 @@ const MainPage: React.FC = () => {
   
   //Start or stop
   const [isPaused, setIsPaused] = useState(true);
-  const [isClicked, setIsClicked] = useState(false);
+  const [isClickedPause, setIsClickedPause] = useState(false);
+  const [reset, setReset] = useState(false);
+  const [isClickedReset, setIsClickedReset] = useState(false);
 
 
   //Change mode
@@ -29,9 +32,16 @@ const MainPage: React.FC = () => {
 
   const handlePauseStart = () => {
     setIsPaused(!isPaused);
-    setIsClicked(true);
-    setTimeout(() => setIsClicked(false), 300);
+    setIsClickedPause(true);
+    setTimeout(() => setIsClickedPause(false), 300);
   };
+
+  const handleReset = () => {
+    setReset(true);
+    setReset(false);
+    setIsClickedReset(true);
+    setTimeout(() => setIsClickedReset(false), 300);
+  }
 
   return (
     <div>
@@ -41,22 +51,8 @@ const MainPage: React.FC = () => {
           <Header isDarkMode={isDarkMode} setDarkMode={setDarkMode}></Header>
 
           {/*Clock */}
-          <div className="col-span-4 row-span-3 bg-timberwolf rounded-3xl content-center flex flex-col">
-            <div className='p-4 h-full flex flex-col justify-center items-center'>
-              <p className="font-black text-eerieBlack text-9xl text-center">00:00</p>
-              <div className='flex px-8 w-full'>
-                <p className="font-medium text-eerieBlack text-lg text-center w-1/2">min</p>
-                <p className="font-medium text-eerieBlack text-lg text-center w-1/2">sec</p>
-              </div>
-            </div>
-            <div className='w-full flex flex-row'>
-              <div className='bg-jade h-6 flex-1 rounded-bl-3xl'></div>
-              <div className='bg-burntSienna h-6 flex-1'></div>
-              <div className='bg-jade h-6 flex-1'></div>
-              <div className='bg-burntSienna h-6 flex-1'></div>
-              <div className='bg-jade h-6 flex-1'></div>
-              <div className='bg-burntSienna h-6 flex-1 rounded-br-3xl'></div>
-            </div>
+          <div className="col-span-4 row-span-3 rounded-3xl content-center flex flex-col bg-timberwolf">
+            <Clock isPaused={isPaused} reset={reset}></Clock>
           </div>
 
           {/*Mode selection*/}
@@ -146,18 +142,24 @@ const MainPage: React.FC = () => {
 
           </div>
           {/*Reset*/}
-          <div className='col-span-2 row-span-1 bg-timberwolf p-4 rounded-3xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer'>
+          <div className={`col-span-2 row-span-1 bg-timberwolf p-4 rounded-3xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer 
+          ${isClickedReset ? 'scale-animation' : ''}`}
+            onClick={handleReset}>
+            
             <p className='font-bold text-eerieBlack text-6xl text-center'>Reset</p>
+
           </div>
 
           {/*Start/stop*/}
           <div className={`col-span-2 row-span-1 p-4 rounded-3xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer
           ${isPaused ? 'bg-saffron' : 'bg-burntSienna'}
-          ${isClicked ? 'scale-animation' : ''}`}
+          ${isClickedPause ? 'scale-animation' : ''}`}
             onClick={handlePauseStart}>
+
             <p className='font-bold text-eerieBlack text-6xl text-center'>
               {isPaused ? 'Start' : 'Stop'}
             </p>
+
           </div>
 
           {/*Expand clock*/}
