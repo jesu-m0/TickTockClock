@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 import Header from './Header/Header.tsx';
 import Clock from './Header/Clock.tsx';
 import './MainPage.css';
+import SimpleInfo from './SimpleInfo/SimpleInfo';
 
-const formatTime = (seconds: number): string => {
-  const minutes = Math.floor(seconds / 60);
-  const remainingSeconds = seconds % 60;
-  return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
-};
+// Define a type for the work duration buttons
+interface WorkDurationButton {
+  id: string;
+  seconds: number;
+  label: string;
+  isClicked: boolean;
+}
 
 const MainPage: React.FC = () => {
 
@@ -23,15 +26,40 @@ const MainPage: React.FC = () => {
   const [reset, setReset] = useState(false);
   const [isClickedReset, setIsClickedReset] = useState(false);
 
-  // Add these states at the top with other states
-  const [isClickedWorkUp, setIsClickedWorkUp] = useState(false);
-  const [isClickedWorkDown, setIsClickedWorkDown] = useState(false);
-  const [isClickedRestUp, setIsClickedRestUp] = useState(false);
-  const [isClickedRestDown, setIsClickedRestDown] = useState(false);
+  // Replace individual states with a single state object
+  const [workUpButtons, setWorkUpButtons] = useState<WorkDurationButton[]>([
+    { id: 'workUp1', seconds: 1, label: '+1"', isClicked: false },
+    { id: 'workUp5', seconds: 5, label: '+5"', isClicked: false },
+    { id: 'workUp30', seconds: 30, label: '+30"', isClicked: false },
+    { id: 'workUp300', seconds: 300, label: "+5'", isClicked: false },
+  ]);
 
-  // Add this state with other states at the top
-  const [workDuration, setWorkDuration] = useState(0);
-  const [restDuration, setRestDuration] = useState(0);
+  const [workDownButtons, setWorkDownButtons] = useState<WorkDurationButton[]>([
+    { id: 'workDown1', seconds: 1, label: '-1"', isClicked: false },
+    { id: 'workDown5', seconds: 5, label: '-5"', isClicked: false },
+    { id: 'workDown30', seconds: 30, label: '-30"', isClicked: false },
+    { id: 'workDown300', seconds: 300, label: "-5'", isClicked: false },
+  ]);
+
+  const [restUpButtons, setRestUpButtons] = useState<WorkDurationButton[]>([
+    { id: 'restUp1', seconds: 1, label: '+1"', isClicked: false },
+    { id: 'restUp5', seconds: 5, label: '+5"', isClicked: false },
+    { id: 'restUp30', seconds: 30, label: '+30"', isClicked: false },
+    { id: 'restUp300', seconds: 300, label: "+5'", isClicked: false },
+  ]);
+
+  const [restDownButtons, setRestDownButtons] = useState<WorkDurationButton[]>([
+    { id: 'restDown1', seconds: 1, label: '-1"', isClicked: false },
+    { id: 'restDown5', seconds: 5, label: '-5"', isClicked: false },
+    { id: 'restDown30', seconds: 30, label: '-30"', isClicked: false },
+    { id: 'restDown300', seconds: 300, label: "-5'", isClicked: false },
+  ]);
+
+  // Replace the separate duration states with the new data structure
+  const [simpleTimerInfo, setSimpleTimerInfo] = useState({
+    workLapDuration: 0,
+    restLapDuration: 0
+  });
 
   //Change mode
 
@@ -59,29 +87,85 @@ const MainPage: React.FC = () => {
     setTimeout(() => setIsClickedReset(false), 300);
   }
 
-  // Add this handler function with other handlers
-  const handleWorkDurationUp = () => {
-    setWorkDuration(prev => prev + 1);
-    setIsClickedWorkUp(true);
-    setTimeout(() => setIsClickedWorkUp(false), 300);
+  // Simplified handler
+  const handleWorkDurationUp = (seconds: number, buttonId: string) => {
+    setSimpleTimerInfo(prev => ({
+      ...prev,
+      workLapDuration: prev.workLapDuration + seconds
+    }));
+
+    // Update only the clicked button's state
+    setWorkUpButtons(prev => prev.map(button => ({
+      ...button,
+      isClicked: button.id === buttonId ? true : button.isClicked
+    })));
+
+    // Reset the clicked state after animation
+    setTimeout(() => {
+      setWorkUpButtons(prev => prev.map(button => ({
+        ...button,
+        isClicked: button.id === buttonId ? false : button.isClicked
+      })));
+    }, 300);
   };
 
-  const handleWorkDurationDown = () => {
-    setWorkDuration(prev => Math.max(0, prev - 1));
-    setIsClickedWorkDown(true);
-    setTimeout(() => setIsClickedWorkDown(false), 300);
+  const handleWorkDurationDown = (seconds: number, buttonId: string) => {
+    setSimpleTimerInfo(prev => ({
+      ...prev,
+      workLapDuration: Math.max(0, prev.workLapDuration - seconds)
+    }));
+
+    setWorkDownButtons(prev => prev.map(button => ({
+      ...button,
+      isClicked: button.id === buttonId ? true : button.isClicked
+    })));
+
+    setTimeout(() => {
+      setWorkDownButtons(prev => prev.map(button => ({
+        ...button,
+        isClicked: button.id === buttonId ? false : button.isClicked
+      })));
+    }, 300);
   };
 
-  const handleRestDurationUp = () => {
-    setRestDuration(prev => prev + 1);
-    setIsClickedRestUp(true);
-    setTimeout(() => setIsClickedRestUp(false), 300);
+  const handleRestDurationUp = (seconds: number, buttonId: string) => {
+    setSimpleTimerInfo(prev => ({
+      ...prev,
+      restLapDuration: prev.restLapDuration + seconds
+    }));
+
+    // Update only the clicked button's state
+    setRestUpButtons(prev => prev.map(button => ({
+      ...button,
+      isClicked: button.id === buttonId ? true : button.isClicked
+    })));
+
+    // Reset the clicked state after animation
+    setTimeout(() => {
+      setRestUpButtons(prev => prev.map(button => ({
+        ...button,
+        isClicked: button.id === buttonId ? false : button.isClicked
+      })));
+    }, 300);
   };
 
-  const handleRestDurationDown = () => {
-    setRestDuration(prev => Math.max(0, prev - 1));
-    setIsClickedRestDown(true);
-    setTimeout(() => setIsClickedRestDown(false), 300);
+  const handleRestDurationDown = (seconds: number, buttonId: string) => {
+    setSimpleTimerInfo(prev => ({
+      ...prev,
+      restLapDuration: Math.max(0, prev.restLapDuration - seconds)
+    }));
+
+    setRestDownButtons(prev => prev.map(button => ({
+      ...button,
+      isClicked: button.id === buttonId ? true : button.isClicked
+    })));
+
+    setTimeout(() => {
+      setRestDownButtons(prev => prev.map(button => ({
+        ...button,
+        isClicked: button.id === buttonId ? false : button.isClicked
+      })));
+    }, 300);
   };
 
   return (
@@ -93,7 +177,11 @@ const MainPage: React.FC = () => {
 
           {/*Clock */}
           <div className="col-span-4 row-span-3 rounded-3xl content-center flex flex-col bg-timberwolf">
-            <Clock isPaused={isPaused} reset={reset}></Clock>
+            <Clock 
+              isPaused={isPaused} 
+              reset={reset} 
+              simpleTimerInfo={simpleTimerInfo}
+            ></Clock>
           </div>
 
           {/*Mode selection*/}
@@ -139,57 +227,18 @@ const MainPage: React.FC = () => {
 
           </div>
 
-          {/* Mode info */}
-          <div className='col-span-8 row-span-4 rounded-3xl content-center bg-eerieBlack flex flex-col'>
+          <SimpleInfo
+            timerInfo={simpleTimerInfo}
+            workUpButtons={workUpButtons}
+            workDownButtons={workDownButtons}
+            restUpButtons={restUpButtons}
+            restDownButtons={restDownButtons}
+            handleWorkDurationUp={handleWorkDurationUp}
+            handleWorkDurationDown={handleWorkDurationDown}
+            handleRestDurationUp={handleRestDurationUp}
+            handleRestDurationDown={handleRestDurationDown}
+          />
 
-            <div className='h-1/2 rounded-t-3xl bg-burntSienna items-center flex'>
-
-
-              <div className='flex flex-col items-center w-1/2'>
-                <p className="text-timberwolf text-center text-5xl font-black mb-4">Work lap</p>
-                <div className='p-4 bg-timberwolf rounded-3xl mx-auto mt-2 w-4/5'>
-                  <p className='text-7xl font-black text-eerieBlack w-full text-center'>
-                    {formatTime(workDuration)}
-                  </p>
-                </div>
-              </div>
-
-              <div className='flex flex-col w-1/2 items-center'>
-                <a className={`text-5xl w-3/5 font-black text-timberwolf bg-eerieBlack rounded-full text-center cursor-pointer flex justify-center items-center leading-none h-16 my-2 ${isClickedWorkUp ? 'scale-animation' : ''}`}
-                   onClick={handleWorkDurationUp}>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className='w-8 h-8 fill-timberwolf'><path d="M201.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L224 205.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z" /></svg>
-                </a>
-
-                <a className={`text-5xl w-3/5 font-black text-timberwolf bg-eerieBlack rounded-full text-center cursor-pointer flex justify-center items-center leading-none h-16 my-2 ${isClickedWorkDown ? 'scale-animation' : ''}`}
-                   onClick={handleWorkDurationDown}>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className='w-8 h-8 fill-timberwolf'><path d="M201.4 374.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 306.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" /></svg>
-                </a>
-              </div>
-
-            </div>
-            <div className='h-1/2 rounded-b-3xl bg-jade items-center flex'>
-              <div className='flex flex-col items-center w-1/2'>
-                <p className="text-timberwolf text-center text-5xl font-black mb-4">Rest lap</p>
-                <div className='p-4 bg-timberwolf rounded-3xl mx-auto mt-2 w-4/5'>
-                  <p className='text-7xl font-black text-eerieBlack w-full text-center'>
-                    {formatTime(restDuration)}
-                  </p>
-                </div>
-              </div>
-              <div className='flex flex-col w-1/2 items-center'>
-                <a className={`text-5xl w-3/5 font-black text-timberwolf bg-eerieBlack rounded-full text-center cursor-pointer flex justify-center items-center leading-none h-16 my-2 ${isClickedRestUp ? 'scale-animation' : ''}`}
-                   onClick={handleRestDurationUp}>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className='w-8 h-8 fill-timberwolf'><path d="M201.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L224 205.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z" /></svg>
-                </a>
-
-                <a className={`text-5xl w-3/5 font-black text-timberwolf bg-eerieBlack rounded-full text-center cursor-pointer flex justify-center items-center leading-none h-16 my-2 ${isClickedRestDown ? 'scale-animation' : ''}`}
-                   onClick={handleRestDurationDown}>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className='w-8 h-8 fill-timberwolf'><path d="M201.4 374.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 306.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" /></svg>
-                </a>
-              </div>
-            </div>
-
-          </div>
           {/*Reset*/}
           <div className={`col-span-2 row-span-1 bg-saffron p-4 rounded-3xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer 
           ${isClickedReset ? 'scale-animation' : ''}`}

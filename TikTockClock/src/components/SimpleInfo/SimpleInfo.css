@@ -1,0 +1,3 @@
+.time-button {
+    @apply w-16 h-16 font-bold text-lg text-timberwolf bg-eerieBlack rounded-3xl cursor-pointer flex justify-center items-center;
+  } 

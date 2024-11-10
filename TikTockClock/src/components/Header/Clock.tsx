@@ -3,9 +3,13 @@ import React, { useState, useEffect } from 'react';
 interface ClockProps {
   isPaused: boolean;
   reset: boolean;
+  simpleTimerInfo: {
+    workLapDuration: number;
+    restLapDuration: number;
+  };
 }
 
-const Clock: React.FC<ClockProps> = ({ isPaused, reset }) => {
+const Clock: React.FC<ClockProps> = ({ isPaused, reset, simpleTimerInfo }) => {
   const [time, setTime] = useState(0);
 
   useEffect(() => {
