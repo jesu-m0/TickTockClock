@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Move this to index.css for global effect */
+p, h1, h2 {
+    user-select: none;
+    pointer-events: none;
+}

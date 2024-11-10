@@ -3,6 +3,12 @@ import Header from './Header/Header.tsx';
 import Clock from './Header/Clock.tsx';
 import './MainPage.css';
 
+const formatTime = (seconds: number): string => {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+};
+
 const MainPage: React.FC = () => {
 
   //Toggle theme
@@ -17,6 +23,15 @@ const MainPage: React.FC = () => {
   const [reset, setReset] = useState(false);
   const [isClickedReset, setIsClickedReset] = useState(false);
 
+  // Add these states at the top with other states
+  const [isClickedWorkUp, setIsClickedWorkUp] = useState(false);
+  const [isClickedWorkDown, setIsClickedWorkDown] = useState(false);
+  const [isClickedRestUp, setIsClickedRestUp] = useState(false);
+  const [isClickedRestDown, setIsClickedRestDown] = useState(false);
+
+  // Add this state with other states at the top
+  const [workDuration, setWorkDuration] = useState(0);
+  const [restDuration, setRestDuration] = useState(0);
 
   //Change mode
 
@@ -37,11 +52,37 @@ const MainPage: React.FC = () => {
   };
 
   const handleReset = () => {
+    setIsPaused(true);
     setReset(true);
-    setReset(false);
+    setTimeout(() => setReset(false), 100);
     setIsClickedReset(true);
     setTimeout(() => setIsClickedReset(false), 300);
   }
+
+  // Add this handler function with other handlers
+  const handleWorkDurationUp = () => {
+    setWorkDuration(prev => prev + 1);
+    setIsClickedWorkUp(true);
+    setTimeout(() => setIsClickedWorkUp(false), 300);
+  };
+
+  const handleWorkDurationDown = () => {
+    setWorkDuration(prev => Math.max(0, prev - 1));
+    setIsClickedWorkDown(true);
+    setTimeout(() => setIsClickedWorkDown(false), 300);
+  };
+
+  const handleRestDurationUp = () => {
+    setRestDuration(prev => prev + 1);
+    setIsClickedRestUp(true);
+    setTimeout(() => setIsClickedRestUp(false), 300);
+  };
+
+  const handleRestDurationDown = () => {
+    setRestDuration(prev => Math.max(0, prev - 1));
+    setIsClickedRestDown(true);
+    setTimeout(() => setIsClickedRestDown(false), 300);
+  };
 
   return (
     <div>
@@ -107,16 +148,20 @@ const MainPage: React.FC = () => {
               <div className='flex flex-col items-center w-1/2'>
                 <p className="text-timberwolf text-center text-5xl font-black mb-4">Work lap</p>
                 <div className='p-4 bg-timberwolf rounded-3xl mx-auto mt-2 w-4/5'>
-                  <p className='text-7xl font-black text-eerieBlack w-full text-center'>00:00</p>
+                  <p className='text-7xl font-black text-eerieBlack w-full text-center'>
+                    {formatTime(workDuration)}
+                  </p>
                 </div>
               </div>
 
               <div className='flex flex-col w-1/2 items-center'>
-                <a className='text-5xl w-3/5 font-black text-timberwolf bg-eerieBlack rounded-full text-center cursor-pointer flex justify-center items-center leading-none h-16 my-2'>
+                <a className={`text-5xl w-3/5 font-black text-timberwolf bg-eerieBlack rounded-full text-center cursor-pointer flex justify-center items-center leading-none h-16 my-2 ${isClickedWorkUp ? 'scale-animation' : ''}`}
+                   onClick={handleWorkDurationUp}>
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className='w-8 h-8 fill-timberwolf'><path d="M201.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L224 205.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z" /></svg>
                 </a>
 
-                <a className='text-5xl w-3/5 font-black text-timberwolf bg-eerieBlack rounded-full text-center cursor-pointer flex justify-center items-center leading-none h-16 my-2'>
+                <a className={`text-5xl w-3/5 font-black text-timberwolf bg-eerieBlack rounded-full text-center cursor-pointer flex justify-center items-center leading-none h-16 my-2 ${isClickedWorkDown ? 'scale-animation' : ''}`}
+                   onClick={handleWorkDurationDown}>
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className='w-8 h-8 fill-timberwolf'><path d="M201.4 374.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 306.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" /></svg>
                 </a>
               </div>
@@ -126,15 +171,19 @@ const MainPage: React.FC = () => {
               <div className='flex flex-col items-center w-1/2'>
                 <p className="text-timberwolf text-center text-5xl font-black mb-4">Rest lap</p>
                 <div className='p-4 bg-timberwolf rounded-3xl mx-auto mt-2 w-4/5'>
-                  <p className='text-7xl font-black text-eerieBlack w-full text-center'>00:00</p>
+                  <p className='text-7xl font-black text-eerieBlack w-full text-center'>
+                    {formatTime(restDuration)}
+                  </p>
                 </div>
               </div>
               <div className='flex flex-col w-1/2 items-center'>
-                <a className='text-5xl w-3/5 font-black text-timberwolf bg-eerieBlack rounded-full text-center cursor-pointer flex justify-center items-center leading-none h-16 my-2'>
+                <a className={`text-5xl w-3/5 font-black text-timberwolf bg-eerieBlack rounded-full text-center cursor-pointer flex justify-center items-center leading-none h-16 my-2 ${isClickedRestUp ? 'scale-animation' : ''}`}
+                   onClick={handleRestDurationUp}>
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className='w-8 h-8 fill-timberwolf'><path d="M201.4 137.4c12.5-12.5 32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L224 205.3 86.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l160-160z" /></svg>
                 </a>
 
-                <a className='text-5xl w-3/5 font-black text-timberwolf bg-eerieBlack rounded-full text-center cursor-pointer flex justify-center items-center leading-none h-16 my-2'>
+                <a className={`text-5xl w-3/5 font-black text-timberwolf bg-eerieBlack rounded-full text-center cursor-pointer flex justify-center items-center leading-none h-16 my-2 ${isClickedRestDown ? 'scale-animation' : ''}`}
+                   onClick={handleRestDurationDown}>
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className='w-8 h-8 fill-timberwolf'><path d="M201.4 374.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 306.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" /></svg>
                 </a>
               </div>
@@ -142,7 +191,7 @@ const MainPage: React.FC = () => {
 
           </div>
           {/*Reset*/}
-          <div className={`col-span-2 row-span-1 bg-timberwolf p-4 rounded-3xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer 
+          <div className={`col-span-2 row-span-1 bg-saffron p-4 rounded-3xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer 
           ${isClickedReset ? 'scale-animation' : ''}`}
             onClick={handleReset}>
             
@@ -152,7 +201,7 @@ const MainPage: React.FC = () => {
 
           {/*Start/stop*/}
           <div className={`col-span-2 row-span-1 p-4 rounded-3xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer
-          ${isPaused ? 'bg-saffron' : 'bg-burntSienna'}
+          ${isPaused ? 'bg-timberwolf' : 'bg-burntSienna'}
           ${isClickedPause ? 'scale-animation' : ''}`}
             onClick={handlePauseStart}>
 
