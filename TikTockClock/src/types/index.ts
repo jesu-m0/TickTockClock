@@ -1,6 +1,6 @@
 export enum AnimationType {
       NONE = 'none',
-      EMPTY_DURATION = 'empty_duration',
+      EMPTY_LAPS_DURATION = 'empty_laps_duration',
       ALREADY_RESET = 'already_reset'
 }
 

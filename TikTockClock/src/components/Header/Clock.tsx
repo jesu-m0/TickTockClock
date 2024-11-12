@@ -10,6 +10,7 @@ interface ClockProps {
       onStatusChange: (status: ClockStatus) => void;
 }
 
+//TODO: Are status well controlled?
 const Clock: React.FC<ClockProps> = ({ isPaused, reset, simpleTimerInfo, isSimpleMode, onStatusChange }) => {
       const [time, setTime] = useState(0);
       const [isAlternate, setIsAlternate] = useState(false);

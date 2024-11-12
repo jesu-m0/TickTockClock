@@ -28,6 +28,8 @@ const MainPage: React.FC = () => {
             currentAnimation: AnimationType.NONE
       });
 
+      const [clockStatus, setClockStatus] = useState<ClockStatus>(ClockStatus.ZERO);
+
       //Change mode
 
       const changeToSimple = () => {
@@ -42,7 +44,7 @@ const MainPage: React.FC = () => {
 
       const handlePauseStart = () => {
             if (isSimpleMode && (simpleTimerInfo.workLapDuration === 0 || simpleTimerInfo.restLapDuration === 0)) {
-                  setSimpleTimerInfo(prev => ({ ...prev, currentAnimation: AnimationType.EMPTY_DURATION }));
+                  setSimpleTimerInfo(prev => ({ ...prev, currentAnimation: AnimationType.EMPTY_LAPS_DURATION }));
                   setTimeout(() => setSimpleTimerInfo(prev => ({ ...prev, currentAnimation: AnimationType.NONE })), 300);
                   return;
             } else {
@@ -53,6 +55,11 @@ const MainPage: React.FC = () => {
       };
 
       const handleReset = () => {
+            if(clockStatus === ClockStatus.ZERO){
+                  setSimpleTimerInfo(prev => ({ ...prev, currentAnimation: AnimationType.ALREADY_RESET }));
+                  setTimeout(() => setSimpleTimerInfo(prev => ({ ...prev, currentAnimation: AnimationType.NONE })), 300);
+                  return;
+            }
             setIsPaused(true);
             setReset(true);
             setTimeout(() => setReset(false), 100);
@@ -74,9 +81,11 @@ const MainPage: React.FC = () => {
                                           reset={reset}
                                           simpleTimerInfo={simpleTimerInfo}
                                           isSimpleMode={isSimpleMode}
-                                          onStatusChange={(newStatus: ClockStatus) => {
-                                                // Handle status changes from Clock if needed
-                                                // For example, enabling/disabling buttons based on status
+                                          // We use a callback here because setClockStatus is created new on every render
+                                          // While passing it directly (setClockStatus={setClockStatus}) would work,
+                                          // using a callback is a good practice for state-setting props
+                                          onStatusChange={(status: ClockStatus) => {
+                                                setClockStatus(status);
                                           }}
                                     ></Clock>
                               </div>
@@ -137,7 +146,8 @@ const MainPage: React.FC = () => {
 
                               {/*Reset*/}
                               <div className={`col-span-2 row-span-1 bg-saffron p-4 rounded-3xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer 
-          ${isClickedReset ? 'scale-animation' : ''}`}
+          ${isClickedReset ? 'scale-animation' : ''}
+          ${simpleTimerInfo.currentAnimation === AnimationType.ALREADY_RESET ? 'button-error-animation' : ''}`}
                                     onClick={handleReset}>
 
                                     <p className='font-bold text-eerieBlack text-6xl text-center'>Reset</p>
@@ -148,7 +158,7 @@ const MainPage: React.FC = () => {
                               <div className={`col-span-2 row-span-1 p-4 rounded-3xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer
                                     ${isPaused ? 'bg-timberwolf' : 'bg-burntSienna'}
                                     ${isClickedPause ? 'scale-animation' : ''}
-                                    ${simpleTimerInfo.currentAnimation === AnimationType.EMPTY_DURATION ? 'button-error-animation' : ''}`}
+                                    ${simpleTimerInfo.currentAnimation === AnimationType.EMPTY_LAPS_DURATION ? 'button-error-animation' : ''}`}
                                     onClick={handlePauseStart}>
 
                                     <p className='font-bold text-eerieBlack text-6xl text-center'>
