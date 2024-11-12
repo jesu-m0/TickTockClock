@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import './SimpleInfo.css';
 import { AnimationType, ClockStatus } from '../../types';
 import { SimpleTimerInfo } from '../../types/SimpleTimerInfo';
@@ -7,6 +7,7 @@ interface SimpleInfoProps {
       timerInfo: SimpleTimerInfo;
       setTimerInfo: React.Dispatch<React.SetStateAction<SimpleTimerInfo>>;
       clockStatus: ClockStatus;
+      isUpdatingStatus: React.RefObject<boolean>;
 }
 
 export interface WorkDurationButton {
@@ -16,7 +17,7 @@ export interface WorkDurationButton {
       isClicked: boolean;
 }
 
-const SimpleInfo: React.FC<SimpleInfoProps> = ({ timerInfo, setTimerInfo, clockStatus }) => {
+const SimpleInfo: React.FC<SimpleInfoProps> = ({ timerInfo, setTimerInfo, clockStatus, isUpdatingStatus }) => {
 
       const [buttonDoAnimation, setButtonDoAnimation] = useState<string>("");
 
@@ -49,7 +50,16 @@ const SimpleInfo: React.FC<SimpleInfoProps> = ({ timerInfo, setTimerInfo, clockS
       ]);
 
       const handleWorkDurationUp = (seconds: number, buttonId: string) => {
+            if (isUpdatingStatus.current) {
+                  console.log('Status update in progress, waiting...');
+                  return;
+            }
+
+            console.log('Current clockStatus:', clockStatus);
+
             if (clockStatus === ClockStatus.ZERO || clockStatus === ClockStatus.READY) {
+                  console.log('Entering ZERO/READY block');
+
                   setTimerInfo(prev => ({
                         ...prev,
                         workLapDuration: prev.workLapDuration + seconds
@@ -68,18 +78,19 @@ const SimpleInfo: React.FC<SimpleInfoProps> = ({ timerInfo, setTimerInfo, clockS
                               isClicked: button.id === buttonId ? false : button.isClicked
                         })));
                   }, 300);
-            } else {
-                  setTimerInfo(prev => ({
-                        ...prev,
-                        currentAnimation: AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_RUNNING
-                  }));
+
+            } else if (clockStatus === ClockStatus.RUNNING) {
+                  console.log('Entering RUNNING block');
                   setButtonDoAnimation(buttonId);
+                  setTimerInfo(prev => ({ ...prev, currentAnimation: AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_RUNNING }));
                   console.log(AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_RUNNING);
-                  setTimeout(() => setTimerInfo(prev => ({
-                        ...prev, 
-                        currentAnimation: AnimationType.NONE
-                  })), 300);
-                  setButtonDoAnimation("");
+
+            } else if (clockStatus === ClockStatus.PAUSED) {
+                  console.log('Entering PAUSED block');
+                  setButtonDoAnimation(buttonId);
+                  setTimerInfo(prev => ({ ...prev, currentAnimation: AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_PAUSED }));
+                  console.log(AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_PAUSED);
+
             }
       };
 
@@ -171,7 +182,7 @@ const SimpleInfo: React.FC<SimpleInfoProps> = ({ timerInfo, setTimerInfo, clockS
                                                 key={button.id}
                                                 className={`time-button 
                                                       ${button.isClicked ? 'scale-animation' : ''}
-                                                      ${timerInfo.currentAnimation === AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_RUNNING && buttonDoAnimation === button.id ? 'button-error-animation' : ''}`}
+                                                      ${(timerInfo.currentAnimation === AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_RUNNING || timerInfo.currentAnimation === AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_PAUSED) && buttonDoAnimation === button.id ? 'button-error-animation' : ''}`}
                                                 onClick={() => handleWorkDurationUp(button.seconds, button.id)}
                                           >
                                                 {button.label}

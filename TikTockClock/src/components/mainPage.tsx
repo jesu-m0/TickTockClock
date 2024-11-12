@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './Header/Header.tsx';
 import Clock from './Header/Clock.tsx';
 import './MainPage.css';
@@ -25,6 +25,7 @@ const MainPage: React.FC = () => {
       const [simpleTimerInfo, setSimpleTimerInfo] = useState<SimpleTimerInfo>({
             workLapDuration: 0,
             restLapDuration: 0,
+            cycles: 0,
             currentAnimation: AnimationType.NONE
       });
 
@@ -57,16 +58,26 @@ const MainPage: React.FC = () => {
 
       const handleReset = () => {
             if(clockStatus === ClockStatus.ZERO){
+
                   setSimpleTimerInfo(prev => ({ ...prev, currentAnimation: AnimationType.ALREADY_RESET }));
-                  setTimeout(() => setSimpleTimerInfo(prev => ({ ...prev, currentAnimation: AnimationType.NONE })), 300);
-                  return;
+
             }
+
             setIsPaused(true);
             setReset(true);
             setTimeout(() => setReset(false), 100);
             setIsClickedReset(true);
             setTimeout(() => setIsClickedReset(false), 300);
       }
+
+      useEffect(() => {
+            if (simpleTimerInfo.currentAnimation !== AnimationType.NONE) {
+                  const timer = setTimeout(() => {
+                        setSimpleTimerInfo(prev => ({ ...prev, currentAnimation: AnimationType.NONE }));
+                  }, 300);
+                  return () => clearTimeout(timer);
+            }
+      }, [simpleTimerInfo.currentAnimation]);
 
       return (
             <div>
@@ -82,7 +93,9 @@ const MainPage: React.FC = () => {
                                           isPaused={isPaused}
                                           reset={reset}
                                           simpleTimerInfo={simpleTimerInfo}
+                                          setSimpleTimerInfo={setSimpleTimerInfo}
                                           isSimpleMode={isSimpleMode}
+                                          clockStatus={clockStatus}
                                           // We use a callback here because setClockStatus is created new on every render
                                           // While passing it directly (setClockStatus={setClockStatus}) would work,
                                           // using a callback is a good practice for state-setting props
@@ -150,7 +163,8 @@ const MainPage: React.FC = () => {
                               {/*Reset*/}
                               <div className={`col-span-2 row-span-1 bg-saffron p-4 rounded-3xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer 
           ${isClickedReset ? 'scale-animation' : ''}
-          ${simpleTimerInfo.currentAnimation === AnimationType.ALREADY_RESET ? 'button-error-animation' : ''}`}
+          ${simpleTimerInfo.currentAnimation === AnimationType.ALREADY_RESET ? 'button-error-animation' : ''}
+          ${simpleTimerInfo.currentAnimation === AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_PAUSED ? 'button-error-animation' : ''}`}
                                     onClick={handleReset}>
 
                                     <p className='font-bold text-eerieBlack text-6xl text-center'>Reset</p>
@@ -161,7 +175,7 @@ const MainPage: React.FC = () => {
                               <div className={`col-span-2 row-span-1 p-4 rounded-3xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer
                                     ${isPaused ? 'bg-timberwolf' : 'bg-burntSienna'}
                                     ${isClickedPause ? 'scale-animation' : ''}
-                                    ${simpleTimerInfo.currentAnimation === AnimationType.EMPTY_LAPS_DURATION ? 'button-error-animation' : ''}`}
+                                    ${simpleTimerInfo.currentAnimation === AnimationType.EMPTY_LAPS_DURATION || simpleTimerInfo.currentAnimation === AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_RUNNING ? 'button-error-animation' : ''}`}
                                     onClick={handlePauseStart}>
 
                                     <p className='font-bold text-eerieBlack text-6xl text-center'>
