@@ -20,12 +20,13 @@ const MainPage: React.FC = () => {
 
   //Change mode
   const [isSimpleMode, setIsSimpleMode] = useState(true);
-  
+
   //Start or stop
   const [isPaused, setIsPaused] = useState(true);
   const [isClickedPause, setIsClickedPause] = useState(false);
   const [reset, setReset] = useState(false);
   const [isClickedReset, setIsClickedReset] = useState(false);
+  const [showErrorAnimation, setShowErrorAnimation] = useState(false);
 
   // Replace individual states with a single state object
   const [workUpButtons, setWorkUpButtons] = useState<WorkDurationButton[]>([
@@ -76,13 +77,15 @@ const MainPage: React.FC = () => {
 
   const handlePauseStart = () => {
     if (isSimpleMode && (simpleTimerInfo.workLapDuration === 0 || simpleTimerInfo.restLapDuration === 0)) {
-      alert("Please set both work and rest durations before starting the timer.");
+      //alert("Please set both work and rest durations before starting the timer.");
+      setShowErrorAnimation(true);
+      setTimeout(() => setShowErrorAnimation(false), 300);
       return;
+    } else {
+      setIsPaused(!isPaused);
+      setIsClickedPause(true);
+      setTimeout(() => setIsClickedPause(false), 300);
     }
-
-    setIsPaused(!isPaused);
-    setIsClickedPause(true);
-    setTimeout(() => setIsClickedPause(false), 300);
   };
 
   const handleReset = () => {
@@ -183,9 +186,9 @@ const MainPage: React.FC = () => {
 
           {/*Clock */}
           <div className="col-span-4 row-span-3 rounded-3xl content-center flex flex-col bg-timberwolf">
-            <Clock 
-              isPaused={isPaused} 
-              reset={reset} 
+            <Clock
+              isPaused={isPaused}
+              reset={reset}
               simpleTimerInfo={simpleTimerInfo}
               isSimpleMode={isSimpleMode}
             ></Clock>
@@ -255,7 +258,7 @@ const MainPage: React.FC = () => {
           <div className={`col-span-2 row-span-1 bg-saffron p-4 rounded-3xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer 
           ${isClickedReset ? 'scale-animation' : ''}`}
             onClick={handleReset}>
-            
+
             <p className='font-bold text-eerieBlack text-6xl text-center'>Reset</p>
 
           </div>
@@ -263,7 +266,8 @@ const MainPage: React.FC = () => {
           {/*Start/stop*/}
           <div className={`col-span-2 row-span-1 p-4 rounded-3xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer
           ${isPaused ? 'bg-timberwolf' : 'bg-burntSienna'}
-          ${isClickedPause ? 'scale-animation' : ''}`}
+          ${isClickedPause ? 'scale-animation' : ''}
+          ${showErrorAnimation ? 'button-error-animation' : ''}`}
             onClick={handlePauseStart}>
 
             <p className='font-bold text-eerieBlack text-6xl text-center'>
