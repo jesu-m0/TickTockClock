@@ -11,6 +11,7 @@ interface ClockProps {
 
 const Clock: React.FC<ClockProps> = ({ isPaused, reset, simpleTimerInfo }) => {
   const [time, setTime] = useState(0);
+  const [isAlternate, setIsAlternate] = useState(false);
 
   useEffect(() => {
     let timer: number | null = null;
@@ -18,10 +19,10 @@ const Clock: React.FC<ClockProps> = ({ isPaused, reset, simpleTimerInfo }) => {
     if (!isPaused) {
       timer = window.setInterval(() => {
         setTime((prevTime) => prevTime + 1);
+        setIsAlternate(prev => !prev);
       }, 1000);
     }
 
-    // Cleanup the interval on component unmount or when paused
     return () => {
       if (timer !== null) {
         clearInterval(timer);
@@ -58,12 +59,12 @@ const Clock: React.FC<ClockProps> = ({ isPaused, reset, simpleTimerInfo }) => {
         </div>
       </div>
       <div className="w-full flex flex-row">
-        <div className="bg-jade h-6 flex-1 rounded-bl-3xl"></div>
-        <div className="bg-burntSienna h-6 flex-1"></div>
-        <div className="bg-jade h-6 flex-1"></div>
-        <div className="bg-burntSienna h-6 flex-1"></div>
-        <div className="bg-jade h-6 flex-1"></div>
-        <div className="bg-burntSienna h-6 flex-1 rounded-br-3xl"></div>
+        <div className={`h-6 flex-1 rounded-bl-3xl ${isAlternate ? 'bg-burntSienna' : 'bg-jade'}`}></div>
+        <div className={`h-6 flex-1 ${isAlternate ? 'bg-jade' : 'bg-burntSienna'}`}></div>
+        <div className={`h-6 flex-1 ${isAlternate ? 'bg-burntSienna' : 'bg-jade'}`}></div>
+        <div className={`h-6 flex-1 ${isAlternate ? 'bg-jade' : 'bg-burntSienna'}`}></div>
+        <div className={`h-6 flex-1 ${isAlternate ? 'bg-burntSienna' : 'bg-jade'}`}></div>
+        <div className={`h-6 flex-1 rounded-br-3xl ${isAlternate ? 'bg-jade' : 'bg-burntSienna'}`}></div>
       </div>
     </>
   );
