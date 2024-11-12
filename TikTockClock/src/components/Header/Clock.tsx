@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AnimationType, ClockStatus } from '../../types';
+import { ClockStatus } from '../../types';
 import { SimpleTimerInfo } from '../../types/SimpleTimerInfo';
 
 interface ClockProps {
@@ -7,11 +7,12 @@ interface ClockProps {
       reset: boolean;
       simpleTimerInfo: SimpleTimerInfo;
       isSimpleMode: boolean;
+      clockStatus: ClockStatus;
       onStatusChange: (status: ClockStatus) => void;
 }
 
-//TODO: Are status well controlled?
-const Clock: React.FC<ClockProps> = ({ isPaused, reset, simpleTimerInfo, isSimpleMode, onStatusChange }) => {
+//TODO: Are status well controlled? NO.
+const Clock: React.FC<ClockProps> = ({ isPaused, reset, simpleTimerInfo, isSimpleMode, clockStatus, onStatusChange }) => {
       const [time, setTime] = useState(0);
       const [isAlternate, setIsAlternate] = useState(false);
       const [status, setStatus] = useState<ClockStatus>(ClockStatus.ZERO);
@@ -20,6 +21,7 @@ const Clock: React.FC<ClockProps> = ({ isPaused, reset, simpleTimerInfo, isSimpl
             let timer: number | null = null;
 
             if (!isPaused) {
+                  setStatus(ClockStatus.RUNNING);
                   timer = window.setInterval(() => {
                         setTime((prevTime) => prevTime + 1);
                         setIsAlternate(prev => !prev);
@@ -36,6 +38,7 @@ const Clock: React.FC<ClockProps> = ({ isPaused, reset, simpleTimerInfo, isSimpl
       useEffect(() => {
             if (reset) {
                   setTime(0);
+                  setStatus(ClockStatus.ZERO);
             }
       }, [reset]);
 
@@ -48,15 +51,53 @@ const Clock: React.FC<ClockProps> = ({ isPaused, reset, simpleTimerInfo, isSimpl
 
       // Update status based on timer logic
       useEffect(() => {
-            // Example logic
-            if (simpleTimerInfo.workLapDuration === 0 && simpleTimerInfo.restLapDuration === 0) {
-                  setStatus(ClockStatus.ZERO);
-            } else if (!isPaused) {
-                  setStatus(ClockStatus.RUNNING);
+            switch (clockStatus) {
+                  case ClockStatus.ZERO:
+                        // ZERO -> READY
+                        if (time === 0 && simpleTimerInfo.workLapDuration > 0 && simpleTimerInfo.restLapDuration > 0) {
+                              setStatus(ClockStatus.READY);
+                        }
+                        break;
+                  case ClockStatus.READY:
+                        //READY -> ZERO
+                        if (time === 0 && (simpleTimerInfo.workLapDuration === 0 || simpleTimerInfo.restLapDuration === 0)) {
+                              setStatus(ClockStatus.ZERO);
+                        }
+                        //READY -> RUNNING
+                        if (!isPaused) {
+                              setStatus(ClockStatus.RUNNING);
+                        }
+                        break;
+                  case ClockStatus.RUNNING:
+                        //RUNNING -> PAUSED
+                        if (isPaused) {
+                              setStatus(ClockStatus.PAUSED);
+                        }
+                        break;
+                  case ClockStatus.PAUSED:
+                        //PAUSED -> RUNNING
+                        if (!isPaused && time > 0) {
+                              setStatus(ClockStatus.RUNNING);
+                        }
+                        //PAUSED -> ZERO
+                        if (isPaused && time === 0 && (simpleTimerInfo.workLapDuration === 0 || simpleTimerInfo.restLapDuration === 0)) {
+                              setStatus(ClockStatus.ZERO);
+                        }
+                        //PAUSED -> READY
+                        if (isPaused && time === 0 && simpleTimerInfo.workLapDuration > 0 && simpleTimerInfo.restLapDuration > 0) {
+                              setStatus(ClockStatus.READY);
+                        }
+                        //PAUSED -> FINISHED
+                        //TODO
+                        break;
+                  case ClockStatus.FINISHED:
+                        //FINISHED -> ZERO
+
+                        //FINISHED -> READY
             }
 
             onStatusChange(status);
-      }, [isPaused, simpleTimerInfo, /* other dependencies */]);
+      }, [isPaused, simpleTimerInfo]);
 
       return (
             <>

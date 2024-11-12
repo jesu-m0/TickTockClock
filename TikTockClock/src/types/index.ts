@@ -1,13 +1,14 @@
 export enum AnimationType {
       NONE = 'none',
-      EMPTY_LAPS_DURATION = 'empty_laps_duration',
-      ALREADY_RESET = 'already_reset'
+      EMPTY_LAPS_DURATION = 'Laps duration can\'t be 0 because it will break the app',
+      ALREADY_RESET = 'Clock is already reset',
+      CANT_CHANGE_LAPS_DURATION_CLOCK_RUNNING = 'You can\'t change laps duration when clock is running'
 }
 
 export enum ClockStatus {
-      ZERO = 'zero',        // Both timers are at 0
-      READY = 'ready',      // Timers have values but not started
+      ZERO = 'zero',        // Clock laps havent been set
+      READY = 'ready',      // Clock laps have values but not started
       RUNNING = 'running',  // Clock is actively counting
       PAUSED = 'paused',    // Clock has time remaining but is paused
-      FINISHED = 'finished' // Completed all cycles
+      FINISHED = 'finished' // Clock has finished
 }

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import './SimpleInfo.css';
-import { AnimationType } from '../../types';
+import { AnimationType, ClockStatus } from '../../types';
 import { SimpleTimerInfo } from '../../types/SimpleTimerInfo';
 
 interface SimpleInfoProps {
       timerInfo: SimpleTimerInfo;
       setTimerInfo: React.Dispatch<React.SetStateAction<SimpleTimerInfo>>;
+      clockStatus: ClockStatus;
 }
 
 export interface WorkDurationButton {
@@ -15,7 +16,9 @@ export interface WorkDurationButton {
       isClicked: boolean;
 }
 
-const SimpleInfo: React.FC<SimpleInfoProps> = ({ timerInfo, setTimerInfo }) => {
+const SimpleInfo: React.FC<SimpleInfoProps> = ({ timerInfo, setTimerInfo, clockStatus }) => {
+
+      const [buttonDoAnimation, setButtonDoAnimation] = useState<string>("");
 
       const [workUpButtons, setWorkUpButtons] = useState<WorkDurationButton[]>([
             { id: 'workUp1', seconds: 1, label: '+1"', isClicked: false },
@@ -46,24 +49,38 @@ const SimpleInfo: React.FC<SimpleInfoProps> = ({ timerInfo, setTimerInfo }) => {
       ]);
 
       const handleWorkDurationUp = (seconds: number, buttonId: string) => {
-            setTimerInfo(prev => ({
-                  ...prev,
-                  workLapDuration: prev.workLapDuration + seconds
-            }));
+            if (clockStatus === ClockStatus.ZERO || clockStatus === ClockStatus.READY) {
+                  setTimerInfo(prev => ({
+                        ...prev,
+                        workLapDuration: prev.workLapDuration + seconds
+                  }));
 
-            // Update only the clicked button's state
-            setWorkUpButtons(prev => prev.map(button => ({
-                  ...button,
-                  isClicked: button.id === buttonId ? true : button.isClicked
-            })));
-
-            // Reset the clicked state after animation
-            setTimeout(() => {
+                  // Update only the clicked button's state
                   setWorkUpButtons(prev => prev.map(button => ({
                         ...button,
-                        isClicked: button.id === buttonId ? false : button.isClicked
+                        isClicked: button.id === buttonId ? true : button.isClicked
                   })));
-            }, 300);
+
+                  // Reset the clicked state after animation
+                  setTimeout(() => {
+                        setWorkUpButtons(prev => prev.map(button => ({
+                              ...button,
+                              isClicked: button.id === buttonId ? false : button.isClicked
+                        })));
+                  }, 300);
+            } else {
+                  setTimerInfo(prev => ({
+                        ...prev,
+                        currentAnimation: AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_RUNNING
+                  }));
+                  setButtonDoAnimation(buttonId);
+                  console.log(AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_RUNNING);
+                  setTimeout(() => setTimerInfo(prev => ({
+                        ...prev, 
+                        currentAnimation: AnimationType.NONE
+                  })), 300);
+                  setButtonDoAnimation("");
+            }
       };
 
       const handleWorkDurationDown = (seconds: number, buttonId: string) => {
@@ -139,7 +156,7 @@ const SimpleInfo: React.FC<SimpleInfoProps> = ({ timerInfo, setTimerInfo }) => {
                         <div className='flex flex-col items-center w-1/2'>
                               <p className="text-timberwolf text-center text-5xl font-black mb-4">Work lap</p>
                               <div className={`p-4 bg-timberwolf rounded-3xl mx-auto mt-2 w-4/5
-                                    ${timerInfo.currentAnimation === AnimationType.EMPTY_LAPS_DURATION ? 'button-error-animation' : ''}`}>
+                                    ${timerInfo.currentAnimation === AnimationType.EMPTY_LAPS_DURATION && timerInfo.workLapDuration === 0 ? 'button-error-animation' : ''}`}>
                                     <p className='text-7xl font-black text-eerieBlack w-full text-center'>
                                           {formatTime(timerInfo.workLapDuration)}
                                     </p>
@@ -152,7 +169,9 @@ const SimpleInfo: React.FC<SimpleInfoProps> = ({ timerInfo, setTimerInfo }) => {
                                     {workUpButtons.map(button => (
                                           <a
                                                 key={button.id}
-                                                className={`time-button ${button.isClicked ? 'scale-animation' : ''}`}
+                                                className={`time-button 
+                                                      ${button.isClicked ? 'scale-animation' : ''}
+                                                      ${timerInfo.currentAnimation === AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_RUNNING && buttonDoAnimation === button.id ? 'button-error-animation' : ''}`}
                                                 onClick={() => handleWorkDurationUp(button.seconds, button.id)}
                                           >
                                                 {button.label}
@@ -180,7 +199,7 @@ const SimpleInfo: React.FC<SimpleInfoProps> = ({ timerInfo, setTimerInfo }) => {
                         <div className='flex flex-col items-center w-1/2'>
                               <p className="text-timberwolf text-center text-5xl font-black mb-4">Rest lap</p>
                               <div className={`p-4 bg-timberwolf rounded-3xl mx-auto mt-2 w-4/5 
-                              ${timerInfo.currentAnimation === AnimationType.EMPTY_LAPS_DURATION ? 'button-error-animation' : ''}`}>
+                              ${timerInfo.currentAnimation === AnimationType.EMPTY_LAPS_DURATION && timerInfo.restLapDuration === 0 ? 'button-error-animation' : ''}`}>
                                     <p className='text-7xl font-black text-eerieBlack w-full text-center'>
                                           {formatTime(timerInfo.restLapDuration)}
                                     </p>

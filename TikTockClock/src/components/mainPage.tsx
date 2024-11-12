@@ -28,6 +28,7 @@ const MainPage: React.FC = () => {
             currentAnimation: AnimationType.NONE
       });
 
+      //Status of the clock. Almost all components need to know the state of the clock before acting.
       const [clockStatus, setClockStatus] = useState<ClockStatus>(ClockStatus.ZERO);
 
       //Change mode
@@ -76,7 +77,7 @@ const MainPage: React.FC = () => {
 
                               {/*Clock */}
                               <div className={`col-span-4 row-span-3 rounded-3xl content-center flex flex-col bg-timberwolf
-                                    ${simpleTimerInfo.currentAnimation === AnimationType.ALREADY_RESET ? 'button-error-animation' : ''}`}>
+                                    ${simpleTimerInfo.currentAnimation === AnimationType.ALREADY_RESET || simpleTimerInfo.currentAnimation === AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_RUNNING ? 'button-error-animation' : ''}`}>
                                     <Clock
                                           isPaused={isPaused}
                                           reset={reset}
@@ -139,6 +140,7 @@ const MainPage: React.FC = () => {
                                     <SimpleInfo
                                           timerInfo={simpleTimerInfo}
                                           setTimerInfo={setSimpleTimerInfo}
+                                          clockStatus={clockStatus}
                                     />
                               ) : (
                                     <CustomInfo
