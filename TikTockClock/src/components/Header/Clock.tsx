@@ -1,21 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import { ClockStatus } from '../../types';
+import { AnimationType, ClockStatus } from '../../types';
 import { SimpleTimerInfo } from '../../types/SimpleTimerInfo';
 
 interface ClockProps {
       isPaused: boolean;
       reset: boolean;
       simpleTimerInfo: SimpleTimerInfo;
+      setSimpleTimerInfo: React.Dispatch<React.SetStateAction<SimpleTimerInfo>>;
       isSimpleMode: boolean;
       clockStatus: ClockStatus;
       onStatusChange: (status: ClockStatus) => void;
 }
 
 //TODO: Are status well controlled? NO.
-const Clock: React.FC<ClockProps> = ({ isPaused, reset, simpleTimerInfo, isSimpleMode, clockStatus, onStatusChange }) => {
+const Clock: React.FC<ClockProps> = ({ isPaused, reset, simpleTimerInfo, setSimpleTimerInfo, isSimpleMode, clockStatus, onStatusChange }) => {
       const [time, setTime] = useState(0);
       const [isAlternate, setIsAlternate] = useState(false);
       const [status, setStatus] = useState<ClockStatus>(ClockStatus.ZERO);
+      const [remainingCycles, setRemainingCycles] = useState(isSimpleMode ? simpleTimerInfo.cycles : null); //TODO: change when the custom mode is implementedq
+
+      useEffect(() => {
+            if (isSimpleMode) {
+                  setRemainingCycles(simpleTimerInfo.cycles);
+            } else {
+                  setRemainingCycles(null); //TODO: change when the custom mode is implemented
+            }
+      }, [isSimpleMode]);
 
       useEffect(() => {
             let timer: number | null = null;
@@ -73,6 +83,10 @@ const Clock: React.FC<ClockProps> = ({ isPaused, reset, simpleTimerInfo, isSimpl
                         if (isPaused) {
                               setStatus(ClockStatus.PAUSED);
                         }
+                        //RUNNING -> FINISHED
+                        if (remainingCycles === 0 && time === 0) {
+                              setStatus(ClockStatus.FINISHED);
+                        }
                         break;
                   case ClockStatus.PAUSED:
                         //PAUSED -> RUNNING
@@ -87,13 +101,25 @@ const Clock: React.FC<ClockProps> = ({ isPaused, reset, simpleTimerInfo, isSimpl
                         if (isPaused && time === 0 && simpleTimerInfo.workLapDuration > 0 && simpleTimerInfo.restLapDuration > 0) {
                               setStatus(ClockStatus.READY);
                         }
-                        //PAUSED -> FINISHED
-                        //TODO
                         break;
                   case ClockStatus.FINISHED:
-                        //FINISHED -> ZERO
+                        if (isSimpleMode) {
+                              setSimpleTimerInfo(prev => ({ ...prev, currentAnimation: AnimationType.TIMER_FINISHED_SIMPLE }));
+                              setTimeout(() => setSimpleTimerInfo(prev => ({ ...prev, currentAnimation: AnimationType.NONE })), 300);
 
-                        //FINISHED -> READY
+                              //FINISHED -> ZERO
+                              if (simpleTimerInfo.workLapDuration === 0 || simpleTimerInfo.restLapDuration === 0) {
+                                    setStatus(ClockStatus.ZERO);
+                              }
+                              //FINISHED -> READY
+                              if (simpleTimerInfo.workLapDuration > 0 && simpleTimerInfo.restLapDuration > 0) {
+                                    setStatus(ClockStatus.READY);
+                              }
+                        } else {
+                              //TODO: implement custom logic
+                        }
+
+
             }
 
             onStatusChange(status);

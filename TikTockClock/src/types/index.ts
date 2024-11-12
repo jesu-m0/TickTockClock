@@ -2,7 +2,9 @@ export enum AnimationType {
       NONE = 'none',
       EMPTY_LAPS_DURATION = 'Laps duration can\'t be 0 because it will break the app',
       ALREADY_RESET = 'Clock is already reset',
-      CANT_CHANGE_LAPS_DURATION_CLOCK_RUNNING = 'You can\'t change laps duration when clock is running'
+      CANT_CHANGE_LAPS_DURATION_CLOCK_RUNNING = 'You can\'t change laps duration when clock is running',
+      TIMER_FINISHED_SIMPLE = 'Timer has finished in simple mode',
+      TIMER_FINISHED_CUSTOM = 'Timer has finished in custom mode' //TODO: implement custom mode
 }
 
 export enum ClockStatus {
