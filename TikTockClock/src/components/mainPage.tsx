@@ -70,6 +70,8 @@ const MainPage: React.FC = () => {
             setTimeout(() => setIsClickedReset(false), 300);
       }
 
+      const [isStatusUpdating, setIsStatusUpdating] = useState(false);
+
       useEffect(() => {
             if (simpleTimerInfo.currentAnimation !== AnimationType.NONE) {
                   const timer = setTimeout(() => {
@@ -102,6 +104,7 @@ const MainPage: React.FC = () => {
                                           onStatusChange={(status: ClockStatus) => {
                                                 setClockStatus(status);
                                           }}
+                                          onUpdateStatusChange={(isUpdating) => setIsStatusUpdating(isUpdating)}
                                     ></Clock>
                               </div>
 
@@ -154,6 +157,7 @@ const MainPage: React.FC = () => {
                                           timerInfo={simpleTimerInfo}
                                           setTimerInfo={setSimpleTimerInfo}
                                           clockStatus={clockStatus}
+                                          isStatusUpdating={isStatusUpdating}
                                     />
                               ) : (
                                     <CustomInfo

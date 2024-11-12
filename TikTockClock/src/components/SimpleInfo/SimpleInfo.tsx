@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import './SimpleInfo.css';
 import { AnimationType, ClockStatus } from '../../types';
 import { SimpleTimerInfo } from '../../types/SimpleTimerInfo';
@@ -7,7 +7,7 @@ interface SimpleInfoProps {
       timerInfo: SimpleTimerInfo;
       setTimerInfo: React.Dispatch<React.SetStateAction<SimpleTimerInfo>>;
       clockStatus: ClockStatus;
-      isUpdatingStatus: React.RefObject<boolean>;
+      isStatusUpdating: boolean;
 }
 
 export interface WorkDurationButton {
@@ -17,7 +17,7 @@ export interface WorkDurationButton {
       isClicked: boolean;
 }
 
-const SimpleInfo: React.FC<SimpleInfoProps> = ({ timerInfo, setTimerInfo, clockStatus, isUpdatingStatus }) => {
+const SimpleInfo: React.FC<SimpleInfoProps> = ({ timerInfo, setTimerInfo, clockStatus, isStatusUpdating }) => {
 
       const [buttonDoAnimation, setButtonDoAnimation] = useState<string>("");
 
@@ -50,7 +50,7 @@ const SimpleInfo: React.FC<SimpleInfoProps> = ({ timerInfo, setTimerInfo, clockS
       ]);
 
       const handleWorkDurationUp = (seconds: number, buttonId: string) => {
-            if (isUpdatingStatus.current) {
+            if (isStatusUpdating) {
                   console.log('Status update in progress, waiting...');
                   return;
             }

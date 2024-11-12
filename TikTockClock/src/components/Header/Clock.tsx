@@ -10,13 +10,13 @@ interface ClockProps {
       isSimpleMode: boolean;
       clockStatus: ClockStatus;
       onStatusChange: (status: ClockStatus) => void;
+      onUpdateStatusChange: (isUpdating: boolean) => void;
 }
 
 //TODO: Are status well controlled? NO.
-const Clock: React.FC<ClockProps> = ({ isPaused, reset, simpleTimerInfo, setSimpleTimerInfo, isSimpleMode, clockStatus, onStatusChange }) => {
+const Clock: React.FC<ClockProps> = ({ isPaused, reset, simpleTimerInfo, setSimpleTimerInfo, isSimpleMode, clockStatus, onStatusChange, onUpdateStatusChange }) => {
       const [time, setTime] = useState(0);
       const [isAlternate, setIsAlternate] = useState(false);
-      const [status, setStatus] = useState<ClockStatus>(ClockStatus.ZERO);
       const [remainingCycles, setRemainingCycles] = useState(isSimpleMode ? simpleTimerInfo.cycles : null); //TODO: change when the custom mode is implementedq
       //MUTEX to change the status of the clock.
       const isUpdatingStatus = useRef(false);
@@ -33,7 +33,6 @@ const Clock: React.FC<ClockProps> = ({ isPaused, reset, simpleTimerInfo, setSimp
             let timer: number | null = null;
 
             if (!isPaused) {
-                  setStatus(ClockStatus.RUNNING);
                   timer = window.setInterval(() => {
                         setTime((prevTime) => prevTime + 1);
                         setIsAlternate(prev => !prev);
@@ -50,7 +49,6 @@ const Clock: React.FC<ClockProps> = ({ isPaused, reset, simpleTimerInfo, setSimp
       useEffect(() => {
             if (reset) {
                   setTime(0);
-                  setStatus(ClockStatus.ZERO);
             }
       }, [reset]);
 
@@ -71,42 +69,41 @@ const Clock: React.FC<ClockProps> = ({ isPaused, reset, simpleTimerInfo, setSimp
                         case ClockStatus.ZERO:
                               if (time === 0 && simpleTimerInfo.workLapDuration > 0 && simpleTimerInfo.restLapDuration > 0) {
                                     console.log('Status Change: ZERO -> READY');
-                                    setStatus(ClockStatus.READY);
                                     onStatusChange(ClockStatus.READY);
                               }
                               break;
                         case ClockStatus.READY:
                               if (time === 0 && (simpleTimerInfo.workLapDuration === 0 || simpleTimerInfo.restLapDuration === 0)) {
                                     console.log('Status Change: READY -> ZERO');
-                                    setStatus(ClockStatus.ZERO);
+                                    onStatusChange(ClockStatus.ZERO);
                               }
                               if (!isPaused) {
                                     console.log('Status Change: READY -> RUNNING');
-                                    setStatus(ClockStatus.RUNNING);
+                                    onStatusChange(ClockStatus.RUNNING);
                               }
                               break;
                         case ClockStatus.RUNNING:
                               if (isPaused) {
                                     console.log('Status Change: RUNNING -> PAUSED');
-                                    setStatus(ClockStatus.PAUSED);
+                                    onStatusChange(ClockStatus.PAUSED);
                               }
                               if (remainingCycles === 0 && time === 0) {
                                     console.log('Status Change: RUNNING -> FINISHED');
-                                    setStatus(ClockStatus.FINISHED);
+                                    onStatusChange(ClockStatus.FINISHED);
                               }
                               break;
                         case ClockStatus.PAUSED:
                               if (!isPaused && time > 0) {
                                     console.log('Status Change: PAUSED -> RUNNING');
-                                    setStatus(ClockStatus.RUNNING);
+                                    onStatusChange(ClockStatus.RUNNING);
                               }
                               if (isPaused && time === 0 && (simpleTimerInfo.workLapDuration === 0 || simpleTimerInfo.restLapDuration === 0)) {
                                     console.log('Status Change: PAUSED -> ZERO');
-                                    setStatus(ClockStatus.ZERO);
+                                    onStatusChange(ClockStatus.ZERO);
                               }
                               if (isPaused && time === 0 && simpleTimerInfo.workLapDuration > 0 && simpleTimerInfo.restLapDuration > 0) {
                                     console.log('Status Change: PAUSED -> READY');
-                                    setStatus(ClockStatus.READY);
+                                    onStatusChange(ClockStatus.READY);
                               }
                               break;
                         case ClockStatus.FINISHED:
@@ -116,11 +113,11 @@ const Clock: React.FC<ClockProps> = ({ isPaused, reset, simpleTimerInfo, setSimp
 
                                     if (simpleTimerInfo.workLapDuration === 0 || simpleTimerInfo.restLapDuration === 0) {
                                           console.log('Status Change: FINISHED -> ZERO');
-                                          setStatus(ClockStatus.ZERO);
+                                          onStatusChange(ClockStatus.ZERO);
                                     }
                                     if (simpleTimerInfo.workLapDuration > 0 && simpleTimerInfo.restLapDuration > 0) {
                                           console.log('Status Change: FINISHED -> READY');
-                                          setStatus(ClockStatus.READY);
+                                          onStatusChange(ClockStatus.READY);
                                     }
                               } else {
                                     //TODO: implement custom logic
@@ -139,6 +136,10 @@ const Clock: React.FC<ClockProps> = ({ isPaused, reset, simpleTimerInfo, setSimp
             remainingCycles,
             time
       ]);
+
+      useEffect(() => {
+            onUpdateStatusChange(isUpdatingStatus.current);
+      }, [isUpdatingStatus.current]);
 
       return (
             <>
