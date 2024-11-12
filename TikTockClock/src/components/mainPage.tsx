@@ -70,7 +70,7 @@ const MainPage: React.FC = () => {
             setTimeout(() => setIsClickedReset(false), 300);
       }
 
-      const [isStatusUpdating, setIsStatusUpdating] = useState(false);
+      const [isStatusUpdating, setIsStatusUpdating] = useState(false); //TODO: en vez de usar MUTEX asi mejor usar el contexto (API Context)
 
       useEffect(() => {
             if (simpleTimerInfo.currentAnimation !== AnimationType.NONE) {
