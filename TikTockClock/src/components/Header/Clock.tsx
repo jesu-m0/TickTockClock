@@ -7,9 +7,10 @@ interface ClockProps {
     workLapDuration: number;
     restLapDuration: number;
   };
+  isSimpleMode: boolean;
 }
 
-const Clock: React.FC<ClockProps> = ({ isPaused, reset, simpleTimerInfo }) => {
+const Clock: React.FC<ClockProps> = ({ isPaused, reset, simpleTimerInfo, isSimpleMode }) => {
   const [time, setTime] = useState(0);
 
   useEffect(() => {

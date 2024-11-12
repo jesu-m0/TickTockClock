@@ -3,6 +3,7 @@ import Header from './Header/Header.tsx';
 import Clock from './Header/Clock.tsx';
 import './MainPage.css';
 import SimpleInfo from './SimpleInfo/SimpleInfo';
+import CustomInfo from './CustomInfo/CustomInfo';
 
 // Define a type for the work duration buttons
 interface WorkDurationButton {
@@ -74,6 +75,11 @@ const MainPage: React.FC = () => {
   //Start or stop
 
   const handlePauseStart = () => {
+    if (isSimpleMode && (simpleTimerInfo.workLapDuration === 0 || simpleTimerInfo.restLapDuration === 0)) {
+      alert("Please set both work and rest durations before starting the timer.");
+      return;
+    }
+
     setIsPaused(!isPaused);
     setIsClickedPause(true);
     setTimeout(() => setIsClickedPause(false), 300);
@@ -181,6 +187,7 @@ const MainPage: React.FC = () => {
               isPaused={isPaused} 
               reset={reset} 
               simpleTimerInfo={simpleTimerInfo}
+              isSimpleMode={isSimpleMode}
             ></Clock>
           </div>
 
@@ -227,17 +234,22 @@ const MainPage: React.FC = () => {
 
           </div>
 
-          <SimpleInfo
-            timerInfo={simpleTimerInfo}
-            workUpButtons={workUpButtons}
-            workDownButtons={workDownButtons}
-            restUpButtons={restUpButtons}
-            restDownButtons={restDownButtons}
-            handleWorkDurationUp={handleWorkDurationUp}
-            handleWorkDurationDown={handleWorkDurationDown}
-            handleRestDurationUp={handleRestDurationUp}
-            handleRestDurationDown={handleRestDurationDown}
-          />
+          {isSimpleMode ? (
+            <SimpleInfo
+              timerInfo={simpleTimerInfo}
+              workUpButtons={workUpButtons}
+              workDownButtons={workDownButtons}
+              restUpButtons={restUpButtons}
+              restDownButtons={restDownButtons}
+              handleWorkDurationUp={handleWorkDurationUp}
+              handleWorkDurationDown={handleWorkDurationDown}
+              handleRestDurationUp={handleRestDurationUp}
+              handleRestDurationDown={handleRestDurationDown}
+            />
+          ) : (
+            <CustomInfo
+            />
+          )}
 
           {/*Reset*/}
           <div className={`col-span-2 row-span-1 bg-saffron p-4 rounded-3xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer 
