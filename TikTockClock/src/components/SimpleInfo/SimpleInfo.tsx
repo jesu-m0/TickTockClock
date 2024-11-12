@@ -1,18 +1,11 @@
 import React, { useState } from 'react';
 import './SimpleInfo.css';
 import { AnimationType } from '../../types';
+import { SimpleTimerInfo } from '../../types/SimpleTimerInfo';
 
 interface SimpleInfoProps {
-      timerInfo: {
-            workLapDuration: number;
-            restLapDuration: number;
-            currentAnimation: AnimationType;
-      };
-      setTimerInfo: React.Dispatch<React.SetStateAction<{
-            workLapDuration: number;
-            restLapDuration: number;
-            currentAnimation: AnimationType;
-      }>>;
+      timerInfo: SimpleTimerInfo;
+      setTimerInfo: React.Dispatch<React.SetStateAction<SimpleTimerInfo>>;
 }
 
 export interface WorkDurationButton {
@@ -145,7 +138,8 @@ const SimpleInfo: React.FC<SimpleInfoProps> = ({ timerInfo, setTimerInfo }) => {
                         {/* Work Timer Display */}
                         <div className='flex flex-col items-center w-1/2'>
                               <p className="text-timberwolf text-center text-5xl font-black mb-4">Work lap</p>
-                              <div className='p-4 bg-timberwolf rounded-3xl mx-auto mt-2 w-4/5'>
+                              <div className={`p-4 bg-timberwolf rounded-3xl mx-auto mt-2 w-4/5
+                                    ${timerInfo.currentAnimation === AnimationType.EMPTY_LAPS_DURATION ? 'button-error-animation' : ''}`}>
                                     <p className='text-7xl font-black text-eerieBlack w-full text-center'>
                                           {formatTime(timerInfo.workLapDuration)}
                                     </p>
@@ -185,7 +179,8 @@ const SimpleInfo: React.FC<SimpleInfoProps> = ({ timerInfo, setTimerInfo }) => {
                         {/* Rest Timer Display */}
                         <div className='flex flex-col items-center w-1/2'>
                               <p className="text-timberwolf text-center text-5xl font-black mb-4">Rest lap</p>
-                              <div className='p-4 bg-timberwolf rounded-3xl mx-auto mt-2 w-4/5'>
+                              <div className={`p-4 bg-timberwolf rounded-3xl mx-auto mt-2 w-4/5 
+                              ${timerInfo.currentAnimation === AnimationType.EMPTY_LAPS_DURATION ? 'button-error-animation' : ''}`}>
                                     <p className='text-7xl font-black text-eerieBlack w-full text-center'>
                                           {formatTime(timerInfo.restLapDuration)}
                                     </p>

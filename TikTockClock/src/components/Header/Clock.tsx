@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ClockStatus } from '../../types';
+import { AnimationType, ClockStatus } from '../../types';
 import { SimpleTimerInfo } from '../../types/SimpleTimerInfo';
 
 interface ClockProps {

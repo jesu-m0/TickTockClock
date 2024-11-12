@@ -75,7 +75,8 @@ const MainPage: React.FC = () => {
                               <Header isDarkMode={isDarkMode} setDarkMode={setDarkMode}></Header>
 
                               {/*Clock */}
-                              <div className="col-span-4 row-span-3 rounded-3xl content-center flex flex-col bg-timberwolf">
+                              <div className={`col-span-4 row-span-3 rounded-3xl content-center flex flex-col bg-timberwolf
+                                    ${simpleTimerInfo.currentAnimation === AnimationType.ALREADY_RESET ? 'button-error-animation' : ''}`}>
                                     <Clock
                                           isPaused={isPaused}
                                           reset={reset}
