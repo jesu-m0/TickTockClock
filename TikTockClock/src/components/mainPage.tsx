@@ -47,7 +47,6 @@ const MainPage: React.FC = () => {
       const handlePauseStart = () => {
             if (isSimpleMode && (simpleTimerInfo.workLapDuration === 0 || simpleTimerInfo.restLapDuration === 0)) {
                   setSimpleTimerInfo(prev => ({ ...prev, currentAnimation: AnimationType.EMPTY_LAPS_DURATION }));
-                  setTimeout(() => setSimpleTimerInfo(prev => ({ ...prev, currentAnimation: AnimationType.NONE })), 300);
                   return;
             } else {
                   setIsPaused(!isPaused);
@@ -109,7 +108,7 @@ const MainPage: React.FC = () => {
                               </div>
 
                               {/*Mode selection*/}
-                              <div className='col-span-8 row-span-1 rounded-3xl content-center flex'>
+                              <div className='col-span-8 row-span-1 content-center flex'>
 
                                     {/*Simple btn*/}
                                     <div className='w-1/2 h-full rounded-3xl content-center bg-eerieBlack cursor-pointer flex flex-col' onClick={changeToSimple}>
