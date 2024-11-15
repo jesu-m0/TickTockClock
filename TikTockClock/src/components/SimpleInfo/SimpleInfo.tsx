@@ -7,7 +7,6 @@ interface SimpleInfoProps {
       timerInfo: SimpleTimerInfo;
       setTimerInfo: React.Dispatch<React.SetStateAction<SimpleTimerInfo>>;
       clockStatus: ClockStatus;
-      isStatusUpdating: boolean;
 }
 
 export interface WorkDurationButton {
@@ -17,7 +16,7 @@ export interface WorkDurationButton {
       isClicked: boolean;
 }
 
-const SimpleInfo: React.FC<SimpleInfoProps> = ({ timerInfo, setTimerInfo, clockStatus, isStatusUpdating }) => {
+const SimpleInfo: React.FC<SimpleInfoProps> = ({ timerInfo, setTimerInfo, clockStatus }) => {
 
       const [buttonDoAnimation, setButtonDoAnimation] = useState<string>("");
 
@@ -49,12 +48,11 @@ const SimpleInfo: React.FC<SimpleInfoProps> = ({ timerInfo, setTimerInfo, clockS
             { id: 'restDown300', seconds: 300, label: "-5'", isClicked: false },
       ]);
 
-      const handleWorkDurationUp = (seconds: number, buttonId: string) => {
-            if (isStatusUpdating) {
-                  console.log('Status update in progress, waiting...');
-                  return;
-            }
+      const [plusClicked, setPlusClicked] = useState(false);
+      const [minusClicked, setMinusClicked] = useState(false);
 
+      const handleWorkDurationUp = (seconds: number, buttonId: string) => {
+            
             console.log('Current clockStatus:', clockStatus);
 
             if (clockStatus === ClockStatus.ZERO || clockStatus === ClockStatus.READY) {
@@ -153,6 +151,24 @@ const SimpleInfo: React.FC<SimpleInfoProps> = ({ timerInfo, setTimerInfo, clockS
             }, 300);
       };
 
+      const handleCyclesUp = () => {
+            setTimerInfo(prev => ({
+                  ...prev,
+                  cycles: prev.cycles + 1
+            }));
+            setPlusClicked(true);
+            setTimeout(() => setPlusClicked(false), 300);
+      };
+
+      const handleCyclesDown = () => {
+            setTimerInfo(prev => ({
+                  ...prev,
+                  cycles: Math.max(1, prev.cycles - 1)
+            }));
+            setMinusClicked(true);
+            setTimeout(() => setMinusClicked(false), 300);
+      };
+
       const formatTime = (seconds: number): string => {
             const minutes = Math.floor(seconds / 60);
             const remainingSeconds = seconds % 60;
@@ -160,88 +176,119 @@ const SimpleInfo: React.FC<SimpleInfoProps> = ({ timerInfo, setTimerInfo, clockS
       };
 
       return (
-            <div className='col-span-8 row-span-4 rounded-3xl content-center bg-eerieBlack flex flex-col'>
-                  {/* Work Section */}
-                  <div className='h-1/2 rounded-t-3xl bg-burntSienna items-center flex'>
-                        {/* Work Timer Display */}
-                        <div className='flex flex-col items-center w-1/2'>
-                              <p className="text-timberwolf text-center text-5xl font-black mb-4">Work lap</p>
-                              <div className={`p-4 bg-timberwolf rounded-3xl mx-auto mt-2 w-4/5
-                                    ${timerInfo.currentAnimation === AnimationType.EMPTY_LAPS_DURATION && timerInfo.workLapDuration === 0 ? 'button-error-animation' : ''}`}>
-                                    <p className='text-7xl font-black text-eerieBlack w-full text-center'>
-                                          {formatTime(timerInfo.workLapDuration)}
-                                    </p>
-                              </div>
-                        </div>
+            <div className='col-span-8 row-span-5 flex flex-col gap-5'>
+                  {/* First section - Work and Rest */}
+                  <div className='flex-grow rounded-3xl content-center bg-eerieBlack flex flex-col'>
+                        <div className='h-full'>
+                              {/* Work Section */}
+                              <div className='h-1/2 rounded-t-3xl bg-burntSienna items-center flex'>
+                                    {/* Work Timer Display */}
+                                    <div className='flex flex-col items-center w-1/2'>
+                                          <p className="text-timberwolf text-center text-5xl font-black mb-4">Work lap</p>
+                                          <div className={`p-4 bg-timberwolf rounded-3xl mx-auto mt-2 w-4/5
+                                                ${timerInfo.currentAnimation === AnimationType.EMPTY_LAPS_DURATION && timerInfo.workLapDuration === 0 ? 'button-error-animation' : ''}`}>
+                                                <p className='text-7xl font-black text-eerieBlack w-full text-center'>
+                                                      {formatTime(timerInfo.workLapDuration)}
+                                                </p>
+                                          </div>
+                                    </div>
 
-                        {/* Work Controls */}
-                        <div className='flex flex-col w-1/2 items-center gap-2'>
-                              <div className="flex gap-2 justify-center">
-                                    {workUpButtons.map(button => (
-                                          <a
-                                                key={button.id}
-                                                className={`time-button 
-                                                      ${button.isClicked ? 'scale-animation' : ''}
-                                                      ${(timerInfo.currentAnimation === AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_RUNNING || timerInfo.currentAnimation === AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_PAUSED) && buttonDoAnimation === button.id ? 'button-error-animation' : ''}`}
-                                                onClick={() => handleWorkDurationUp(button.seconds, button.id)}
-                                          >
-                                                {button.label}
-                                          </a>
-                                    ))}
+                                    {/* Work Controls */}
+                                    <div className='flex flex-col w-1/2 items-center gap-2'>
+                                          <div className="flex gap-2 justify-center">
+                                                {workUpButtons.map(button => (
+                                                      <a
+                                                            key={button.id}
+                                                            className={`time-button 
+                                                                  ${button.isClicked ? 'scale-animation' : ''}
+                                                                  ${(timerInfo.currentAnimation === AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_RUNNING || timerInfo.currentAnimation === AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_PAUSED) && buttonDoAnimation === button.id ? 'button-error-animation' : ''}`}
+                                                            onClick={() => handleWorkDurationUp(button.seconds, button.id)}
+                                                      >
+                                                            {button.label}
+                                                      </a>
+                                                ))}
+                                          </div>
+
+                                          <div className="flex gap-2 justify-center">
+                                                {workDownButtons.map(button => (
+                                                      <a
+                                                            key={button.id}
+                                                            className={`time-button ${button.isClicked ? 'scale-animation' : ''}`}
+                                                            onClick={() => handleWorkDurationDown(button.seconds, button.id)}
+                                                      >
+                                                            {button.label}
+                                                      </a>
+                                                ))}
+                                          </div>
+                                    </div>
                               </div>
 
-                              <div className="flex gap-2 justify-center">
-                                    {workDownButtons.map(button => (
-                                          <a
-                                                key={button.id}
-                                                className={`time-button ${button.isClicked ? 'scale-animation' : ''}`}
-                                                onClick={() => handleWorkDurationDown(button.seconds, button.id)}
-                                          >
-                                                {button.label}
-                                          </a>
-                                    ))}
+                              {/* Rest Section */}
+                              <div className='h-1/2 rounded-b-3xl bg-jade items-center flex'>
+                                    {/* Rest Timer Display */}
+                                    <div className='flex flex-col items-center w-1/2'>
+                                          <p className="text-timberwolf text-center text-5xl font-black mb-4">Rest lap</p>
+                                          <div className={`p-4 bg-timberwolf rounded-3xl mx-auto mt-2 w-4/5 
+                                                ${timerInfo.currentAnimation === AnimationType.EMPTY_LAPS_DURATION && timerInfo.restLapDuration === 0 ? 'button-error-animation' : ''}`}>
+                                                <p className='text-7xl font-black text-eerieBlack w-full text-center'>
+                                                      {formatTime(timerInfo.restLapDuration)}
+                                                </p>
+                                          </div>
+                                    </div>
+
+                                    {/* Rest Controls */}
+                                    <div className='flex flex-col w-1/2 items-center gap-2'>
+                                          <div className="flex gap-2 justify-center">
+                                                {restUpButtons.map(button => (
+                                                      <a
+                                                            key={button.id}
+                                                            className={`time-button ${button.isClicked ? 'scale-animation' : ''}`}
+                                                            onClick={() => handleRestDurationUp(button.seconds, button.id)}
+                                                      >
+                                                            {button.label}
+                                                      </a>
+                                                ))}
+                                          </div>
+
+                                          <div className="flex gap-2 justify-center">
+                                                {restDownButtons.map(button => (
+                                                      <a
+                                                            key={button.id}
+                                                            className={`time-button ${button.isClicked ? 'scale-animation' : ''}`}
+                                                            onClick={() => handleRestDurationDown(button.seconds, button.id)}
+                                                      >
+                                                            {button.label}
+                                                      </a>
+                                                ))}
+                                          </div>
+                                    </div>
                               </div>
                         </div>
                   </div>
 
-                  {/* Rest Section */}
-                  <div className='h-1/2 rounded-b-3xl bg-jade items-center flex'>
-                        {/* Rest Timer Display */}
-                        <div className='flex flex-col items-center w-1/2'>
-                              <p className="text-timberwolf text-center text-5xl font-black mb-4">Rest lap</p>
-                              <div className={`p-4 bg-timberwolf rounded-3xl mx-auto mt-2 w-4/5 
-                              ${timerInfo.currentAnimation === AnimationType.EMPTY_LAPS_DURATION && timerInfo.restLapDuration === 0 ? 'button-error-animation' : ''}`}>
-                                    <p className='text-7xl font-black text-eerieBlack w-full text-center'>
-                                          {formatTime(timerInfo.restLapDuration)}
-                                    </p>
-                              </div>
+                  {/* Second section - New functionality (100px = 1 row) */}
+                  <div className='h-[100px] rounded-3xl flex items-center gap-5'>
+                        <div className='bg-eerieBlack rounded-3xl h-full w-2/5 flex items-center justify-center'>
+                              <p className="text-timberwolf text-5xl font-black">Cycles</p>
                         </div>
-
-                        {/* Rest Controls */}
-                        <div className='flex flex-col w-1/2 items-center gap-2'>
-                              <div className="flex gap-2 justify-center">
-                                    {restUpButtons.map(button => (
-                                          <a
-                                                key={button.id}
-                                                className={`time-button ${button.isClicked ? 'scale-animation' : ''}`}
-                                                onClick={() => handleRestDurationUp(button.seconds, button.id)}
-                                          >
-                                                {button.label}
-                                          </a>
-                                    ))}
-                              </div>
-
-                              <div className="flex gap-2 justify-center">
-                                    {restDownButtons.map(button => (
-                                          <a
-                                                key={button.id}
-                                                className={`time-button ${button.isClicked ? 'scale-animation' : ''}`}
-                                                onClick={() => handleRestDurationDown(button.seconds, button.id)}
-                                          >
-                                                {button.label}
-                                          </a>
-                                    ))}
-                              </div>
+                        <div 
+                              className={`bg-eerieBlack rounded-3xl h-full w-1/5 flex items-center justify-center 
+                                    hover:scale-105 transition-transform duration-200 cursor-pointer
+                                    ${minusClicked ? 'scale-animation' : ''}`}
+                              onClick={handleCyclesDown}
+                        >
+                              <p className="text-timberwolf text-5xl font-black">-</p>
+                        </div>
+                        <div className='bg-eerieBlack rounded-3xl h-full w-1/5 flex items-center justify-center'>
+                              <p className="text-timberwolf text-5xl font-black">{timerInfo.cycles}</p>
+                        </div>
+                        <div 
+                              className={`bg-eerieBlack rounded-3xl h-full w-1/5 flex items-center justify-center 
+                                    hover:scale-105 transition-transform duration-200 cursor-pointer
+                                    ${plusClicked ? 'scale-animation' : ''}`}
+                              onClick={handleCyclesUp}
+                        >
+                              <p className="text-timberwolf text-5xl font-black">+</p>
                         </div>
                   </div>
             </div>

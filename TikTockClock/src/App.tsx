@@ -1,13 +1,13 @@
-
 import './App.css'
 import MainPage from './components/mainPage'
+import { ClockProvider } from './context/ClockContext';
 
 function App() {
 
   return (
-    <div>
+    <ClockProvider>
       <MainPage />
-    </div>
+    </ClockProvider>
   )
 }
 
