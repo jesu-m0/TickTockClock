@@ -15,9 +15,14 @@ interface ClockProps {
 const Clock: React.FC<ClockProps> = ({ isPaused, reset, simpleTimerInfo, setSimpleTimerInfo, isSimpleMode }) => {
       const [time, setTime] = useState(0);
       const [isAlternate, setIsAlternate] = useState(false);
-      const [remainingCycles, setRemainingCycles] = useState(isSimpleMode ? simpleTimerInfo.cycles : null); //TODO: change when the custom mode is implementedq
+      const [remainingCycles, setRemainingCycles] = useState(isSimpleMode ? simpleTimerInfo.cycles : null); //TODO: change when the custom mode is implemented
 
       const { clockStatus, setClockStatus } = useClockStatus();
+
+      const [simpleLapCounts, setSimpleLapCounts] = useState({
+            workLaps: 0,
+            restLaps: 0
+      });
 
       useEffect(() => {
             if (isSimpleMode) {
@@ -57,56 +62,71 @@ const Clock: React.FC<ClockProps> = ({ isPaused, reset, simpleTimerInfo, setSimp
             return `${mins}:${secs}`;
       };
 
-      // Update status based on timer logic
+      // State diagram implementation
       useEffect(() => {
             try {
-                  switch (clockStatus) {
-                        case ClockStatus.ZERO:
-                              if (time === 0 && simpleTimerInfo.workLapDuration > 0 && simpleTimerInfo.restLapDuration > 0) {
-                                    console.log('Status Change: ZERO -> READY');
-                                    setClockStatus(ClockStatus.READY);
-                              }
-                              break;
-                        case ClockStatus.READY:
-                              if (time === 0 && (simpleTimerInfo.workLapDuration === 0 || simpleTimerInfo.restLapDuration === 0)) {
-                                    console.log('Status Change: READY -> ZERO');
-                                    setClockStatus(ClockStatus.ZERO);
-                              }
-                              if (!isPaused) {
-                                    console.log('Status Change: READY -> RUNNING');
-                                    setClockStatus(ClockStatus.RUNNING);
-                              }
-                              break;
-                        case ClockStatus.RUNNING:
-                              if (isPaused) {
-                                    console.log('Status Change: RUNNING -> PAUSED');
-                                    setClockStatus(ClockStatus.PAUSED);
-                              }
-                              if (remainingCycles === 0 && time === 0) {
-                                    console.log('Status Change: RUNNING -> FINISHED');
-                                    setClockStatus(ClockStatus.FINISHED);
-                              }
-                              break;
-                        case ClockStatus.PAUSED:
-                              if (!isPaused && time > 0) {
-                                    console.log('Status Change: PAUSED -> RUNNING');
-                                    setClockStatus(ClockStatus.RUNNING);
-                              }
-                              if (isPaused && time === 0 && (simpleTimerInfo.workLapDuration === 0 || simpleTimerInfo.restLapDuration === 0)) {
-                                    console.log('Status Change: PAUSED -> ZERO');
-                                    setClockStatus(ClockStatus.ZERO);
-                              }
-                              if (isPaused && time === 0 && simpleTimerInfo.workLapDuration > 0 && simpleTimerInfo.restLapDuration > 0) {
-                                    console.log('Status Change: PAUSED -> READY');
-                                    setClockStatus(ClockStatus.READY);
-                              }
-                              break;
-                        case ClockStatus.FINISHED:
-                              if (isSimpleMode) {
-                                    console.log('Status: FINISHED - Setting animation');
-                                    setSimpleTimerInfo(prev => ({ ...prev, currentAnimation: AnimationType.TIMER_FINISHED_SIMPLE }));
+                  if (isSimpleMode) {
+                        switch (clockStatus) {
+                              case ClockStatus.ZERO:
+                                    if (time === 0 && simpleTimerInfo.workLapDuration > 0 && simpleTimerInfo.restLapDuration > 0) {
+                                          console.log('Status Change: ZERO -> READY');
+                                          setClockStatus(ClockStatus.READY);
+                                    }
+                                    break;
+                              case ClockStatus.READY:
+                                    if (time === 0 && (simpleTimerInfo.workLapDuration === 0 || simpleTimerInfo.restLapDuration === 0)) {
+                                          console.log('Status Change: READY -> ZERO');
+                                          setClockStatus(ClockStatus.ZERO);
+                                    }
 
-                                    if (simpleTimerInfo.workLapDuration === 0 || simpleTimerInfo.restLapDuration === 0) {
+                                    if (!isPaused) {
+                                          console.log('Status Change: READY -> RUNNING');
+                                          setReadyToRunningSimple();
+                                    }
+                                    break;
+
+
+                              case ClockStatus.RUNNING:
+
+                                    if (isPaused) {
+                                          console.log('Status Change: RUNNING -> PAUSED');
+                                          setClockStatus(ClockStatus.PAUSED);
+                                    }
+
+                                    if (time === 0 && simpleLapCounts.workLaps === 0 && simpleLapCounts.restLaps === 0) {
+                                          console.log('Status Change: RUNNING -> FINISHED');
+                                          setRunningToFinishedSimple();
+                                    } else if (time === 0 && simpleLapCounts.workLaps === simpleLapCounts.restLaps) {
+                                          console.log('Status Change: RUNNING -> RUNNING: work lap ended.');
+                                          setRunningToRunningWorkLapEndedSimple();
+                                    } else if (time === 0 && simpleLapCounts.workLaps > simpleLapCounts.restLaps) {
+                                          console.log('Status Change: RUNNING -> RUNNING: rest lap ended, cycle completed. ' + simpleLapCounts.workLaps + ' cycles remaining.');
+                                          setRunningToRunningRestLapEndedSimple();
+                                    }
+
+                                    break;
+
+
+                              case ClockStatus.PAUSED:
+
+                                    if (!isPaused && time > 0) {
+                                          console.log('Status Change: PAUSED -> RUNNING');
+                                          setClockStatus(ClockStatus.RUNNING);
+                                    }
+                                    if (isPaused && time === 0 && (simpleTimerInfo.workLapDuration === 0 || simpleTimerInfo.restLapDuration === 0)) {
+                                          console.log('Status Change: PAUSED -> ZERO');
+                                          setClockStatus(ClockStatus.ZERO);
+                                    }
+                                    if (isPaused && time === 0 && simpleTimerInfo.workLapDuration > 0 && simpleTimerInfo.restLapDuration > 0) {
+                                          console.log('Status Change: PAUSED -> READY');
+                                          setClockStatus(ClockStatus.READY);
+                                    }
+                                    break;
+                              case ClockStatus.FINISHED:
+                                    console.log('Status: FINISHED - Setting animation: ' + AnimationType.WORKOUT_FINISHED_SIMPLE);
+                                    setSimpleTimerInfo(prev => ({ ...prev, currentAnimation: AnimationType.WORKOUT_FINISHED_SIMPLE }));
+
+                                    if (simpleTimerInfo.workLapDuration === 0 || simpleTimerInfo.restLapDuration === 0) { //Theoretically never happens because it's not possible to change lap durartions while running.
                                           console.log('Status Change: FINISHED -> ZERO');
                                           setClockStatus(ClockStatus.ZERO);
                                     }
@@ -114,22 +134,68 @@ const Clock: React.FC<ClockProps> = ({ isPaused, reset, simpleTimerInfo, setSimp
                                           console.log('Status Change: FINISHED -> READY');
                                           setClockStatus(ClockStatus.READY);
                                     }
-                              } else {
-                                    //TODO: implement custom logic
-                              }
-                              break;
+                                    break;
+                        }
+                  } else {
+                        //TODO: implement custom logic
                   }
+
             } catch (error) {
                   console.error('Error in clock status update:', error);
             }
       }, [
-            isPaused, 
+            isPaused,
             simpleTimerInfo,
             clockStatus,
             isSimpleMode,
             remainingCycles,
             time
       ]);
+
+      const setReadyToRunningSimple = () => {
+            if (isSimpleMode) {
+                  //Set parameters for the first lap. The workout gonna start NOW.
+                  setRemainingCycles(simpleTimerInfo.cycles);
+                  setSimpleLapCounts(prev => ({ ...prev, workLaps: simpleTimerInfo.cycles, restLaps: simpleTimerInfo.cycles }));
+                  setTime(simpleTimerInfo.workLapDuration);
+                  setClockStatus(ClockStatus.RUNNING);
+            } else {
+                  //TODO: implement custom logic
+            }
+      }
+
+      const setRunningToFinishedSimple = () => {
+            if (isSimpleMode) {
+                  if (simpleLapCounts.workLaps === 0 && simpleLapCounts.restLaps === 0) { //Workout finished
+                        setSimpleTimerInfo(prev => ({ ...prev, currentAnimation: AnimationType.WORKOUT_FINISHED_SIMPLE }));
+                        setClockStatus(ClockStatus.READY)
+                  } else if (simpleLapCounts.workLaps === simpleLapCounts.restLaps) { //Work lap finished
+
+                  } else { //Rest lap finished
+                        simpleLapCounts.restLaps--;
+                        setTime(simpleTimerInfo.workLapDuration);
+                        setClockStatus(ClockStatus.RUNNING)
+                  }
+
+
+
+                  setClockStatus(ClockStatus.FINISHED);
+            } else {
+                  //TODO: implement custom logic
+            }
+      }
+
+      const setRunningToRunningWorkLapEndedSimple = () => {
+            setSimpleLapCounts(prev => ({ ...prev, workLaps: prev.workLaps - 1 }));
+            setTime(simpleTimerInfo.restLapDuration);
+            setClockStatus(ClockStatus.RUNNING);
+      }
+
+      const setRunningToRunningRestLapEndedSimple = () => {
+            setSimpleLapCounts(prev => ({ ...prev, restLaps: prev.restLaps - 1 })); //Remaining cycles are decremented when the rest lap ends. So remaining cycles = remaining rest laps cycles.
+            setTime(simpleTimerInfo.workLapDuration);
+            setClockStatus(ClockStatus.RUNNING);
+      }
 
       return (
             <>
@@ -159,3 +225,5 @@ const Clock: React.FC<ClockProps> = ({ isPaused, reset, simpleTimerInfo, setSimp
 };
 
 export default Clock;
+
+
