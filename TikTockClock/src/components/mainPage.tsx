@@ -87,7 +87,7 @@ const MainPage: React.FC = () => {
 
                               {/*Clock */}
                               <div className={`col-span-4 row-span-3 rounded-3xl content-center flex flex-col bg-timberwolf
-                                    ${simpleTimerInfo.currentAnimation === AnimationType.ALREADY_RESET || simpleTimerInfo.currentAnimation === AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_RUNNING ? 'button-error-animation' : ''}`}>
+                                    ${simpleTimerInfo.currentAnimation === AnimationType.ALREADY_RESET || simpleTimerInfo.currentAnimation === AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_NOT_00 ? 'button-error-animation' : ''}`}>
                                     <Clock
                                           isPaused={isPaused}
                                           reset={reset}
@@ -156,7 +156,7 @@ const MainPage: React.FC = () => {
                               <div className={`col-span-2 row-span-1 bg-saffron p-4 rounded-3xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer 
           ${isClickedReset ? 'scale-animation' : ''}
           ${simpleTimerInfo.currentAnimation === AnimationType.ALREADY_RESET ? 'button-error-animation' : ''}
-          ${simpleTimerInfo.currentAnimation === AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_PAUSED ? 'button-error-animation' : ''}`}
+          ${simpleTimerInfo.currentAnimation === AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_NOT_00 ? 'button-error-animation' : ''}`}
                                     onClick={handleReset}>
 
                                     <p className='font-bold text-eerieBlack text-6xl text-center'>Reset</p>
@@ -167,7 +167,7 @@ const MainPage: React.FC = () => {
                               <div className={`col-span-2 row-span-1 p-4 rounded-3xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer
                                     ${isPaused ? 'bg-timberwolf' : 'bg-burntSienna'}
                                     ${isClickedPause ? 'scale-animation' : ''}
-                                    ${simpleTimerInfo.currentAnimation === AnimationType.EMPTY_LAPS_DURATION || simpleTimerInfo.currentAnimation === AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_RUNNING ? 'button-error-animation' : ''}`}
+                                    ${simpleTimerInfo.currentAnimation === AnimationType.EMPTY_LAPS_DURATION ? 'button-error-animation' : ''}`}
                                     onClick={handlePauseStart}>
 
                                     <p className='font-bold text-eerieBlack text-6xl text-center'>

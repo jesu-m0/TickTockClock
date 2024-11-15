@@ -30,7 +30,7 @@ const Clock: React.FC<ClockProps> = ({ isPaused, reset, simpleTimerInfo, setSimp
       useEffect(() => {
             let timer: number | null = null;
 
-            if (!isPaused) {
+            if (clockStatus === ClockStatus.RUNNING) {
                   timer = window.setInterval(() => {
                         setTime((prevTime) => prevTime + 1);
                         setIsAlternate(prev => !prev);
@@ -42,7 +42,7 @@ const Clock: React.FC<ClockProps> = ({ isPaused, reset, simpleTimerInfo, setSimp
                         clearInterval(timer);
                   }
             };
-      }, [isPaused]);
+      }, [clockStatus]);
 
       useEffect(() => {
             if (reset) {

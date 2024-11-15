@@ -56,8 +56,6 @@ const SimpleInfo: React.FC<SimpleInfoProps> = ({ timerInfo, setTimerInfo, clockS
             console.log('Current clockStatus:', clockStatus);
 
             if (clockStatus === ClockStatus.ZERO || clockStatus === ClockStatus.READY) {
-                  console.log('Entering ZERO/READY block');
-
                   setTimerInfo(prev => ({
                         ...prev,
                         workLapDuration: prev.workLapDuration + seconds
@@ -77,78 +75,93 @@ const SimpleInfo: React.FC<SimpleInfoProps> = ({ timerInfo, setTimerInfo, clockS
                         })));
                   }, 300);
 
-            } else if (clockStatus === ClockStatus.RUNNING) {
-                  console.log('Entering RUNNING block');
+            } else if (clockStatus === ClockStatus.RUNNING || clockStatus === ClockStatus.PAUSED) {
                   setButtonDoAnimation(buttonId);
-                  setTimerInfo(prev => ({ ...prev, currentAnimation: AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_RUNNING }));
-                  console.log(AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_RUNNING);
-
-            } else if (clockStatus === ClockStatus.PAUSED) {
-                  console.log('Entering PAUSED block');
-                  setButtonDoAnimation(buttonId);
-                  setTimerInfo(prev => ({ ...prev, currentAnimation: AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_PAUSED }));
-                  console.log(AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_PAUSED);
+                  setTimerInfo(prev => ({ ...prev, currentAnimation: AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_NOT_00 }));
+                  console.log(AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_NOT_00);
 
             }
       };
 
       const handleWorkDurationDown = (seconds: number, buttonId: string) => {
-            setTimerInfo(prev => ({
-                  ...prev,
-                  workLapDuration: Math.max(0, prev.workLapDuration - seconds)
-            }));
+            if (clockStatus === ClockStatus.ZERO || clockStatus === ClockStatus.READY) {
+                  setTimerInfo(prev => ({
+                        ...prev,
+                        workLapDuration: Math.max(0, prev.workLapDuration - seconds)
+                  }));
 
-            setWorkDownButtons(prev => prev.map(button => ({
-                  ...button,
-                  isClicked: button.id === buttonId ? true : button.isClicked
-            })));
-
-            setTimeout(() => {
                   setWorkDownButtons(prev => prev.map(button => ({
                         ...button,
-                        isClicked: button.id === buttonId ? false : button.isClicked
+                        isClicked: button.id === buttonId ? true : button.isClicked
                   })));
-            }, 300);
+
+                  setTimeout(() => {
+                        setWorkDownButtons(prev => prev.map(button => ({
+                              ...button,
+                              isClicked: button.id === buttonId ? false : button.isClicked
+                        })));
+                  }, 300);
+            } else if (clockStatus === ClockStatus.RUNNING || clockStatus === ClockStatus.PAUSED) {
+                  setButtonDoAnimation(buttonId);
+                  setTimerInfo(prev => ({ 
+                        ...prev, 
+                        currentAnimation: AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_NOT_00 
+                  }));
+            }
       };
 
       const handleRestDurationUp = (seconds: number, buttonId: string) => {
-            setTimerInfo(prev => ({
-                  ...prev,
-                  restLapDuration: prev.restLapDuration + seconds
-            }));
+            if (clockStatus === ClockStatus.ZERO || clockStatus === ClockStatus.READY) {
+                  setTimerInfo(prev => ({
+                        ...prev,
+                        restLapDuration: prev.restLapDuration + seconds
+                  }));
 
-            // Update only the clicked button's state
-            setRestUpButtons(prev => prev.map(button => ({
-                  ...button,
-                  isClicked: button.id === buttonId ? true : button.isClicked
-            })));
-
-            // Reset the clicked state after animation
-            setTimeout(() => {
                   setRestUpButtons(prev => prev.map(button => ({
                         ...button,
-                        isClicked: button.id === buttonId ? false : button.isClicked
+                        isClicked: button.id === buttonId ? true : button.isClicked
                   })));
-            }, 300);
+
+                  setTimeout(() => {
+                        setRestUpButtons(prev => prev.map(button => ({
+                              ...button,
+                              isClicked: button.id === buttonId ? false : button.isClicked
+                        })));
+                  }, 300);
+            } else if (clockStatus === ClockStatus.RUNNING || clockStatus === ClockStatus.PAUSED) {
+                  setButtonDoAnimation(buttonId);
+                  setTimerInfo(prev => ({ 
+                        ...prev, 
+                        currentAnimation: AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_NOT_00 
+                  }));
+            }
       };
 
       const handleRestDurationDown = (seconds: number, buttonId: string) => {
-            setTimerInfo(prev => ({
-                  ...prev,
-                  restLapDuration: Math.max(0, prev.restLapDuration - seconds)
-            }));
+            if (clockStatus === ClockStatus.ZERO || clockStatus === ClockStatus.READY) {
+                  setTimerInfo(prev => ({
+                        ...prev,
+                        restLapDuration: Math.max(0, prev.restLapDuration - seconds)
+                  }));
 
-            setRestDownButtons(prev => prev.map(button => ({
-                  ...button,
-                  isClicked: button.id === buttonId ? true : button.isClicked
-            })));
-
-            setTimeout(() => {
                   setRestDownButtons(prev => prev.map(button => ({
                         ...button,
-                        isClicked: button.id === buttonId ? false : button.isClicked
+                        isClicked: button.id === buttonId ? true : button.isClicked
                   })));
-            }, 300);
+
+                  setTimeout(() => {
+                        setRestDownButtons(prev => prev.map(button => ({
+                              ...button,
+                              isClicked: button.id === buttonId ? false : button.isClicked
+                        })));
+                  }, 300);
+            } else if (clockStatus === ClockStatus.RUNNING || clockStatus === ClockStatus.PAUSED) {
+                  setButtonDoAnimation(buttonId);
+                  setTimerInfo(prev => ({ 
+                        ...prev, 
+                        currentAnimation: AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_NOT_00 
+                  }));
+            }
       };
 
       const handleCyclesUp = () => {
@@ -201,7 +214,7 @@ const SimpleInfo: React.FC<SimpleInfoProps> = ({ timerInfo, setTimerInfo, clockS
                                                             key={button.id}
                                                             className={`time-button 
                                                                   ${button.isClicked ? 'scale-animation' : ''}
-                                                                  ${(timerInfo.currentAnimation === AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_RUNNING || timerInfo.currentAnimation === AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_PAUSED) && buttonDoAnimation === button.id ? 'button-error-animation' : ''}`}
+                                                                  ${(timerInfo.currentAnimation === AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_NOT_00) && buttonDoAnimation === button.id ? 'button-error-animation' : ''}`}
                                                             onClick={() => handleWorkDurationUp(button.seconds, button.id)}
                                                       >
                                                             {button.label}
@@ -213,7 +226,9 @@ const SimpleInfo: React.FC<SimpleInfoProps> = ({ timerInfo, setTimerInfo, clockS
                                                 {workDownButtons.map(button => (
                                                       <a
                                                             key={button.id}
-                                                            className={`time-button ${button.isClicked ? 'scale-animation' : ''}`}
+                                                            className={`time-button 
+                                                                  ${button.isClicked ? 'scale-animation' : ''}
+                                                                  ${(timerInfo.currentAnimation === AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_NOT_00) && buttonDoAnimation === button.id ? 'button-error-animation' : ''}`}
                                                             onClick={() => handleWorkDurationDown(button.seconds, button.id)}
                                                       >
                                                             {button.label}
@@ -242,7 +257,9 @@ const SimpleInfo: React.FC<SimpleInfoProps> = ({ timerInfo, setTimerInfo, clockS
                                                 {restUpButtons.map(button => (
                                                       <a
                                                             key={button.id}
-                                                            className={`time-button ${button.isClicked ? 'scale-animation' : ''}`}
+                                                            className={`time-button 
+                                                                  ${button.isClicked ? 'scale-animation' : ''}
+                                                                  ${(timerInfo.currentAnimation === AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_NOT_00) && buttonDoAnimation === button.id ? 'button-error-animation' : ''}`}
                                                             onClick={() => handleRestDurationUp(button.seconds, button.id)}
                                                       >
                                                             {button.label}
@@ -254,7 +271,9 @@ const SimpleInfo: React.FC<SimpleInfoProps> = ({ timerInfo, setTimerInfo, clockS
                                                 {restDownButtons.map(button => (
                                                       <a
                                                             key={button.id}
-                                                            className={`time-button ${button.isClicked ? 'scale-animation' : ''}`}
+                                                            className={`time-button 
+                                                                  ${button.isClicked ? 'scale-animation' : ''}
+                                                                  ${(timerInfo.currentAnimation === AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_NOT_00) && buttonDoAnimation === button.id ? 'button-error-animation' : ''}`}
                                                             onClick={() => handleRestDurationDown(button.seconds, button.id)}
                                                       >
                                                             {button.label}
