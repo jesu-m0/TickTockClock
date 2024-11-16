@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Header from './Header/Header.tsx';
 import Clock from './Header/Clock.tsx';
-import './MainPage.css';
+import './mainPage.css';
 import SimpleInfo from './SimpleInfo/SimpleInfo';
 import CustomInfo from './CustomInfo/CustomInfo';
 import { AnimationType, ClockStatus } from '../types';
