@@ -125,7 +125,6 @@ const Clock: React.FC<ClockProps> = ({ isPaused, setIsPaused, reset, simpleTimer
                                     break;
                               case ClockStatus.FINISHED:
 
-                                    alert('Congratulations! You have completed your workout!');
 
                                     if (simpleTimerInfo.workLapDuration === 0 || simpleTimerInfo.restLapDuration === 0) { //Theoretically never happens because it's not possible to change lap durartions while running.
                                           console.log('Status Change: FINISHED -> ZERO');
@@ -133,7 +132,6 @@ const Clock: React.FC<ClockProps> = ({ isPaused, setIsPaused, reset, simpleTimer
                                     }
                                     if (simpleTimerInfo.workLapDuration > 0 && simpleTimerInfo.restLapDuration > 0) {
                                           console.log('Status Change: FINISHED -> READY');
-                                          setClockStatus(ClockStatus.READY);
                                           setFinishedToReadySimple();
                                     }
                                     break;
@@ -164,8 +162,9 @@ const Clock: React.FC<ClockProps> = ({ isPaused, setIsPaused, reset, simpleTimer
 
       const setRunningToFinishedSimple = () => {
             
-            setRemainingCycles(prev => prev !== null ? Math.max(0, prev - 1) : 0);
-            setSimpleLapCounts(prev => ({ ...prev, restLaps: prev.restLaps - 1 }));
+            setRemainingCycles(0);
+            setSimpleLapCounts(prev => ({ ...prev, restLaps: 0 }));
+            setTime(0);
 
             console.log('Status: FINISHED - Setting animation: ' + AnimationType.WORKOUT_FINISHED_SIMPLE);
             setSimpleTimerInfo(prev => ({ ...prev, currentAnimation: AnimationType.WORKOUT_FINISHED_SIMPLE }));
@@ -224,11 +223,19 @@ const Clock: React.FC<ClockProps> = ({ isPaused, setIsPaused, reset, simpleTimer
                               <div className={`h-6 flex-1 rounded-br-3xl ${isAlternate ? 'bg-jade' : 'bg-burntSienna'}`}></div>
                         </div>
                   </div>
-                  <div className={`h-[100px] rounded-3xl gap-5 ${clockStatus === ClockStatus.RUNNING || clockStatus === ClockStatus.PAUSED ?
-                              simpleLapCounts.workLaps === simpleLapCounts.restLaps ? 'bg-burntSienna' : 'bg-jade'
-                              : 'bg-eerieBlack'
-                        } flex items-center justify-center`}>
-                        <p className="font-bold text-timberwolf text-5xl text-center">
+                  <div className={`h-[100px] rounded-3xl relative overflow-hidden bg-eerieBlack flex items-center justify-center`}>
+                        {(clockStatus === ClockStatus.RUNNING || clockStatus === ClockStatus.PAUSED) && (
+                              <div 
+                                   className={`absolute left-0 top-0 h-full transition-all duration-1000
+                                        ${simpleLapCounts.workLaps === simpleLapCounts.restLaps ? 'bg-burntSienna' : 'bg-jade'}`}
+                                   style={{ 
+                                        width: `${(time / (simpleLapCounts.workLaps === simpleLapCounts.restLaps 
+                                             ? simpleTimerInfo.workLapDuration 
+                                             : simpleTimerInfo.restLapDuration)) * 100}%` 
+                                   }}
+                              />
+                        )}
+                        <p className="font-bold text-timberwolf text-5xl text-center relative z-10">
                               {remainingCycles}
                         </p>
                   </div>
