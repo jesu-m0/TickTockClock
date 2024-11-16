@@ -32,7 +32,7 @@ const MainPage: React.FC = () => {
       });
 
       //Status of the clock in teh context
-      const { clockStatus, setClockStatus } = useClockStatus();
+      const { clockStatus } = useClockStatus();
 
       //Change mode
       const changeToSimple = () => {
