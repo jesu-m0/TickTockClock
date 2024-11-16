@@ -86,10 +86,11 @@ const MainPage: React.FC = () => {
                               <Header isDarkMode={isDarkMode} setDarkMode={setDarkMode}></Header>
 
                               {/*Clock */}
-                              <div className={`col-span-4 row-span-3 rounded-3xl content-center flex flex-col bg-timberwolf
+                              <div className={`col-span-4 row-span-4 rounded-3xl content-center flex flex-col gap-5
                                     ${simpleTimerInfo.currentAnimation === AnimationType.ALREADY_RESET || simpleTimerInfo.currentAnimation === AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_NOT_00 ? 'button-error-animation' : ''}`}>
                                     <Clock
                                           isPaused={isPaused}
+                                          setIsPaused={setIsPaused}
                                           reset={reset}
                                           simpleTimerInfo={simpleTimerInfo}
                                           setSimpleTimerInfo={setSimpleTimerInfo}
@@ -177,7 +178,7 @@ const MainPage: React.FC = () => {
                               </div>
 
                               {/*Expand clock*/}
-                              <div className='col-span-4 row-span-2 bg-eerieBlack p-4 rounded-3xl flex justify-center items-center hover:scale-105 transition-transform duration-200 cursor-pointer'>
+                              <div className='col-span-4 row-span-1 bg-eerieBlack p-4 rounded-3xl flex justify-center items-center hover:scale-105 transition-transform duration-200 cursor-pointer'>
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className='w-12 h-12 fill-timberwolf mr-4'><path d="M32 32C14.3 32 0 46.3 0 64l0 96c0 17.7 14.3 32 32 32s32-14.3 32-32l0-64 64 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L32 32zM64 352c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 96c0 17.7 14.3 32 32 32l96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-64 0 0-64zM320 32c-17.7 0-32 14.3-32 32s14.3 32 32 32l64 0 0 64c0 17.7 14.3 32 32 32s32-14.3 32-32l0-96c0-17.7-14.3-32-32-32l-96 0zM448 352c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 64-64 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l96 0c17.7 0 32-14.3 32-32l0-96z" /></svg>
                                     <p className='font-bold text-timberwolf text-5xl text-center'>Expand</p>
                               </div>

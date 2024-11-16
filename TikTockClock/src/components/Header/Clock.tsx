@@ -5,6 +5,7 @@ import { useClockStatus } from '../../context/ClockContext';
 
 interface ClockProps {
       isPaused: boolean;
+      setIsPaused: React.Dispatch<React.SetStateAction<boolean>>;
       reset: boolean;
       simpleTimerInfo: SimpleTimerInfo;
       setSimpleTimerInfo: React.Dispatch<React.SetStateAction<SimpleTimerInfo>>;
@@ -12,7 +13,7 @@ interface ClockProps {
 }
 
 //TODO: Are status well controlled? NO.
-const Clock: React.FC<ClockProps> = ({ isPaused, reset, simpleTimerInfo, setSimpleTimerInfo, isSimpleMode }) => {
+const Clock: React.FC<ClockProps> = ({ isPaused, setIsPaused, reset, simpleTimerInfo, setSimpleTimerInfo, isSimpleMode }) => {
       const [time, setTime] = useState(0);
       const [isAlternate, setIsAlternate] = useState(false);
       const [remainingCycles, setRemainingCycles] = useState(isSimpleMode ? simpleTimerInfo.cycles : null); //TODO: change when the custom mode is implemented
@@ -37,7 +38,7 @@ const Clock: React.FC<ClockProps> = ({ isPaused, reset, simpleTimerInfo, setSimp
 
             if (clockStatus === ClockStatus.RUNNING) {
                   timer = window.setInterval(() => {
-                        setTime((prevTime) => prevTime + 1);
+                        setTime((prevTime) => Math.max(0, prevTime - 1));
                         setIsAlternate(prev => !prev);
                   }, 1000);
             }
@@ -93,13 +94,13 @@ const Clock: React.FC<ClockProps> = ({ isPaused, reset, simpleTimerInfo, setSimp
                                           setClockStatus(ClockStatus.PAUSED);
                                     }
 
-                                    if (time === 0 && simpleLapCounts.workLaps === 0 && simpleLapCounts.restLaps === 0) {
+                                    if (time === 0 && simpleLapCounts.workLaps === 0 && simpleLapCounts.restLaps === 1) {
                                           console.log('Status Change: RUNNING -> FINISHED');
                                           setRunningToFinishedSimple();
                                     } else if (time === 0 && simpleLapCounts.workLaps === simpleLapCounts.restLaps) {
                                           console.log('Status Change: RUNNING -> RUNNING: work lap ended.');
                                           setRunningToRunningWorkLapEndedSimple();
-                                    } else if (time === 0 && simpleLapCounts.workLaps > simpleLapCounts.restLaps) {
+                                    } else if (time === 0 && simpleLapCounts.workLaps < simpleLapCounts.restLaps) {
                                           console.log('Status Change: RUNNING -> RUNNING: rest lap ended, cycle completed. ' + simpleLapCounts.workLaps + ' cycles remaining.');
                                           setRunningToRunningRestLapEndedSimple();
                                     }
@@ -123,16 +124,17 @@ const Clock: React.FC<ClockProps> = ({ isPaused, reset, simpleTimerInfo, setSimp
                                     }
                                     break;
                               case ClockStatus.FINISHED:
-                                    console.log('Status: FINISHED - Setting animation: ' + AnimationType.WORKOUT_FINISHED_SIMPLE);
-                                    setSimpleTimerInfo(prev => ({ ...prev, currentAnimation: AnimationType.WORKOUT_FINISHED_SIMPLE }));
+
+                                    alert('Congratulations! You have completed your workout!');
 
                                     if (simpleTimerInfo.workLapDuration === 0 || simpleTimerInfo.restLapDuration === 0) { //Theoretically never happens because it's not possible to change lap durartions while running.
                                           console.log('Status Change: FINISHED -> ZERO');
-                                          setClockStatus(ClockStatus.ZERO);
+                                          setFinishedToZeroSimple();
                                     }
                                     if (simpleTimerInfo.workLapDuration > 0 && simpleTimerInfo.restLapDuration > 0) {
                                           console.log('Status Change: FINISHED -> READY');
                                           setClockStatus(ClockStatus.READY);
+                                          setFinishedToReadySimple();
                                     }
                                     break;
                         }
@@ -153,36 +155,21 @@ const Clock: React.FC<ClockProps> = ({ isPaused, reset, simpleTimerInfo, setSimp
       ]);
 
       const setReadyToRunningSimple = () => {
-            if (isSimpleMode) {
-                  //Set parameters for the first lap. The workout gonna start NOW.
-                  setRemainingCycles(simpleTimerInfo.cycles);
-                  setSimpleLapCounts(prev => ({ ...prev, workLaps: simpleTimerInfo.cycles, restLaps: simpleTimerInfo.cycles }));
-                  setTime(simpleTimerInfo.workLapDuration);
-                  setClockStatus(ClockStatus.RUNNING);
-            } else {
-                  //TODO: implement custom logic
-            }
+            //Set parameters for the first lap. The workout gonna start NOW.
+            setRemainingCycles(simpleTimerInfo.cycles);
+            setSimpleLapCounts({ workLaps: simpleTimerInfo.cycles, restLaps: simpleTimerInfo.cycles });
+            setTime(simpleTimerInfo.workLapDuration);
+            setClockStatus(ClockStatus.RUNNING);
       }
 
       const setRunningToFinishedSimple = () => {
-            if (isSimpleMode) {
-                  if (simpleLapCounts.workLaps === 0 && simpleLapCounts.restLaps === 0) { //Workout finished
-                        setSimpleTimerInfo(prev => ({ ...prev, currentAnimation: AnimationType.WORKOUT_FINISHED_SIMPLE }));
-                        setClockStatus(ClockStatus.READY)
-                  } else if (simpleLapCounts.workLaps === simpleLapCounts.restLaps) { //Work lap finished
+            
+            setRemainingCycles(prev => prev !== null ? Math.max(0, prev - 1) : 0);
+            setSimpleLapCounts(prev => ({ ...prev, restLaps: prev.restLaps - 1 }));
 
-                  } else { //Rest lap finished
-                        simpleLapCounts.restLaps--;
-                        setTime(simpleTimerInfo.workLapDuration);
-                        setClockStatus(ClockStatus.RUNNING)
-                  }
-
-
-
-                  setClockStatus(ClockStatus.FINISHED);
-            } else {
-                  //TODO: implement custom logic
-            }
+            console.log('Status: FINISHED - Setting animation: ' + AnimationType.WORKOUT_FINISHED_SIMPLE);
+            setSimpleTimerInfo(prev => ({ ...prev, currentAnimation: AnimationType.WORKOUT_FINISHED_SIMPLE }));
+            setClockStatus(ClockStatus.FINISHED)
       }
 
       const setRunningToRunningWorkLapEndedSimple = () => {
@@ -192,33 +179,58 @@ const Clock: React.FC<ClockProps> = ({ isPaused, reset, simpleTimerInfo, setSimp
       }
 
       const setRunningToRunningRestLapEndedSimple = () => {
-            setSimpleLapCounts(prev => ({ ...prev, restLaps: prev.restLaps - 1 })); //Remaining cycles are decremented when the rest lap ends. So remaining cycles = remaining rest laps cycles.
-            setTime(simpleTimerInfo.workLapDuration);
+            setSimpleLapCounts(prev => ({ ...prev, restLaps: prev.restLaps - 1 }));
+            setRemainingCycles(prev => prev !== null ? Math.max(0, prev - 1) : 0);
+            if (remainingCycles != 0) {
+                  setTime(simpleTimerInfo.workLapDuration);
+            }
             setClockStatus(ClockStatus.RUNNING);
+      }
+
+      const setFinishedToZeroSimple = () => {
+            setSimpleLapCounts({ workLaps: 0, restLaps: 0 });
+            setIsPaused(true);
+            setClockStatus(ClockStatus.ZERO);
+      }
+
+      const setFinishedToReadySimple = () => {
+            setSimpleLapCounts({ workLaps: simpleTimerInfo.cycles, restLaps: simpleTimerInfo.cycles });
+            setIsPaused(true);
+            setClockStatus(ClockStatus.READY);
       }
 
       return (
             <>
-                  <div className="p-4 h-full flex flex-col justify-center items-center">
-                        <p className="font-black text-eerieBlack text-9xl text-center">
-                              {formatTime(time)}
-                        </p>
-                        <div className="flex px-8 w-full">
-                              <p className="font-medium text-eerieBlack text-lg text-center w-1/2">
-                                    min
+                  <div className='flex-grow rounded-3xl content-center bg-timberwolf flex flex-col'>
+                        <div className="p-4 h-full flex flex-col justify-center items-center">
+                              <p className="font-black text-eerieBlack text-9xl text-center">
+                                    {formatTime(time)}
                               </p>
-                              <p className="font-medium text-eerieBlack text-lg text-center w-1/2">
-                                    sec
-                              </p>
+                              <div className="flex px-8 w-full">
+                                    <p className="font-medium text-eerieBlack text-lg text-center w-1/2">
+                                          min
+                                    </p>
+                                    <p className="font-medium text-eerieBlack text-lg text-center w-1/2">
+                                          sec
+                                    </p>
+                              </div>
+                        </div>
+                        <div className="w-full flex flex-row">
+                              <div className={`h-6 flex-1 rounded-bl-3xl ${isAlternate ? 'bg-burntSienna' : 'bg-jade'}`}></div>
+                              <div className={`h-6 flex-1 ${isAlternate ? 'bg-jade' : 'bg-burntSienna'}`}></div>
+                              <div className={`h-6 flex-1 ${isAlternate ? 'bg-burntSienna' : 'bg-jade'}`}></div>
+                              <div className={`h-6 flex-1 ${isAlternate ? 'bg-jade' : 'bg-burntSienna'}`}></div>
+                              <div className={`h-6 flex-1 ${isAlternate ? 'bg-burntSienna' : 'bg-jade'}`}></div>
+                              <div className={`h-6 flex-1 rounded-br-3xl ${isAlternate ? 'bg-jade' : 'bg-burntSienna'}`}></div>
                         </div>
                   </div>
-                  <div className="w-full flex flex-row">
-                        <div className={`h-6 flex-1 rounded-bl-3xl ${isAlternate ? 'bg-burntSienna' : 'bg-jade'}`}></div>
-                        <div className={`h-6 flex-1 ${isAlternate ? 'bg-jade' : 'bg-burntSienna'}`}></div>
-                        <div className={`h-6 flex-1 ${isAlternate ? 'bg-burntSienna' : 'bg-jade'}`}></div>
-                        <div className={`h-6 flex-1 ${isAlternate ? 'bg-jade' : 'bg-burntSienna'}`}></div>
-                        <div className={`h-6 flex-1 ${isAlternate ? 'bg-burntSienna' : 'bg-jade'}`}></div>
-                        <div className={`h-6 flex-1 rounded-br-3xl ${isAlternate ? 'bg-jade' : 'bg-burntSienna'}`}></div>
+                  <div className={`h-[100px] rounded-3xl gap-5 ${clockStatus === ClockStatus.RUNNING || clockStatus === ClockStatus.PAUSED ?
+                              simpleLapCounts.workLaps === simpleLapCounts.restLaps ? 'bg-burntSienna' : 'bg-jade'
+                              : 'bg-eerieBlack'
+                        } flex items-center justify-center`}>
+                        <p className="font-bold text-timberwolf text-5xl text-center">
+                              {remainingCycles}
+                        </p>
                   </div>
             </>
       );
