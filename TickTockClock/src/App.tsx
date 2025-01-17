@@ -1,13 +1,16 @@
 import './App.css'
 import MainPage from './components/mainPage'
 import { ClockProvider } from './context/ClockContext';
+import { ThemeProvider } from './context/ThemeContext';
 
 function App() {
 
   return (
-    <ClockProvider>
-      <MainPage />
-    </ClockProvider>
+    <ThemeProvider>
+      <ClockProvider>
+        <MainPage />
+      </ClockProvider>
+    </ThemeProvider>
   )
 }
 

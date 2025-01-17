@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
+import { useTheme } from '../../context/ThemeContext';
 
-interface ThemeToggleButtonProps {
-  isDarkMode: boolean;
-  setDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const ThemeToggleButton: React.FC<ThemeToggleButtonProps> = ({ isDarkMode, setDarkMode }) => {
+const ThemeToggleButton: React.FC = () => {
+  
+  const { isDarkMode, setDarkMode } = useTheme();
 
   const [darkTransition, setDarkTransition] = useState(false);
   const [lightTransition, setLightTransition] = useState(false);
