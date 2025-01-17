@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Header from './Header/Header.tsx';
-import Clock from './Header/Clock.tsx';
+import Header from './Common/Header.tsx';
+import Clock from './Common/Clock.tsx';
 import './mainPage.css';
 import SimpleInfo from './SimpleInfo/SimpleInfo';
 import CustomInfo from './CustomInfo/CustomInfo';
@@ -31,7 +31,7 @@ const MainPage: React.FC = () => {
             currentAnimation: AnimationType.NONE
       });
 
-      //Status of the clock in teh context
+      //Status of the clock in the context
       const { clockStatus } = useClockStatus();
 
       //Change mode

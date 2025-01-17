@@ -12,7 +12,6 @@ interface ClockProps {
       isSimpleMode: boolean;
 }
 
-//TODO: Are status well controlled? NO.
 const Clock: React.FC<ClockProps> = ({ isPaused, setIsPaused, reset, simpleTimerInfo, setSimpleTimerInfo, isSimpleMode }) => {
       const [time, setTime] = useState(0);
       const [isAlternate, setIsAlternate] = useState(false);
