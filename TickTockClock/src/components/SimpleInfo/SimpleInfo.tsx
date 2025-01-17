@@ -191,14 +191,14 @@ const SimpleInfo: React.FC<SimpleInfoProps> = ({ timerInfo, setTimerInfo, clockS
       return (
             <div className='col-span-8 row-span-5 flex flex-col gap-5'>
                   {/* First section - Work and Rest */}
-                  <div className='flex-grow rounded-3xl content-center bg-eerieBlack flex flex-col'>
+                  <div className='flex-grow rounded-3xl content-center dark:bg-eerieBlack bg-floralWhite flex flex-col'>
                         <div className='h-full'>
                               {/* Work Section */}
                               <div className='h-1/2 rounded-t-3xl bg-burntSienna items-center flex'>
                                     {/* Work Timer Display */}
                                     <div className='flex flex-col items-center w-1/2'>
-                                          <p className="text-timberwolf text-center text-5xl font-black mb-4">Work lap</p>
-                                          <div className={`p-4 bg-timberwolf rounded-3xl mx-auto mt-2 w-4/5
+                                          <p className="dark:text-timberwolf text-floralWhite text-center text-5xl font-black mb-4">Work lap</p>
+                                          <div className={`p-4 dark:bg-timberwolf bg-floralWhite rounded-3xl mx-auto mt-2 w-4/5
                                                 ${timerInfo.currentAnimation === AnimationType.EMPTY_LAPS_DURATION && timerInfo.workLapDuration === 0 ? 'button-error-animation' : ''}`}>
                                                 <p className='text-7xl font-black text-eerieBlack w-full text-center'>
                                                       {formatTime(timerInfo.workLapDuration)}
@@ -242,8 +242,8 @@ const SimpleInfo: React.FC<SimpleInfoProps> = ({ timerInfo, setTimerInfo, clockS
                               <div className='h-1/2 rounded-b-3xl bg-jade items-center flex'>
                                     {/* Rest Timer Display */}
                                     <div className='flex flex-col items-center w-1/2'>
-                                          <p className="text-timberwolf text-center text-5xl font-black mb-4">Rest lap</p>
-                                          <div className={`p-4 bg-timberwolf rounded-3xl mx-auto mt-2 w-4/5 
+                                          <p className="dark:text-timberwolf text-floralWhite text-center text-5xl font-black mb-4">Rest lap</p>
+                                          <div className={`p-4 dark:bg-timberwolf bg-floralWhite rounded-3xl mx-auto mt-2 w-4/5 
                                                 ${timerInfo.currentAnimation === AnimationType.EMPTY_LAPS_DURATION && timerInfo.restLapDuration === 0 ? 'button-error-animation' : ''}`}>
                                                 <p className='text-7xl font-black text-eerieBlack w-full text-center'>
                                                       {formatTime(timerInfo.restLapDuration)}
@@ -287,27 +287,27 @@ const SimpleInfo: React.FC<SimpleInfoProps> = ({ timerInfo, setTimerInfo, clockS
 
                   {/* Second section - New functionality (100px = 1 row) */}
                   <div className='h-[100px] rounded-3xl flex items-center gap-5'>
-                        <div className='bg-eerieBlack rounded-3xl h-full w-2/5 flex items-center justify-center'>
-                              <p className="text-timberwolf text-5xl font-black">Cycles</p>
+                        <div className='dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full w-2/5 flex items-center justify-center'>
+                              <p className="dark:text-timberwolf text-blackOlive text-5xl font-black">Cycles</p>
                         </div>
                         <div 
-                              className={`bg-eerieBlack rounded-3xl h-full w-1/5 flex items-center justify-center 
+                              className={`dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full w-1/5 flex items-center justify-center 
                                     hover:scale-105 transition-transform duration-200 cursor-pointer
                                     ${minusClicked ? 'scale-animation' : ''}`}
                               onClick={handleCyclesDown}
                         >
-                              <p className="text-timberwolf text-5xl font-black">-</p>
+                              <p className="dark:text-timberwolf text-blackOlive text-5xl font-black">-</p>
                         </div>
-                        <div className='bg-eerieBlack rounded-3xl h-full w-1/5 flex items-center justify-center'>
-                              <p className="text-timberwolf text-5xl font-black">{timerInfo.cycles}</p>
+                        <div className='dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full w-1/5 flex items-center justify-center'>
+                              <p className="dark:text-timberwolf text-blackOlive text-5xl font-black">{timerInfo.cycles}</p>
                         </div>
                         <div 
-                              className={`bg-eerieBlack rounded-3xl h-full w-1/5 flex items-center justify-center 
+                              className={`dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full w-1/5 flex items-center justify-center 
                                     hover:scale-105 transition-transform duration-200 cursor-pointer
                                     ${plusClicked ? 'scale-animation' : ''}`}
                               onClick={handleCyclesUp}
                         >
-                              <p className="text-timberwolf text-5xl font-black">+</p>
+                              <p className="dark:text-timberwolf text-blackOlive text-5xl font-black">+</p>
                         </div>
                   </div>
             </div>

@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'selector',
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -14,7 +15,6 @@ export default {
         floralWhite: '#FFFCF2',
         saffron: '#E9C46A',
         jade: '#44Af69'
-
       },
     },
   },

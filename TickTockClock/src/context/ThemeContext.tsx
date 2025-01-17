@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 interface ThemeContextType {
     isDarkMode: boolean;
@@ -8,7 +8,16 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [isDarkMode, setDarkMode] = useState<boolean>(false);
+    const [isDarkMode, setDarkMode] = useState<boolean>(true);
+
+    // Effect to handle dark mode class on body
+    useEffect(() => {
+        if (isDarkMode) {
+            document.body.classList.add('dark');
+        } else {
+            document.body.classList.remove('dark');
+        }
+    }, [isDarkMode]);
 
     return (
         <ThemeContext.Provider value={{ isDarkMode, setDarkMode }}>

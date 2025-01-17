@@ -199,16 +199,16 @@ const Clock: React.FC<ClockProps> = ({ isPaused, setIsPaused, reset, simpleTimer
 
       return (
             <>
-                  <div className='flex-grow rounded-3xl content-center bg-timberwolf flex flex-col'>
+                  <div className='flex-grow rounded-3xl content-center dark:bg-timberwolf bg-floralWhite flex flex-col'>
                         <div className="p-4 h-full flex flex-col justify-center items-center">
-                              <p className="font-black text-eerieBlack text-9xl text-center">
+                              <p className="font-black text-blackOlive dark:text-eerieBlack text-9xl text-center">
                                     {formatTime(time)}
                               </p>
                               <div className="flex px-8 w-full">
-                                    <p className="font-medium text-eerieBlack text-lg text-center w-1/2">
+                                    <p className="font-medium text-blackOlive dark:text-eerieBlack text-lg text-center w-1/2">
                                           min
                                     </p>
-                                    <p className="font-medium text-eerieBlack text-lg text-center w-1/2">
+                                    <p className="font-medium text-blackOlive dark:text-eerieBlack text-lg text-center w-1/2">
                                           sec
                                     </p>
                               </div>
@@ -222,7 +222,7 @@ const Clock: React.FC<ClockProps> = ({ isPaused, setIsPaused, reset, simpleTimer
                               <div className={`h-6 flex-1 rounded-br-3xl ${isAlternate ? 'bg-jade' : 'bg-burntSienna'}`}></div>
                         </div>
                   </div>
-                  <div className={`h-[100px] rounded-3xl relative overflow-hidden bg-eerieBlack flex items-center justify-center`}>
+                  <div className={`h-[100px] rounded-3xl relative overflow-hidden dark:bg-eerieBlack bg-floralWhite flex items-center justify-center`}>
                         {(clockStatus === ClockStatus.RUNNING || clockStatus === ClockStatus.PAUSED) && (
                               <div 
                                    className={`absolute left-0 top-0 h-full transition-all duration-1000
@@ -234,7 +234,7 @@ const Clock: React.FC<ClockProps> = ({ isPaused, setIsPaused, reset, simpleTimer
                                    }}
                               />
                         )}
-                        <p className="font-bold text-timberwolf text-5xl text-center relative z-10">
+                        <p className="font-bold dark:text-timberwolf text-blackOlive text-5xl text-center relative z-10">
                               {remainingCycles}
                         </p>
                   </div>

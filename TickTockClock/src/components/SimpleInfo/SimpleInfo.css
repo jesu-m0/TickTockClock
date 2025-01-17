@@ -1,4 +1,4 @@
 .time-button {
-  @apply w-16 h-16 text-xl bg-eerieBlack text-timberwolf rounded-3xl px-4 py-2 font-bold cursor-pointer
+  @apply w-16 h-16 text-xl bg-eerieBlack dark:text-timberwolf text-floralWhite rounded-3xl px-4 py-2 font-bold cursor-pointer
   hover:scale-105 transition-transform duration-200 flex justify-center items-center;
   } 
