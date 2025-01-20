@@ -27,7 +27,7 @@ const ExpandedContent: React.FC<ExpandedContentProps> = ({
 
   return (
     <>
-      <div className="h-[100vh] w-[100vw] bg-eerieBlack">
+      <div className="h-full w-full bg-eerieBlack">
         <button onClick={unexpand}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
