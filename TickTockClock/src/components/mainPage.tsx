@@ -289,7 +289,7 @@ const MainPage: React.FC = () => {
                 transform: divExist ? "none" : `translate(${buttonPosition.width / 2}px, ${buttonPosition.height / 2}px)`,
               }}
             >
-              <div hidden={!showContent} className="h-full w-full">
+              <div className={`h-full w-full transition-opacity duration-200 ${showContent ? 'opacity-100' : 'opacity-0'}`}>
                 <ExpandedContent
                   setIsExpanded={setIsExpanded}
                   setShowContent={setShowContent}

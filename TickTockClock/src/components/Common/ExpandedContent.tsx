@@ -44,23 +44,70 @@ const ExpandedContent: React.FC<ExpandedContentProps> = ({
         </button>
 
         <div className="flex justify-center">
+          {/*Clock*/}
           <div className="bg-timberwolf h-[50vh] w-[60vw] rounded-3xl mt-[10vh] flex flex-col items-center justify-center">
             <div className="h-full flex flex-col justify-center items-center">
               <p className="text-blackOlive text-[18rem] font-black">00:00</p>
             </div>
             <div className="w-full flex flex-row">
-                <div className={`h-6 flex-1 rounded-bl-3xl ${isAlternate ? 'bg-burntSienna' : 'bg-jade'}`}></div>
-                <div className={`h-6 flex-1 ${isAlternate ? 'bg-jade' : 'bg-burntSienna'}`}></div>
-                <div className={`h-6 flex-1 ${isAlternate ? 'bg-burntSienna' : 'bg-jade'}`}></div>
-                <div className={`h-6 flex-1 ${isAlternate ? 'bg-jade' : 'bg-burntSienna'}`}></div>
-                <div className={`h-6 flex-1 ${isAlternate ? 'bg-burntSienna' : 'bg-jade'}`}></div>
-                <div className={`h-6 flex-1 ${isAlternate ? 'bg-jade' : 'bg-burntSienna'}`}></div>
-                <div className={`h-6 flex-1 ${isAlternate ? 'bg-burntSienna' : 'bg-jade'}`}></div>
-                <div className={`h-6 flex-1 ${isAlternate ? 'bg-jade' : 'bg-burntSienna'}`}></div>
-                <div className={`h-6 flex-1 ${isAlternate ? 'bg-burntSienna' : 'bg-jade'}`}></div>
-                <div className={`h-6 flex-1 rounded-br-3xl ${isAlternate ? 'bg-jade' : 'bg-burntSienna'}`}></div>
+              <div
+                className={`h-6 flex-1 rounded-bl-3xl ${
+                  isAlternate ? "bg-burntSienna" : "bg-jade"
+                }`}
+              ></div>
+              <div
+                className={`h-6 flex-1 ${
+                  isAlternate ? "bg-jade" : "bg-burntSienna"
+                }`}
+              ></div>
+              <div
+                className={`h-6 flex-1 ${
+                  isAlternate ? "bg-burntSienna" : "bg-jade"
+                }`}
+              ></div>
+              <div
+                className={`h-6 flex-1 ${
+                  isAlternate ? "bg-jade" : "bg-burntSienna"
+                }`}
+              ></div>
+              <div
+                className={`h-6 flex-1 ${
+                  isAlternate ? "bg-burntSienna" : "bg-jade"
+                }`}
+              ></div>
+              <div
+                className={`h-6 flex-1 ${
+                  isAlternate ? "bg-jade" : "bg-burntSienna"
+                }`}
+              ></div>
+              <div
+                className={`h-6 flex-1 ${
+                  isAlternate ? "bg-burntSienna" : "bg-jade"
+                }`}
+              ></div>
+              <div
+                className={`h-6 flex-1 ${
+                  isAlternate ? "bg-jade" : "bg-burntSienna"
+                }`}
+              ></div>
+              <div
+                className={`h-6 flex-1 ${
+                  isAlternate ? "bg-burntSienna" : "bg-jade"
+                }`}
+              ></div>
+              <div
+                className={`h-6 flex-1 rounded-br-3xl ${
+                  isAlternate ? "bg-jade" : "bg-burntSienna"
+                }`}
+              ></div>
             </div>
           </div>
+
+          {/*Start/stop*/}
+          
+          {/*Reset*/}
+
+          {/*Laps*/}
         </div>
       </div>
     </>
