@@ -34,9 +34,9 @@ const ClockContext = createContext<ClockContextType | undefined>(undefined);
 export const ClockProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [clockStatus, setClockStatus] = useState<ClockStatus>(ClockStatus.ZERO);
     const [time, setTime] = useState<number>(0);
-    const [isPaused, setIsPaused] = useState<boolean>(false);
+    const [isPaused, setIsPaused] = useState<boolean>(true);
     const [reset, setReset] = useState<boolean>(false);
-    const [isSimpleMode, setIsSimpleMode] = useState<boolean>(false);
+    const [isSimpleMode, setIsSimpleMode] = useState<boolean>(true);
     const [simpleTimerInfo, setSimpleTimerInfo] = useState<SimpleTimerInfo>({
         workLapDuration: 0,      // Duration of work intervals in seconds
         restLapDuration: 0,      // Duration of rest intervals in seconds

@@ -61,9 +61,9 @@ const Clock: React.FC = () => {
   }, [simpleTimerInfo, setSimpleTimerInfo, setTime, setClockStatus]);
 
   const setRunningToRunningRestLapEndedSimple = useCallback(() => {
-    setSimpleTimerInfo({ ...simpleTimerInfo, isWorkLap: true });
     setSimpleTimerInfo({
       ...simpleTimerInfo,
+      isWorkLap: true,
       remainingCycles: simpleTimerInfo.remainingCycles - 1,
     });
     if (simpleTimerInfo.remainingCycles != 0) {
@@ -163,11 +163,13 @@ const Clock: React.FC = () => {
               // One cycle remaining, BUT was a rest lap, so next step will be remaining cycles - 1 ---> FINISHED
               console.log("Status Change: RUNNING -> FINISHED");
               setRunningToFinishedSimple();
+
             } else if (time === 0 && simpleTimerInfo.isWorkLap) {
               // Work lap ended, next step will be rest lap
               console.log("Status Change: RUNNING -> RUNNING: work lap ended.");
               setRunningToRunningWorkLapEndedSimple();
               //} else if (time === 0 && simpleLapCounts.workLaps < simpleLapCounts.restLaps) {
+              
             } else if (time === 0 && !simpleTimerInfo.isWorkLap) {
               // Rest lap ended, next step will be work lap & remaining cycles - 1
               console.log(
@@ -316,7 +318,7 @@ const Clock: React.FC = () => {
           />
         )}
         <p className="font-bold dark:text-timberwolf text-blackOlive text-5xl text-center relative z-10">
-          {isSimpleMode ? simpleTimerInfo.cycles : "Coming soon"}
+          {isSimpleMode ? simpleTimerInfo.remainingCycles : "Coming soon"}
         </p>
       </div>
     </>

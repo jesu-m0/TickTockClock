@@ -5,7 +5,6 @@ import "./mainPage.css";
 import SimpleInfo from "./SimpleInfo/SimpleInfo";
 import CustomInfo from "./CustomInfo/CustomInfo";
 import { AnimationType, ClockStatus } from "../types";
-import { SimpleTimerInfo } from "../types/SimpleTimerInfo";
 import { useClockStatus } from "../context/ClockContext";
 import ExpandedContent from "./Common/ExpandedContent.tsx";
 
@@ -25,24 +24,32 @@ const MainPage: React.FC = () => {
   });
 
   //Change mode
-  const [isSimpleMode, setIsSimpleMode] = useState(true);
 
   //Start or stop
-  const [isPaused, setIsPaused] = useState(true);
   const [isClickedPause, setIsClickedPause] = useState(false);
-  const [reset, setReset] = useState(false);
   const [isClickedReset, setIsClickedReset] = useState(false);
 
-  const [simpleTimerInfo, setSimpleTimerInfo] = useState<SimpleTimerInfo>({
-    workLapDuration: 0,
-    restLapDuration: 0,
-    cycles: 1,
-    isWorkLap: true,
-    currentAnimation: AnimationType.NONE,
-  });
-
   //Status of the clock in the context
-  const { clockStatus } = useClockStatus();
+  const {
+      // Clock status
+      clockStatus,
+  
+      // Pause state
+      isPaused,
+      setIsPaused,
+  
+      // Reset state
+      reset,
+      setReset,
+  
+      // Simple mode
+      isSimpleMode,
+      setIsSimpleMode,
+  
+      // Simple mode configuration
+      simpleTimerInfo,
+      setSimpleTimerInfo,
+    } = useClockStatus();
 
   //Change mode
   const changeToSimple = () => {
@@ -60,10 +67,10 @@ const MainPage: React.FC = () => {
       (simpleTimerInfo.workLapDuration === 0 ||
         simpleTimerInfo.restLapDuration === 0)
     ) {
-      setSimpleTimerInfo((prev) => ({
-        ...prev,
+      setSimpleTimerInfo({
+        ...simpleTimerInfo,
         currentAnimation: AnimationType.EMPTY_LAPS_DURATION,
-      }));
+      });
       return;
     } else {
       setIsPaused(!isPaused);
@@ -74,10 +81,10 @@ const MainPage: React.FC = () => {
 
   const handleReset = () => {
     if (clockStatus === ClockStatus.ZERO) {
-      setSimpleTimerInfo((prev) => ({
-        ...prev,
+      setSimpleTimerInfo({
+        ...simpleTimerInfo,
         currentAnimation: AnimationType.ALREADY_RESET,
-      }));
+      });
     }
 
     setIsPaused(true);
@@ -111,10 +118,10 @@ const MainPage: React.FC = () => {
   useEffect(() => {
     if (simpleTimerInfo.currentAnimation !== AnimationType.NONE) {
       const timer = setTimeout(() => {
-        setSimpleTimerInfo((prev) => ({
-          ...prev,
-          currentAnimation: AnimationType.NONE,
-        }));
+        setSimpleTimerInfo({
+            ...simpleTimerInfo,
+            currentAnimation: AnimationType.NONE,
+        });
       }, 300);
       return () => clearTimeout(timer);
     }
@@ -138,14 +145,7 @@ const MainPage: React.FC = () => {
                                         : ""
                                     }`}
           >
-            <Clock
-              isPaused={isPaused}
-              setIsPaused={setIsPaused}
-              reset={reset}
-              simpleTimerInfo={simpleTimerInfo}
-              setSimpleTimerInfo={setSimpleTimerInfo}
-              isSimpleMode={isSimpleMode}
-            ></Clock>
+            <Clock></Clock>
           </div>
 
           {/*Mode selection*/}
@@ -200,11 +200,7 @@ const MainPage: React.FC = () => {
           </div>
 
           {isSimpleMode ? (
-            <SimpleInfo
-              timerInfo={simpleTimerInfo}
-              setTimerInfo={setSimpleTimerInfo}
-              clockStatus={clockStatus}
-            />
+            <SimpleInfo/>
           ) : (
             <CustomInfo />
           )}
@@ -265,12 +261,14 @@ const MainPage: React.FC = () => {
                 viewBox="0 0 448 512"
                 className={`w-12 h-12 fill-blackOlive dark:fill-timberwolf mr-4 
                   transition-opacity duration-200
-                  ${showExpandLetters ? 'opacity-100' : 'opacity-0'}`}
+                  ${showExpandLetters ? "opacity-100" : "opacity-0"}`}
               >
                 <path d="M32 32C14.3 32 0 46.3 0 64l0 96c0 17.7 14.3 32 32 32s32-14.3 32-32l0-64 64 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L32 32zM64 352c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 96c0 17.7 14.3 32 32 32l96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-64 0 0-64zM320 32c-17.7 0-32 14.3-32 32s14.3 32 32 32l64 0 0 64c0 17.7 14.3 32 32 32s32-14.3 32-32l0-96c0-17.7-14.3-32-32-32l-96 0zM448 352c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 64-64 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l96 0c17.7 0 32-14.3 32-32l0-96z" />
               </svg>
-              <p className={`font-bold dark:text-timberwolf text-blackOlive text-5xl text-center transition-opacity duration-200
-                ${showExpandLetters ? 'opacity-100' : 'opacity-0'}`}>
+              <p
+                className={`font-bold dark:text-timberwolf text-blackOlive text-5xl text-center transition-opacity duration-200
+                ${showExpandLetters ? "opacity-100" : "opacity-0"}`}
+              >
                 Expand
               </p>
             </button>
@@ -279,18 +277,41 @@ const MainPage: React.FC = () => {
             <div
               className={`dark:bg-eerieBlack bg-floralWhite z-10 transition-all
                   ${isExpanded ? "rounded-none" : "rounded-3xl"}
-                  ${openAnimation ? (isExpanded ? "duration-700" : "duration-100") : (divExist ? "duration-700" : "duration-100")}`
-            }
+                  ${
+                    openAnimation
+                      ? isExpanded
+                        ? "duration-700"
+                        : "duration-100"
+                      : divExist
+                      ? "duration-700"
+                      : "duration-100"
+                  }`}
               style={{
                 position: "fixed",
                 top: isExpanded ? 0 : buttonPosition.top,
                 left: isExpanded ? 0 : buttonPosition.left,
-                width: divExist ? (isExpanded ? "100vw" : `${buttonPosition.width}px`) : 0 ,
-                height: divExist ? (isExpanded ? "100vh" : `${buttonPosition.height}px`) : 0,
-                transform: divExist ? "none" : `translate(${buttonPosition.width / 2}px, ${buttonPosition.height / 2}px)`,
+                width: divExist
+                  ? isExpanded
+                    ? "100vw"
+                    : `${buttonPosition.width}px`
+                  : 0,
+                height: divExist
+                  ? isExpanded
+                    ? "100vh"
+                    : `${buttonPosition.height}px`
+                  : 0,
+                transform: divExist
+                  ? "none"
+                  : `translate(${buttonPosition.width / 2}px, ${
+                      buttonPosition.height / 2
+                    }px)`,
               }}
             >
-              <div className={`h-full w-full transition-opacity duration-200 ${showContent ? 'opacity-100' : 'opacity-0'}`}>
+              <div
+                className={`h-full w-full transition-opacity duration-200 ${
+                  showContent ? "opacity-100" : "opacity-0"
+                }`}
+              >
                 <ExpandedContent
                   setIsExpanded={setIsExpanded}
                   setShowContent={setShowContent}
