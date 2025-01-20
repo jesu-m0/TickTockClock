@@ -37,6 +37,7 @@ const MainPage: React.FC = () => {
     workLapDuration: 0,
     restLapDuration: 0,
     cycles: 1,
+    isWorkLap: true,
     currentAnimation: AnimationType.NONE,
   });
 

@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
-import { ClockStatus } from '../types';
+import { AnimationType, ClockStatus } from '../types';
+import { SimpleTimerInfo } from '../types/SimpleTimerInfo';
 
 interface ClockContextType {
     
@@ -8,7 +9,7 @@ interface ClockContextType {
 
     // Timer state
     time: number;
-    setTime: (time: number) => void;
+    setTime: (value: number | ((prevTime: number) => number)) => void;
 
     isPaused: boolean;
     setIsPaused: (isPaused: boolean) => void;
@@ -21,18 +22,8 @@ interface ClockContextType {
     setIsSimpleMode: (isSimple: boolean) => void;
     
     // Simple mode configuration
-    simpleTimerInfo: {
-        workLapDuration: number;
-        restLapDuration: number;
-    };
-    setSimpleTimerInfo: (info: { workLapDuration: number; restLapDuration: number; }) => void;
-    
-    // Lap counting
-    simpleLapCounts: {
-        workLaps: number;
-        restLaps: number;
-    };
-    setSimpleLapCounts: (counts: { workLaps: number; restLaps: number; }) => void;
+    simpleTimerInfo: SimpleTimerInfo;
+    setSimpleTimerInfo: (info: SimpleTimerInfo) => void;
 
     // Custom mode configuration
     //TODO: Add custom mode configuration
@@ -46,9 +37,14 @@ export const ClockProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const [isPaused, setIsPaused] = useState<boolean>(false);
     const [reset, setReset] = useState<boolean>(false);
     const [isSimpleMode, setIsSimpleMode] = useState<boolean>(false);
-    const [simpleTimerInfo, setSimpleTimerInfo] = useState<{ workLapDuration: number; restLapDuration: number; }>({ workLapDuration: 0, restLapDuration: 0 });
-    const [simpleLapCounts, setSimpleLapCounts] = useState<{ workLaps: number; restLaps: number; }>({ workLaps: 0, restLaps: 0 });
-
+    const [simpleTimerInfo, setSimpleTimerInfo] = useState<SimpleTimerInfo>({
+        workLapDuration: 0,      // Duration of work intervals in seconds
+        restLapDuration: 0,      // Duration of rest intervals in seconds
+        cycles: 1,               // Number of work/rest cycles to perform
+        remainingCycles: 1,     // Remaining cycles to perform. This will change as the timer progresses
+        isWorkLap: true,         // Tracks if we're currently in a work lap (true) or rest lap (false)
+        currentAnimation: AnimationType.NONE  // Current UI animation state, starts with no animation
+    });
     return (
         <ClockContext.Provider value={{
             clockStatus,
@@ -62,9 +58,7 @@ export const ClockProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             isSimpleMode,
             setIsSimpleMode,
             simpleTimerInfo,
-            setSimpleTimerInfo,
-            simpleLapCounts,
-            setSimpleLapCounts
+            setSimpleTimerInfo
         }}>
             {children}
         </ClockContext.Provider>
