@@ -276,7 +276,7 @@ const MainPage: React.FC = () => {
 
             {/*Expanded content*/}
             <div
-              className={`bg-eerieBlack z-10 transition-all
+              className={`dark:bg-eerieBlack bg-floralWhite z-10 transition-all
                   ${isExpanded ? "rounded-none" : "rounded-3xl"}
                   ${openAnimation ? (isExpanded ? "duration-700" : "duration-100") : (divExist ? "duration-700" : "duration-100")}`
             }
