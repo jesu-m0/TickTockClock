@@ -89,7 +89,7 @@ const MainPage: React.FC = () => {
   const expand = () => {
     setTimeout(() => {
       setShowExpandLetters(false); // 200ms "Expand" disappear animation
-      setOpenAnimation(false);
+      setOpenAnimation(true);
       const button = document.getElementById("expand-button");
 
       if (button) {
@@ -276,7 +276,7 @@ const MainPage: React.FC = () => {
 
             {/*Expanded content*/}
             <div
-              className={`bg-red-500 z-10 transition-all
+              className={`bg-eerieBlack z-10 transition-all
                   ${isExpanded ? "rounded-none" : "rounded-3xl"}
                   ${openAnimation ? (isExpanded ? "duration-700" : "duration-100") : (divExist ? "duration-700" : "duration-100")}`
             }
