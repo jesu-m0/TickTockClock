@@ -40,15 +40,13 @@ const Clock: React.FC = () => {
   }, [simpleTimerInfo, setSimpleTimerInfo, setTime, setClockStatus]);
 
   const setRunningToFinishedSimple = useCallback(() => {
-    setSimpleTimerInfo({
-      ...simpleTimerInfo,
-      remainingCycles: 0,
-    });
     setTime(0);
 
     console.log("Status: FINISHED - Setting animation: " + AnimationType.WORKOUT_FINISHED_SIMPLE);
     setSimpleTimerInfo({
       ...simpleTimerInfo,
+      remainingCycles: 0,
+      isWorkLap: true,
       currentAnimation: AnimationType.WORKOUT_FINISHED_SIMPLE,
     });
     setClockStatus(ClockStatus.FINISHED);

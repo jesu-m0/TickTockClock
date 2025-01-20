@@ -39,7 +39,6 @@ const MainPage: React.FC = () => {
       setIsPaused,
   
       // Reset state
-      reset,
       setReset,
   
       // Simple mode
