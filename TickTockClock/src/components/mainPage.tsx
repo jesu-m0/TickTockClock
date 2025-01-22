@@ -322,6 +322,12 @@ const MainPage: React.FC = () => {
             </div>
           </div>
         </div>
+        {/*Signature*/}
+        <footer className="mt-5">
+            <p className="text-blackOlive dark:text-timberwolf text-sm pointer-events-auto">
+              Made with {'<'}3 by <a href="https://jmoreno.dev" className="underline hover:cursor-pointer hover:text-jade dark:hover:text-jade transition-colors duration-300" target="_blank" rel="noopener noreferrer">jmoreno.dev</a>
+            </p>
+        </footer>
       </div>
     </div>
   );
