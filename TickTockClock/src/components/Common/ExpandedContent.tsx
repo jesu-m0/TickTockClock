@@ -1,4 +1,6 @@
 import React from "react";
+import { useClockStatus } from "../../context/ClockContext";
+import { ClockStatus } from "../../types";
 
 interface ExpandedContentProps {
   setIsExpanded: React.Dispatch<React.SetStateAction<boolean>>;
@@ -7,8 +9,6 @@ interface ExpandedContentProps {
   divExist: React.Dispatch<React.SetStateAction<boolean>>;
   openAnimation: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
-const isAlternate: boolean = true; //DUMMY
 
 const ExpandedContent: React.FC<ExpandedContentProps> = ({
   setIsExpanded,
@@ -25,6 +25,34 @@ const ExpandedContent: React.FC<ExpandedContentProps> = ({
     setTimeout(() => setShowExpandLetters(true), 1000); //200ms "Expand" appear animation
   };
 
+  // Format time to MM:SS
+  const formatTime = (seconds: number) => {
+    const mins = String(Math.floor(seconds / 60)).padStart(2, "0");
+    const secs = String(seconds % 60).padStart(2, "0");
+    return `${mins}:${secs}`;
+  };
+
+  const {
+    // Clock status
+    clockStatus,
+
+    // Timer state
+    time,
+
+    // Pause state
+    //isPaused,
+    //setIsPaused,
+
+    // Simple mode
+    isSimpleMode,
+
+    // Simple mode configuration
+    simpleTimerInfo,
+
+    // Animation state
+    isAlternate,
+  } = useClockStatus();
+
   return (
     <>
       <div className="h-full w-full bg-eerieBlack">
@@ -33,9 +61,6 @@ const ExpandedContent: React.FC<ExpandedContentProps> = ({
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
             className="text-timberwolf h-12 w-12 mt-4 ml-4"
           >
             <path d="M18 6 6 18" />
@@ -45,9 +70,19 @@ const ExpandedContent: React.FC<ExpandedContentProps> = ({
 
         <div className="flex justify-center">
           {/*Clock*/}
-          <div className="bg-timberwolf h-[50vh] w-[60vw] rounded-3xl mt-[10vh] flex flex-col items-center justify-center">
+          <div className="bg-timberwolf h-[60vh] w-[60vw] rounded-3xl mt-[5vh] flex flex-col items-center justify-center">
             <div className="h-full flex flex-col justify-center items-center">
-              <p className="text-blackOlive text-[18rem] font-black">00:00</p>
+              <p className="text-blackOlive text-[18rem] font-black">
+                {formatTime(time)}
+              </p>
+              <div className="flex px-8 w-full">
+                <p className="font-medium text-blackOlive dark:text-eerieBlack text-lg text-center w-1/2">
+                  min
+                </p>
+                <p className="font-medium text-blackOlive dark:text-eerieBlack text-lg text-center w-1/2">
+                  sec
+                </p>
+              </div>
             </div>
             <div className="w-full flex flex-row">
               <div
@@ -103,11 +138,38 @@ const ExpandedContent: React.FC<ExpandedContentProps> = ({
             </div>
           </div>
 
-          {/*Start/stop*/}
-          
-          {/*Reset*/}
-
           {/*Laps*/}
+          <div
+            className={`h-[100px] rounded-3xl relative overflow-hidden dark:bg-eerieBlack bg-floralWhite flex items-center justify-center`}
+          >
+            {(clockStatus === ClockStatus.RUNNING ||
+              clockStatus === ClockStatus.PAUSED) && (
+              <div
+                className={`absolute left-0 top-0 h-full transition-all duration-1000
+                                        ${
+                                          simpleTimerInfo.isWorkLap
+                                            ? "bg-burntSienna"
+                                            : "bg-jade"
+                                        }`}
+                style={{
+                  width: `${
+                    (time /
+                      (simpleTimerInfo.isWorkLap
+                        ? simpleTimerInfo.workLapDuration
+                        : simpleTimerInfo.restLapDuration)) *
+                    100
+                  }%`,
+                }}
+              />
+            )}
+            <p className="font-bold dark:text-timberwolf text-blackOlive text-5xl text-center relative z-10">
+              {isSimpleMode ? simpleTimerInfo.remainingCycles : "Coming soon"}
+            </p>
+          </div>
+
+          {/*Start/stop*/}
+
+          {/*Reset*/}
         </div>
       </div>
     </>

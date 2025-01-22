@@ -19,11 +19,15 @@ interface ClockContextType {
     
     // Mode. Depending on the mode, the clock will look on the simpleTimerInfo or the customTimerInfo to work
     isSimpleMode: boolean;
-    setIsSimpleMode: (isSimple: boolean) => void;
+    setIsSimpleMode: (isSimpleMode: boolean) => void;
     
     // Simple mode configuration
     simpleTimerInfo: SimpleTimerInfo;
-    setSimpleTimerInfo: (info: SimpleTimerInfo) => void;
+    setSimpleTimerInfo: (simpleTimerInfo: SimpleTimerInfo) => void;
+
+    // Animation state
+    isAlternate: boolean;
+    setIsAlternate: (isAlternate: boolean | ((prev: boolean) => boolean)) => void;
 
     // Custom mode configuration
     //TODO: Add custom mode configuration
@@ -45,6 +49,7 @@ export const ClockProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         isWorkLap: true,         // Tracks if we're currently in a work lap (true) or rest lap (false)
         currentAnimation: AnimationType.NONE  // Current UI animation state, starts with no animation
     });
+    const [isAlternate, setIsAlternate] = useState<boolean>(false);
     return (
         <ClockContext.Provider value={{
             clockStatus,
@@ -58,7 +63,9 @@ export const ClockProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             isSimpleMode,
             setIsSimpleMode,
             simpleTimerInfo,
-            setSimpleTimerInfo
+            setSimpleTimerInfo,
+            isAlternate,
+            setIsAlternate
         }}>
             {children}
         </ClockContext.Provider>

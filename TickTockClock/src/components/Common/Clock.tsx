@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useEffect, useCallback } from "react";
 import { AnimationType, ClockStatus } from "../../types";
 import { useClockStatus } from "../../context/ClockContext";
 
@@ -25,9 +25,11 @@ const Clock: React.FC = () => {
     // Simple mode configuration
     simpleTimerInfo,
     setSimpleTimerInfo,
-  } = useClockStatus();
 
-  const [isAlternate, setIsAlternate] = useState(false);
+    // Animation state
+    isAlternate,
+    setIsAlternate,
+  } = useClockStatus();
 
   const setReadyToRunningSimple = useCallback(() => {
     //Set parameters for the first lap. The workout gonna start NOW.
