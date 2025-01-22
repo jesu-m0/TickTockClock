@@ -1,8 +1,10 @@
 import React, { useEffect, useCallback } from "react";
 import { AnimationType, ClockStatus } from "../../types";
 import { useClockStatus } from "../../context/ClockContext";
+import { useTheme } from "../../context/ThemeContext";
 
 const Clock: React.FC = () => {
+  const { isDarkMode } = useTheme();
   const {
     // Clock status
     clockStatus,
@@ -44,7 +46,10 @@ const Clock: React.FC = () => {
   const setRunningToFinishedSimple = useCallback(() => {
     setTime(0);
 
-    console.log("Status: FINISHED - Setting animation: " + AnimationType.WORKOUT_FINISHED_SIMPLE);
+    console.log(
+      "Status: FINISHED - Setting animation: " +
+        AnimationType.WORKOUT_FINISHED_SIMPLE
+    );
     setSimpleTimerInfo({
       ...simpleTimerInfo,
       remainingCycles: 0,
@@ -111,6 +116,23 @@ const Clock: React.FC = () => {
     }
   }, [reset, setTime]);
 
+
+  // Change favicon
+  useEffect(() => {
+    const favicon = document.getElementById(
+      "favicon"
+    ) as HTMLLinkElement | null;
+    if (favicon && !isDarkMode) {
+      favicon.href = isAlternate
+        ? "/favico/light/TickTockClockFavicoLight1.png"
+        : "/favico/light/TickTockClockFavicoLight2.png";
+    } else if (favicon && isDarkMode) {
+      favicon.href = isAlternate
+        ? "/favico/dark/TickTockClockFavicoDark1.png"
+        : "/favico/dark/TickTockClockFavicoDark2.png";
+    }
+  }, [isAlternate, isDarkMode]);
+
   // Format time to MM:SS
   const formatTime = (seconds: number) => {
     const mins = String(Math.floor(seconds / 60)).padStart(2, "0");
@@ -163,13 +185,11 @@ const Clock: React.FC = () => {
               // One cycle remaining, BUT was a rest lap, so next step will be remaining cycles - 1 ---> FINISHED
               console.log("Status Change: RUNNING -> FINISHED");
               setRunningToFinishedSimple();
-
             } else if (time === 0 && simpleTimerInfo.isWorkLap) {
               // Work lap ended, next step will be rest lap
               console.log("Status Change: RUNNING -> RUNNING: work lap ended.");
               setRunningToRunningWorkLapEndedSimple();
               //} else if (time === 0 && simpleLapCounts.workLaps < simpleLapCounts.restLaps) {
-              
             } else if (time === 0 && !simpleTimerInfo.isWorkLap) {
               // Rest lap ended, next step will be work lap & remaining cycles - 1
               console.log(

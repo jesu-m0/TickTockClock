@@ -55,22 +55,22 @@ const ExpandedContent: React.FC<ExpandedContentProps> = ({
 
   return (
     <>
-      <div className="h-full w-full bg-eerieBlack">
+      <div className="h-full w-full dark:bg-eerieBlack bg-timberwolf">
         <button onClick={unexpand}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             stroke="currentColor"
-            className="text-timberwolf h-12 w-12 mt-4 ml-4"
+            className="dark:text-timberwolf text-blackOlive h-12 w-12 mt-4 ml-4"
           >
             <path d="M18 6 6 18" />
             <path d="m6 6 12 12" />
           </svg>
         </button>
 
-        <div className="flex justify-center">
+        <div className="flex flex-col justify-center">
           {/*Clock*/}
-          <div className="bg-timberwolf h-[60vh] w-[60vw] rounded-3xl mt-[5vh] flex flex-col items-center justify-center">
+          <div className="mx-auto dark:bg-timberwolf bg-floralWhite h-[60vh] w-[60vw] rounded-3xl mt-[5vh] flex flex-col items-center justify-center">
             <div className="h-full flex flex-col justify-center items-center">
               <p className="text-blackOlive text-[18rem] font-black">
                 {formatTime(time)}
@@ -140,7 +140,7 @@ const ExpandedContent: React.FC<ExpandedContentProps> = ({
 
           {/*Laps*/}
           <div
-            className={`h-[100px] rounded-3xl relative overflow-hidden dark:bg-eerieBlack bg-floralWhite flex items-center justify-center`}
+            className={`mx-auto relative mt-[5vh] h-[10vh] w-[60vw] rounded-3xl overflow-hidden dark:bg-timberwolf bg-floralWhite flex items-center justify-center`}
           >
             {(clockStatus === ClockStatus.RUNNING ||
               clockStatus === ClockStatus.PAUSED) && (
@@ -162,7 +162,7 @@ const ExpandedContent: React.FC<ExpandedContentProps> = ({
                 }}
               />
             )}
-            <p className="font-bold dark:text-timberwolf text-blackOlive text-5xl text-center relative z-10">
+            <p className="font-bold dark:text-blackOlive text-blackOlive text-5xl text-center relative z-10">
               {isSimpleMode ? simpleTimerInfo.remainingCycles : "Coming soon"}
             </p>
           </div>

@@ -175,7 +175,7 @@ const SimpleInfo: React.FC = () => {
                                           <p className="dark:text-timberwolf text-floralWhite text-center text-5xl font-black mb-4">Work lap</p>
                                           <div className={`p-4 dark:bg-timberwolf bg-floralWhite rounded-3xl mx-auto mt-2 w-4/5
                                                 ${simpleTimerInfo.currentAnimation === AnimationType.EMPTY_LAPS_DURATION && simpleTimerInfo.workLapDuration === 0 ? 'button-error-animation' : ''}`}>
-                                                <p className='text-7xl font-black text-eerieBlack w-full text-center'>
+                                                <p className='text-7xl font-black dark:text-eerieBlack text-blackOlive w-full text-center'>
                                                       {formatTime(simpleTimerInfo.workLapDuration)}
                                                 </p>
                                           </div>
@@ -220,7 +220,7 @@ const SimpleInfo: React.FC = () => {
                                           <p className="dark:text-timberwolf text-floralWhite text-center text-5xl font-black mb-4">Rest lap</p>
                                           <div className={`p-4 dark:bg-timberwolf bg-floralWhite rounded-3xl mx-auto mt-2 w-4/5 
                                                 ${simpleTimerInfo.currentAnimation === AnimationType.EMPTY_LAPS_DURATION && simpleTimerInfo.restLapDuration === 0 ? 'button-error-animation' : ''}`}>
-                                                <p className='text-7xl font-black text-eerieBlack w-full text-center'>
+                                                <p className='text-7xl font-black dark:text-eerieBlack text-blackOlive w-full text-center'>
                                                       {formatTime(simpleTimerInfo.restLapDuration)}
                                                 </p>
                                           </div>
