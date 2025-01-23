@@ -284,7 +284,8 @@ const MainPage: React.FC = () => {
                       : divExist
                       ? "duration-700"
                       : "duration-100"
-                  }`}
+                  }
+                  ${showExpandLetters ? "hidden" : ""}`}
               style={{
                 position: "fixed",
                 top: isExpanded ? 0 : buttonPosition.top,
