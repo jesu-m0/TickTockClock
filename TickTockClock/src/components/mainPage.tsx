@@ -129,7 +129,7 @@ const MainPage: React.FC = () => {
   return (
     <div>
       <div className="container mx-auto p-5">
-        <div className="grid grid-cols-12 gap-5 auto-rows-[11vh]">
+        <div className="grid grid-cols-12 lg:gap-5 gap-3 auto-rows-[11vh]">
           <Header></Header>
 
           {/*Clock */}
@@ -148,7 +148,7 @@ const MainPage: React.FC = () => {
           </div>
 
           {/*Mode selection*/}
-          <div className="order-7 lg:order-5 lg:col-span-8 col-span-12 row-span-1 content-center flex">
+          <div className="order-8 lg:order-5 lg:col-span-8 col-span-12 row-span-1 content-center flex">
             {/*Simple btn*/}
             <div
               className="w-1/2 h-full rounded-3xl content-center dark:bg-eerieBlack bg-floralWhite cursor-pointer flex flex-col"
@@ -249,7 +249,7 @@ const MainPage: React.FC = () => {
           </div>
 
           {/*Expand clock*/}
-          <div className="order-9 lg:order-9 col-span-4 row-span-1 relative">
+          <div className="order-7 lg:order-9 lg:col-span-4 col-span-12 row-span-1 relative">
             <button
               id="expand-button"
               className="h-full w-full bg-floralWhite dark:bg-eerieBlack p-4 rounded-3xl flex justify-center items-center hover:scale-105 transition-transform duration-200 cursor-pointer"
@@ -258,14 +258,14 @@ const MainPage: React.FC = () => {
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 448 512"
-                className={`w-12 h-12 fill-blackOlive dark:fill-timberwolf mr-4 
+                className={`w-8 h-8 lg:w-12 lg:h-12 fill-blackOlive dark:fill-timberwolf mr-4 
                   transition-opacity duration-200
                   ${showExpandLetters ? "opacity-100" : "opacity-0"}`}
               >
                 <path d="M32 32C14.3 32 0 46.3 0 64l0 96c0 17.7 14.3 32 32 32s32-14.3 32-32l0-64 64 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L32 32zM64 352c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 96c0 17.7 14.3 32 32 32l96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-64 0 0-64zM320 32c-17.7 0-32 14.3-32 32s14.3 32 32 32l64 0 0 64c0 17.7 14.3 32 32 32s32-14.3 32-32l0-96c0-17.7-14.3-32-32-32l-96 0zM448 352c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 64-64 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l96 0c17.7 0 32-14.3 32-32l0-96z" />
               </svg>
               <p
-                className={`font-bold dark:text-timberwolf text-blackOlive text-5xl text-center transition-opacity duration-200
+                className={`font-bold dark:text-timberwolf text-blackOlive text-4xl lg:text-5xl text-center transition-opacity duration-200
                 ${showExpandLetters ? "opacity-100" : "opacity-0"}`}
               >
                 Expand

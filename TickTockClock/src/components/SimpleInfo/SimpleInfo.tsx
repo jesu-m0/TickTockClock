@@ -164,7 +164,7 @@ const SimpleInfo: React.FC = () => {
       };
 
       return (
-            <div className='order-8 lg:order-6 lg:col-span-8 col-span-12 row-span-5 flex flex-col gap-5'>
+            <div className='order-9 lg:order-6 lg:col-span-8 col-span-12 row-span-5 flex flex-col gap-5'>
                   {/* First section - Work and Rest */}
                   <div className='flex-grow rounded-3xl content-center dark:bg-eerieBlack bg-floralWhite flex flex-col'>
                         <div className='h-full'>
