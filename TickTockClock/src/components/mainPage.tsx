@@ -129,12 +129,12 @@ const MainPage: React.FC = () => {
   return (
     <div>
       <div className="container mx-auto p-5">
-        <div className="grid grid-cols-12 gap-5 auto-rows-[100px]">
+        <div className="grid grid-cols-12 gap-5 auto-rows-[11vh]">
           <Header></Header>
 
           {/*Clock */}
           <div
-            className={`col-span-4 row-span-4 rounded-3xl content-center flex flex-col gap-5
+            className={`order-4 md:order-4 col-span-4 row-span-4 rounded-3xl content-center flex flex-col gap-5
                                     ${
                                       simpleTimerInfo.currentAnimation ===
                                         AnimationType.ALREADY_RESET ||
@@ -148,7 +148,7 @@ const MainPage: React.FC = () => {
           </div>
 
           {/*Mode selection*/}
-          <div className="col-span-8 row-span-1 content-center flex">
+          <div className="order-5 md:order-5 col-span-8 row-span-1 content-center flex">
             {/*Simple btn*/}
             <div
               className="w-1/2 h-full rounded-3xl content-center dark:bg-eerieBlack bg-floralWhite cursor-pointer flex flex-col"
@@ -206,7 +206,7 @@ const MainPage: React.FC = () => {
 
           {/*Reset*/}
           <div
-            className={`col-span-2 row-span-1 bg-saffron p-4 rounded-3xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer 
+            className={`order-7 md:order-7 col-span-2 row-span-1 bg-saffron p-4 rounded-3xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer 
           ${isClickedReset ? "scale-animation" : ""}
           ${
             simpleTimerInfo.currentAnimation === AnimationType.ALREADY_RESET
@@ -228,7 +228,7 @@ const MainPage: React.FC = () => {
 
           {/*Start/stop*/}
           <div
-            className={`col-span-2 row-span-1 p-4 rounded-3xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer
+            className={`order-8 md:order-8 col-span-2 row-span-1 p-4 rounded-3xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer
                                     ${
                                       isPaused
                                         ? "dark:bg-timberwolf bg-blackOlive"
@@ -249,7 +249,7 @@ const MainPage: React.FC = () => {
           </div>
 
           {/*Expand clock*/}
-          <div className="col-span-4 row-span-1 relative">
+          <div className="order-9 md:order-9 col-span-4 row-span-1 relative">
             <button
               id="expand-button"
               className="h-full w-full bg-floralWhite dark:bg-eerieBlack p-4 rounded-3xl flex justify-center items-center hover:scale-105 transition-transform duration-200 cursor-pointer"
@@ -322,6 +322,7 @@ const MainPage: React.FC = () => {
             </div>
           </div>
         </div>
+
         {/*Signature*/}
         <footer className="mt-5">
             <p className="text-blackOlive dark:text-timberwolf text-sm pointer-events-auto">

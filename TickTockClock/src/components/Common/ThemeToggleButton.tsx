@@ -24,7 +24,7 @@ const ThemeToggleButton: React.FC = () => {
   
   return (
     <div
-      className="col-span-1 row-span-1 rounded-full bg-eerieBlack flex justify-center items-center cursor-pointer"
+      className="order-3 md:order-3 col-span-1 row-span-1 rounded-full bg-eerieBlack flex justify-center items-center cursor-pointer"
       onClick={handleToggle}
     >
       {isDarkMode ? (

@@ -267,6 +267,7 @@ const Clock: React.FC = () => {
 
   return (
     <>
+      {/*Clock*/}
       <div className="flex-grow rounded-3xl content-center dark:bg-timberwolf bg-floralWhite flex flex-col">
         <div className="p-4 h-full flex flex-col justify-center items-center">
           <p className="font-black text-blackOlive dark:text-eerieBlack text-9xl text-center">
@@ -314,6 +315,7 @@ const Clock: React.FC = () => {
           ></div>
         </div>
       </div>
+      {/*Cycles progress bar*/}
       <div
         className={`h-[100px] rounded-3xl relative overflow-hidden dark:bg-eerieBlack bg-floralWhite flex items-center justify-center`}
       >
