@@ -317,7 +317,7 @@ const Clock: React.FC = () => {
       </div>
       {/*Cycles progress bar*/}
       <div
-        className={`h-[100px] rounded-3xl relative overflow-hidden dark:bg-eerieBlack bg-floralWhite flex items-center justify-center`}
+        className={`lg:h-[11vh] h-[10vh] rounded-3xl relative overflow-hidden dark:bg-eerieBlack bg-floralWhite flex items-center justify-center`}
       >
         {(clockStatus === ClockStatus.RUNNING ||
           clockStatus === ClockStatus.PAUSED) && (
@@ -339,7 +339,7 @@ const Clock: React.FC = () => {
             }}
           />
         )}
-        <p className="font-bold dark:text-timberwolf text-blackOlive text-5xl text-center relative z-10">
+        <p className="font-bold dark:text-timberwolf text-blackOlive text-4xl lg:text-5xl text-center relative z-10">
           {isSimpleMode ? simpleTimerInfo.remainingCycles : "Coming soon"}
         </p>
       </div>

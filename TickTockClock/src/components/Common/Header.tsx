@@ -1,11 +1,10 @@
 import React from 'react';
-import './Header.css';
 import ThemeToggleButton from './ThemeToggleButton.tsx';
 
 const Header: React.FC = () => {
     return (
         <header className="contents">
-            <div className='order-1 lg:order-1 app-title app-title-sm lg:app-title-lg'>
+            <div className='order-1 lg:order-1 p-4 row-span-1 rounded-3xl bg-floralWhite dark:bg-eerieBlack col-span-12 lg:col-span-7'>
                 <h1 className="font-extrabold text-timberwolf text-4xl lg:text-6xl text-center">
                     <span className='text-burntSienna'>Tick</span>
                     <span className='text-burntSienna'>Tock</span>

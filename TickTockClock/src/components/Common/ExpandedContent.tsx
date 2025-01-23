@@ -70,9 +70,9 @@ const ExpandedContent: React.FC<ExpandedContentProps> = ({
 
         <div className="flex flex-col justify-center">
           {/*Clock*/}
-          <div className="mx-auto dark:bg-timberwolf bg-floralWhite h-[60vh] w-[60vw] rounded-3xl mt-[5vh] flex flex-col items-center justify-center">
+          <div className="mx-auto dark:bg-timberwolf bg-floralWhite h-[50vh] lg:h-[60vh] lg:w-[60vw] w-[85vw] rounded-3xl mt-[5vh] flex flex-col items-center justify-center">
             <div className="h-full flex flex-col justify-center items-center">
-              <p className="text-blackOlive text-[18rem] font-black">
+              <p className="text-blackOlive lg:text-[18rem] text-8xl font-black">
                 {formatTime(time)}
               </p>
               <div className="flex px-8 w-full">
@@ -140,7 +140,7 @@ const ExpandedContent: React.FC<ExpandedContentProps> = ({
 
           {/*Laps*/}
           <div
-            className={`mx-auto relative mt-[5vh] h-[10vh] w-[60vw] rounded-3xl overflow-hidden dark:bg-timberwolf bg-floralWhite flex items-center justify-center`}
+            className={`mx-auto relative mt-[5vh] h-[10vh] lg:w-[60vw] w-[85vw] rounded-3xl overflow-hidden dark:bg-timberwolf bg-floralWhite flex items-center justify-center`}
           >
             {(clockStatus === ClockStatus.RUNNING ||
               clockStatus === ClockStatus.PAUSED) && (
@@ -162,7 +162,7 @@ const ExpandedContent: React.FC<ExpandedContentProps> = ({
                 }}
               />
             )}
-            <p className="font-bold dark:text-blackOlive text-blackOlive text-5xl text-center relative z-10">
+            <p className="font-bold dark:text-blackOlive text-blackOlive text-4xl lg:text-5xl text-center relative z-10">
               {isSimpleMode ? simpleTimerInfo.remainingCycles : "Coming soon"}
             </p>
           </div>

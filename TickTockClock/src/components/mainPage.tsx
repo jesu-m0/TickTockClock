@@ -129,12 +129,12 @@ const MainPage: React.FC = () => {
   return (
     <div>
       <div className="container mx-auto p-5">
-        <div className="grid grid-cols-12 lg:gap-5 gap-3 auto-rows-[11vh]">
+        <div className="grid grid-cols-12 lg:gap-5 gap-3 lg:auto-rows-[11vh] auto-rows-[10vh]">
           <Header></Header>
 
           {/*Clock */}
           <div
-            className={`order-4 lg:order-4 lg:col-span-4 col-span-12 row-span-4 rounded-3xl content-center flex flex-col gap-5
+            className={`order-4 lg:order-4 lg:col-span-4 col-span-12 row-span-4 rounded-3xl content-center flex flex-col lg:gap-5 gap-3
                                     ${
                                       simpleTimerInfo.currentAnimation ===
                                         AnimationType.ALREADY_RESET ||
