@@ -134,7 +134,7 @@ const MainPage: React.FC = () => {
 
           {/*Clock */}
           <div
-            className={`order-4 md:order-4 col-span-4 row-span-4 rounded-3xl content-center flex flex-col gap-5
+            className={`order-4 lg:order-4 lg:col-span-4 col-span-12 row-span-4 rounded-3xl content-center flex flex-col gap-5
                                     ${
                                       simpleTimerInfo.currentAnimation ===
                                         AnimationType.ALREADY_RESET ||
@@ -148,7 +148,7 @@ const MainPage: React.FC = () => {
           </div>
 
           {/*Mode selection*/}
-          <div className="order-5 md:order-5 col-span-8 row-span-1 content-center flex">
+          <div className="order-7 lg:order-5 lg:col-span-8 col-span-12 row-span-1 content-center flex">
             {/*Simple btn*/}
             <div
               className="w-1/2 h-full rounded-3xl content-center dark:bg-eerieBlack bg-floralWhite cursor-pointer flex flex-col"
@@ -206,7 +206,7 @@ const MainPage: React.FC = () => {
 
           {/*Reset*/}
           <div
-            className={`order-7 md:order-7 col-span-2 row-span-1 bg-saffron p-4 rounded-3xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer 
+            className={`order-5 lg:order-7 lg:col-span-2 col-span-6 row-span-1 bg-saffron p-4 rounded-3xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer 
           ${isClickedReset ? "scale-animation" : ""}
           ${
             simpleTimerInfo.currentAnimation === AnimationType.ALREADY_RESET
@@ -221,14 +221,14 @@ const MainPage: React.FC = () => {
           }`}
             onClick={handleReset}
           >
-            <p className="font-bold text-eerieBlack text-6xl text-center">
+            <p className="font-bold text-eerieBlack text-4xl lg:text-6xl text-center">
               Reset
             </p>
           </div>
 
           {/*Start/stop*/}
           <div
-            className={`order-8 md:order-8 col-span-2 row-span-1 p-4 rounded-3xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer
+            className={`order-6 lg:order-8 lg:col-span-2 col-span-6 row-span-1 p-4 rounded-3xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer
                                     ${
                                       isPaused
                                         ? "dark:bg-timberwolf bg-blackOlive"
@@ -243,13 +243,13 @@ const MainPage: React.FC = () => {
                                     }`}
             onClick={handlePauseStart}
           >
-            <p className="font-bold dark:text-eerieBlack text-floralWhite text-6xl text-center">
+            <p className="font-bold dark:text-eerieBlack text-floralWhite text-4xl lg:text-6xl text-center">
               {isPaused ? "Start" : "Stop"}
             </p>
           </div>
 
           {/*Expand clock*/}
-          <div className="order-9 md:order-9 col-span-4 row-span-1 relative">
+          <div className="order-9 lg:order-9 col-span-4 row-span-1 relative">
             <button
               id="expand-button"
               className="h-full w-full bg-floralWhite dark:bg-eerieBlack p-4 rounded-3xl flex justify-center items-center hover:scale-105 transition-transform duration-200 cursor-pointer"

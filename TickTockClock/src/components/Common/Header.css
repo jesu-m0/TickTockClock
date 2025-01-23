@@ -1,0 +1,11 @@
+.app-title-lg{
+    @apply lg:col-span-7     
+}
+
+.app-title-sm{
+    @apply col-span-12
+}
+
+.app-title{
+    @apply p-4 row-span-1 rounded-3xl bg-floralWhite dark:bg-eerieBlack
+}
