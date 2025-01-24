@@ -31,24 +31,24 @@ const MainPage: React.FC = () => {
 
   //Status of the clock in the context
   const {
-      // Clock status
-      clockStatus,
-  
-      // Pause state
-      isPaused,
-      setIsPaused,
-  
-      // Reset state
-      setReset,
-  
-      // Simple mode
-      isSimpleMode,
-      setIsSimpleMode,
-  
-      // Simple mode configuration
-      simpleTimerInfo,
-      setSimpleTimerInfo,
-    } = useClockStatus();
+    // Clock status
+    clockStatus,
+
+    // Pause state
+    isPaused,
+    setIsPaused,
+
+    // Reset state
+    setReset,
+
+    // Simple mode
+    isSimpleMode,
+    setIsSimpleMode,
+
+    // Simple mode configuration
+    simpleTimerInfo,
+    setSimpleTimerInfo,
+  } = useClockStatus();
 
   //Change mode
   const changeToSimple = () => {
@@ -118,8 +118,8 @@ const MainPage: React.FC = () => {
     if (simpleTimerInfo.currentAnimation !== AnimationType.NONE) {
       const timer = setTimeout(() => {
         setSimpleTimerInfo({
-            ...simpleTimerInfo,
-            currentAnimation: AnimationType.NONE,
+          ...simpleTimerInfo,
+          currentAnimation: AnimationType.NONE,
         });
       }, 300);
       return () => clearTimeout(timer);
@@ -151,17 +151,20 @@ const MainPage: React.FC = () => {
           <div className="order-8 lg:order-5 lg:col-span-8 col-span-12 row-span-1 content-center flex">
             {/*Simple btn*/}
             <div
-              className="w-1/2 h-full rounded-3xl content-center dark:bg-eerieBlack bg-floralWhite cursor-pointer flex flex-col"
+              className="w-1/2 h-full rounded-3xl content-center dark:bg-eerieBlack bg-floralWhite cursor-pointer flex flex-col overflow-hidden"
               onClick={changeToSimple}
             >
-              <div className="pt-4 px-4 h-full">
+              {/*Title*/}
+              <div className="lg:pt-4 pt-2 px-4 h-4/5">
                 <p
-                  className={`font-extrabold dark:text-timberwolf text-blackOlive text-4xl text-center pt-2 transition-colors duration-300`}
+                  className={`font-extrabold dark:text-timberwolf text-blackOlive text-2xl lg:text-4xl text-center pt-1 lg:pt-2  transition-colors duration-300`}
                 >
                   Simple
                 </p>
               </div>
-              <div className="w-full flex flex-row">
+
+              {/*Bar*/}
+              <div className="w-full flex flex-row h-1/5">
                 <div
                   className={`
                                                       ${
@@ -169,24 +172,27 @@ const MainPage: React.FC = () => {
                                                           ? "bg-jade"
                                                           : "dark:bg-eerieBlack bg-floralWhite"
                                                       }
-                                                      h-6 flex-1 rounded-b-3xl transform duration-300`}
+                                                      lg:h-6 h-full flex-1 rounded-b-3xl transform duration-300`}
                 ></div>
               </div>
             </div>
 
             {/*Custom btn*/}
             <div
-              className="w-1/2 h-full rounded-3xl content-center dark:bg-eerieBlack bg-floralWhite cursor-pointer flex flex-col"
+              className="w-1/2 h-full rounded-3xl content-center dark:bg-eerieBlack bg-floralWhite cursor-pointer flex flex-col overflow-hidden"
               onClick={changeToCustom}
             >
-              <div className="pt-4 px-4 h-full">
+              {/*Title*/}
+              <div className="pt-2 lg:pt-4 px-4 h-4/5">
                 <p
-                  className={`font-extrabold dark:text-timberwolf text-blackOlive text-4xl text-center pt-2 transition-colors duration-300`}
+                  className={`font-extrabold dark:text-timberwolf text-blackOlive text-2xl lg:text-4xl text-center pt-1 lg:pt-2 transition-colors duration-300`}
                 >
                   Custom
                 </p>
               </div>
-              <div className="w-full flex flex-row">
+
+              {/*Bar*/}
+              <div className="w-full flex flex-row h-1/5">
                 <div
                   className={`
                 ${
@@ -198,11 +204,7 @@ const MainPage: React.FC = () => {
             </div>
           </div>
 
-          {isSimpleMode ? (
-            <SimpleInfo/>
-          ) : (
-            <CustomInfo />
-          )}
+          {isSimpleMode ? <SimpleInfo /> : <CustomInfo />}
 
           {/*Reset*/}
           <div
@@ -326,9 +328,17 @@ const MainPage: React.FC = () => {
 
         {/*Signature*/}
         <footer className="mt-5">
-            <p className="text-blackOlive dark:text-timberwolf text-sm pointer-events-auto">
-              Made with {'<'}3 by <a href="https://jmoreno.dev" className="underline hover:cursor-pointer hover:text-jade dark:hover:text-jade transition-colors duration-300" target="_blank" rel="noopener noreferrer">jmoreno.dev</a>
-            </p>
+          <p className="text-blackOlive dark:text-timberwolf text-sm pointer-events-auto">
+            Made with {"<"}3 by{" "}
+            <a
+              href="https://jmoreno.dev"
+              className="underline hover:cursor-pointer hover:text-jade dark:hover:text-jade transition-colors duration-300"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              jmoreno.dev
+            </a>
+          </p>
         </footer>
       </div>
     </div>
