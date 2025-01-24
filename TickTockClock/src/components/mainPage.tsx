@@ -223,7 +223,7 @@ const MainPage: React.FC = () => {
           }`}
             onClick={handleReset}
           >
-            <p className="font-bold text-eerieBlack text-4xl lg:text-6xl text-center">
+            <p className="font-bold text-eerieBlack text-4xl md:text-4xl xl:text-6xl text-center">
               Reset
             </p>
           </div>
@@ -245,7 +245,7 @@ const MainPage: React.FC = () => {
                                     }`}
             onClick={handlePauseStart}
           >
-            <p className="font-bold dark:text-eerieBlack text-floralWhite text-4xl lg:text-6xl text-center">
+            <p className="font-bold dark:text-eerieBlack text-floralWhite text-4xl md:text-4xl xl:text-6xl text-center">
               {isPaused ? "Start" : "Stop"}
             </p>
           </div>

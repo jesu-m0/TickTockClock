@@ -72,7 +72,7 @@ const ExpandedContent: React.FC<ExpandedContentProps> = ({
           {/*Clock*/}
           <div className="mx-auto dark:bg-timberwolf bg-floralWhite h-[50vh] lg:h-[60vh] lg:w-[60vw] w-[85vw] rounded-3xl mt-[5vh] flex flex-col items-center justify-center">
             <div className="h-full flex flex-col justify-center items-center">
-              <p className="text-blackOlive lg:text-[18rem] text-8xl font-black">
+              <p className="text-blackOlive 2xl:text-[18rem] xl:text-[16rem] lg:text-[14rem] md:text-[12rem] text-8xl font-black">
                 {formatTime(time)}
               </p>
               <div className="flex px-8 w-full">
