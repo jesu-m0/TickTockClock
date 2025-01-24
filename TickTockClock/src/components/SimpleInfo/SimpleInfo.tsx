@@ -164,25 +164,28 @@ const SimpleInfo: React.FC = () => {
       };
 
       return (
-            <div className='order-9 lg:order-6 lg:col-span-8 col-span-12 row-span-5 flex flex-col gap-5'>
+            <div className='order-9 lg:order-6 lg:col-span-8 col-span-12 lg:row-span-5 row-span-7 flex flex-col lg:gap-5 gap-3'>
+                  
                   {/* First section - Work and Rest */}
                   <div className='flex-grow rounded-3xl content-center dark:bg-eerieBlack bg-floralWhite flex flex-col'>
                         <div className='h-full'>
+                              
                               {/* Work Section */}
-                              <div className='h-1/2 rounded-t-3xl bg-burntSienna items-center flex'>
+                              <div className='h-1/2 items-center flex lg:flex-row flex-col bg-burntSienna rounded-t-3xl'>
+                                    
                                     {/* Work Timer Display */}
-                                    <div className='flex flex-col items-center w-1/2'>
-                                          <p className="dark:text-timberwolf text-floralWhite text-center text-5xl font-black mb-4">Work lap</p>
-                                          <div className={`p-4 dark:bg-timberwolf bg-floralWhite rounded-3xl mx-auto mt-2 w-4/5
+                                    <div className='time-controls-layout'>
+                                          <p className="timer-phase-title">Work lap</p>
+                                          <div className={`lap-timer-display-container
                                                 ${simpleTimerInfo.currentAnimation === AnimationType.EMPTY_LAPS_DURATION && simpleTimerInfo.workLapDuration === 0 ? 'button-error-animation' : ''}`}>
-                                                <p className='text-7xl font-black dark:text-eerieBlack text-blackOlive w-full text-center'>
+                                                <p className='lap-timer-digits'>
                                                       {formatTime(simpleTimerInfo.workLapDuration)}
                                                 </p>
                                           </div>
                                     </div>
 
                                     {/* Work Controls */}
-                                    <div className='flex flex-col w-1/2 items-center gap-2'>
+                                    <div className='timer-lap-buttons-layout'>
                                           <div className="flex gap-2 justify-center">
                                                 {workUpButtons.map(button => (
                                                       <a
@@ -213,21 +216,22 @@ const SimpleInfo: React.FC = () => {
                                     </div>
                               </div>
 
+                              
                               {/* Rest Section */}
-                              <div className='h-1/2 rounded-b-3xl bg-jade items-center flex'>
+                              <div className='h-1/2 items-center flex lg:flex-row flex-col rounded-b-3xl bg-jade'>
                                     {/* Rest Timer Display */}
-                                    <div className='flex flex-col items-center w-1/2'>
-                                          <p className="dark:text-timberwolf text-floralWhite text-center text-5xl font-black mb-4">Rest lap</p>
-                                          <div className={`p-4 dark:bg-timberwolf bg-floralWhite rounded-3xl mx-auto mt-2 w-4/5 
+                                    <div className='time-controls-layout'>
+                                          <p className="timer-phase-title">Rest lap</p>
+                                          <div className={`lap-timer-display-container 
                                                 ${simpleTimerInfo.currentAnimation === AnimationType.EMPTY_LAPS_DURATION && simpleTimerInfo.restLapDuration === 0 ? 'button-error-animation' : ''}`}>
-                                                <p className='text-7xl font-black dark:text-eerieBlack text-blackOlive w-full text-center'>
+                                                <p className='lap-timer-digits'>
                                                       {formatTime(simpleTimerInfo.restLapDuration)}
                                                 </p>
                                           </div>
                                     </div>
 
                                     {/* Rest Controls */}
-                                    <div className='flex flex-col w-1/2 items-center gap-2'>
+                                    <div className='timer-lap-buttons-layout'>
                                           <div className="flex gap-2 justify-center">
                                                 {restUpButtons.map(button => (
                                                       <a
@@ -260,10 +264,10 @@ const SimpleInfo: React.FC = () => {
                         </div>
                   </div>
 
-                  {/* Second section - New functionality (100px = 1 row) */}
-                  <div className='h-[100px] rounded-3xl flex items-center gap-5'>
+                  {/* Second section - New functionality (11/10vh = 1 row) */}
+                  <div className='lg:h-[11vh] h-[10vh] rounded-3xl flex items-center lg:gap-5 gap-3'>
                         <div className='dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full w-2/5 flex items-center justify-center'>
-                              <p className="dark:text-timberwolf text-blackOlive text-5xl font-black">Cycles</p>
+                              <p className="dark:text-timberwolf text-blackOlive lg:text-5xl text-3xl font-black">Cycles</p>
                         </div>
                         <div 
                               className={`dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full w-1/5 flex items-center justify-center 
@@ -271,10 +275,10 @@ const SimpleInfo: React.FC = () => {
                                     ${minusClicked ? 'scale-animation' : ''}`}
                               onClick={handleCyclesDown}
                         >
-                              <p className="dark:text-timberwolf text-blackOlive text-5xl font-black">-</p>
+                              <p className="dark:text-timberwolf text-blackOlive lg:text-5xl text-4xl font-black pb-2">-</p>
                         </div>
                         <div className='dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full w-1/5 flex items-center justify-center'>
-                              <p className="dark:text-timberwolf text-blackOlive text-5xl font-black">{simpleTimerInfo.cycles}</p>
+                              <p className="dark:text-timberwolf text-blackOlive lg:text-5xl text-4xl font-black">{simpleTimerInfo.cycles}</p>
                         </div>
                         <div 
                               className={`dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full w-1/5 flex items-center justify-center 
@@ -282,7 +286,7 @@ const SimpleInfo: React.FC = () => {
                                     ${plusClicked ? 'scale-animation' : ''}`}
                               onClick={handleCyclesUp}
                         >
-                              <p className="dark:text-timberwolf text-blackOlive text-5xl font-black">+</p>
+                              <p className="dark:text-timberwolf text-blackOlive lg:text-5xl text-4xl font-black pb-2">+</p>
                         </div>
                   </div>
             </div>

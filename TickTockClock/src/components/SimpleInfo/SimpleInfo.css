@@ -1,4 +1,24 @@
 .time-button {
-  @apply w-16 h-16 text-xl dark:bg-eerieBlack bg-blackOlive dark:text-timberwolf text-floralWhite rounded-3xl px-4 py-2 font-bold cursor-pointer
+  @apply lg:w-16 lg:h-16 w-12 h-12 text-xl dark:bg-eerieBlack bg-blackOlive dark:text-timberwolf text-floralWhite rounded-3xl lg:px-4 px-7 lg:py-2 py-1 font-bold cursor-pointer
   hover:scale-105 transition-transform duration-200 flex justify-center items-center;
-  } 
+  }
+
+.time-controls-layout {
+  @apply flex lg:flex-col flex-row items-center lg:w-1/2 w-full px-4 lg:px-0 lg:py-0 pt-4 pb-4 lg:pb-0;
+}
+
+.timer-phase-title {
+  @apply dark:text-timberwolf text-floralWhite text-center lg:text-5xl text-4xl font-black lg:mb-4;
+}
+
+.lap-timer-display-container {
+  @apply p-4 dark:bg-timberwolf bg-floralWhite rounded-3xl mx-auto lg:mt-2 mt-0 lg:w-4/5 w-1/2;
+}
+
+.lap-timer-digits {
+  @apply lg:text-7xl text-4xl font-black dark:text-eerieBlack text-blackOlive w-full text-center;
+}
+
+.timer-lap-buttons-layout {
+  @apply flex flex-col lg:w-1/2 w-full items-center gap-2 pb-4 lg:pb-0;
+} 
