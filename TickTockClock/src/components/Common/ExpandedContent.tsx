@@ -163,7 +163,7 @@ const ExpandedContent: React.FC<ExpandedContentProps> = ({
               />
             )}
             <p className="font-bold dark:text-blackOlive text-blackOlive text-4xl lg:text-5xl text-center relative z-10">
-              {isSimpleMode ? simpleTimerInfo.remainingCycles : "Coming soon"}
+              {isSimpleMode ? simpleTimerInfo.remainingSets : "Coming soon"}
             </p>
           </div>
 

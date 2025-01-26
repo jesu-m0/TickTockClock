@@ -44,8 +44,8 @@ export const ClockProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const [simpleTimerInfo, setSimpleTimerInfo] = useState<SimpleTimerInfo>({
         workLapDuration: 0,      // Duration of work intervals in seconds
         restLapDuration: 0,      // Duration of rest intervals in seconds
-        cycles: 1,               // Number of work/rest cycles to perform
-        remainingCycles: 1,     // Remaining cycles to perform. This will change as the timer progresses
+        sets: 1,               // Number of work/rest sets to perform
+        remainingSets: 1,     // Remaining sets to perform. This will change as the timer progresses
         isWorkLap: true,         // Tracks if we're currently in a work lap (true) or rest lap (false)
         currentAnimation: AnimationType.NONE  // Current UI animation state, starts with no animation
     });

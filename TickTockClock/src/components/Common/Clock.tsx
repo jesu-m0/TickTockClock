@@ -37,7 +37,7 @@ const Clock: React.FC = () => {
     //Set parameters for the first lap. The workout gonna start NOW.
     setSimpleTimerInfo({
       ...simpleTimerInfo,
-      remainingCycles: simpleTimerInfo.cycles,
+      remainingSets: simpleTimerInfo.sets,
     });
     setTime(simpleTimerInfo.workLapDuration);
     setClockStatus(ClockStatus.RUNNING);
@@ -52,7 +52,7 @@ const Clock: React.FC = () => {
     );
     setSimpleTimerInfo({
       ...simpleTimerInfo,
-      remainingCycles: 0,
+      remainingSets: 0,
       isWorkLap: true,
       currentAnimation: AnimationType.WORKOUT_FINISHED_SIMPLE,
     });
@@ -69,16 +69,16 @@ const Clock: React.FC = () => {
     setSimpleTimerInfo({
       ...simpleTimerInfo,
       isWorkLap: true,
-      remainingCycles: simpleTimerInfo.remainingCycles - 1,
+      remainingSets: simpleTimerInfo.remainingSets - 1,
     });
-    if (simpleTimerInfo.remainingCycles != 0) {
+    if (simpleTimerInfo.remainingSets != 0) {
       setTime(simpleTimerInfo.workLapDuration);
     }
     setClockStatus(ClockStatus.RUNNING);
   }, [simpleTimerInfo, setSimpleTimerInfo, setTime, setClockStatus]);
 
   const setFinishedToZeroSimple = useCallback(() => {
-    setSimpleTimerInfo({ ...simpleTimerInfo, remainingCycles: 0 });
+    setSimpleTimerInfo({ ...simpleTimerInfo, remainingSets: 0 });
     setIsPaused(true);
     setClockStatus(ClockStatus.ZERO);
   }, [simpleTimerInfo, setSimpleTimerInfo, setIsPaused, setClockStatus]);
@@ -86,7 +86,7 @@ const Clock: React.FC = () => {
   const setFinishedToReadySimple = useCallback(() => {
     setSimpleTimerInfo({
       ...simpleTimerInfo,
-      remainingCycles: simpleTimerInfo.cycles,
+      remainingSets: simpleTimerInfo.sets,
       isWorkLap: true,
     });
     setIsPaused(true);
@@ -179,10 +179,10 @@ const Clock: React.FC = () => {
 
             if (
               time === 0 &&
-              simpleTimerInfo.remainingCycles === 1 &&
+              simpleTimerInfo.remainingSets === 1 &&
               !simpleTimerInfo.isWorkLap
             ) {
-              // One cycle remaining, BUT was a rest lap, so next step will be remaining cycles - 1 ---> FINISHED
+              // One cycle remaining, BUT was a rest lap, so next step will be remaining sets - 1 ---> FINISHED
               console.log("Status Change: RUNNING -> FINISHED");
               setRunningToFinishedSimple();
             } else if (time === 0 && simpleTimerInfo.isWorkLap) {
@@ -191,11 +191,11 @@ const Clock: React.FC = () => {
               setRunningToRunningWorkLapEndedSimple();
               //} else if (time === 0 && simpleLapCounts.workLaps < simpleLapCounts.restLaps) {
             } else if (time === 0 && !simpleTimerInfo.isWorkLap) {
-              // Rest lap ended, next step will be work lap & remaining cycles - 1
+              // Rest lap ended, next step will be work lap & remaining sets - 1
               console.log(
                 "Status Change: RUNNING -> RUNNING: rest lap ended, cycle completed. " +
-                  (simpleTimerInfo.remainingCycles - 1) +
-                  " cycles remaining."
+                  (simpleTimerInfo.remainingSets - 1) +
+                  " sets remaining."
               );
               setRunningToRunningRestLapEndedSimple();
             }
@@ -315,7 +315,7 @@ const Clock: React.FC = () => {
           ></div>
         </div>
       </div>
-      {/*Cycles progress bar*/}
+      {/*Sets progress bar*/}
       <div
         className={`lg:h-[11vh] h-[10vh] rounded-3xl relative overflow-hidden dark:bg-eerieBlack bg-floralWhite flex items-center justify-center`}
       >
@@ -340,7 +340,7 @@ const Clock: React.FC = () => {
           />
         )}
         <p className="font-bold dark:text-timberwolf text-blackOlive text-4xl lg:text-5xl text-center relative z-10">
-          {isSimpleMode ? simpleTimerInfo.remainingCycles : "Coming soon"}
+          {isSimpleMode ? simpleTimerInfo.remainingSets : "Coming soon"}
         </p>
       </div>
     </>

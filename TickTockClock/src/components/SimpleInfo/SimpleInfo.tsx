@@ -145,14 +145,14 @@ const SimpleInfo: React.FC = () => {
             }
       };
 
-      const handleCyclesUp = () => {
-            setSimpleTimerInfo({...simpleTimerInfo, cycles: simpleTimerInfo.cycles + 1})
+      const handleSetsUp = () => {
+            setSimpleTimerInfo({...simpleTimerInfo, sets: simpleTimerInfo.sets + 1})
             setPlusClicked(true);
             setTimeout(() => setPlusClicked(false), 300);
       };
 
-      const handleCyclesDown = () => {
-            setSimpleTimerInfo({...simpleTimerInfo, cycles: simpleTimerInfo.cycles - 1})
+      const handleSetsDown = () => {
+            setSimpleTimerInfo({...simpleTimerInfo, sets: simpleTimerInfo.sets - 1})
             setMinusClicked(true);
             setTimeout(() => setMinusClicked(false), 300);
       };
@@ -267,24 +267,24 @@ const SimpleInfo: React.FC = () => {
                   {/* Second section - New functionality (11/10vh = 1 row) */}
                   <div className='lg:h-[11vh] h-[10vh] rounded-3xl flex items-center lg:gap-5 gap-3'>
                         <div className='dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full w-2/5 flex items-center justify-center'>
-                              <p className="dark:text-timberwolf text-blackOlive lg:text-5xl text-3xl font-black">Cycles</p>
+                              <p className="dark:text-timberwolf text-blackOlive lg:text-5xl text-3xl font-black">Sets</p>
                         </div>
                         <div 
                               className={`dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full w-1/5 flex items-center justify-center 
                                     hover:scale-105 transition-transform duration-200 cursor-pointer
                                     ${minusClicked ? 'scale-animation' : ''}`}
-                              onClick={handleCyclesDown}
+                              onClick={handleSetsDown}
                         >
                               <p className="dark:text-timberwolf text-blackOlive lg:text-5xl text-4xl font-black pb-2">-</p>
                         </div>
                         <div className='dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full w-1/5 flex items-center justify-center'>
-                              <p className="dark:text-timberwolf text-blackOlive lg:text-5xl text-4xl font-black">{simpleTimerInfo.cycles}</p>
+                              <p className="dark:text-timberwolf text-blackOlive lg:text-5xl text-4xl font-black">{simpleTimerInfo.sets}</p>
                         </div>
                         <div 
                               className={`dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full w-1/5 flex items-center justify-center 
                                     hover:scale-105 transition-transform duration-200 cursor-pointer
                                     ${plusClicked ? 'scale-animation' : ''}`}
-                              onClick={handleCyclesUp}
+                              onClick={handleSetsUp}
                         >
                               <p className="dark:text-timberwolf text-blackOlive lg:text-5xl text-4xl font-black pb-2">+</p>
                         </div>
