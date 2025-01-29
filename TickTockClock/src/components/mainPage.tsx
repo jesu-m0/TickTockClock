@@ -110,7 +110,7 @@ const MainPage: React.FC = () => {
         setTimeout(() => setDivExist(true), 200); // 100ms div get same size as button animation
         setTimeout(() => setIsExpanded(true), 300); // 700ms div expand to full screen animation
       }
-    }, 0);
+    }, 0); //0 Timeout to let react render the button before getting the position.
     setTimeout(() => setShowContent(true), 1000); // 200ms content appear animation
   };
 
