@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState } from 'react';
 import { AnimationType, ClockStatus } from '../types';
 import { SimpleTimerInfo } from '../types/SimpleTimerInfo';
+import { CustomTimerInfo } from '../types/CustomTimerInfo';
 
 interface ClockContextType {
     
@@ -30,7 +31,8 @@ interface ClockContextType {
     setIsAlternate: (isAlternate: boolean | ((prev: boolean) => boolean)) => void;
 
     // Custom mode configuration
-    //TODO: Add custom mode configuration
+    customTimerInfo: CustomTimerInfo
+    setCustomTimerInfo: (customTimerInfo: CustomTimerInfo) => void;
 }
 
 const ClockContext = createContext<ClockContextType | undefined>(undefined);
@@ -50,6 +52,12 @@ export const ClockProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         currentAnimation: AnimationType.NONE  // Current UI animation state, starts with no animation
     });
     const [isAlternate, setIsAlternate] = useState<boolean>(false);
+    const [customTimerInfo, setCustomTimerInfo] = useState<CustomTimerInfo>({
+        intervals: [],
+        sets: 1,
+        remainingIntervals: [],
+        currentAnimation: AnimationType.NONE
+    })
     return (
         <ClockContext.Provider value={{
             clockStatus,
@@ -65,7 +73,9 @@ export const ClockProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             simpleTimerInfo,
             setSimpleTimerInfo,
             isAlternate,
-            setIsAlternate
+            setIsAlternate,
+            customTimerInfo,
+            setCustomTimerInfo
         }}>
             {children}
         </ClockContext.Provider>

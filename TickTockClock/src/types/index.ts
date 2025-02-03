@@ -14,3 +14,26 @@ export enum ClockStatus {
       PAUSED = 'paused',    // Clock has time remaining but is paused
       FINISHED = 'finished' // Clock has finished
 }
+
+export enum Colors {
+      //Link to the colors used here:
+      //https://coolors.co/6c584c-953931-e76f51-f38f8f-f4ba9b-e9c46a-faa930-44af69-00afb9
+      //https://coolors.co/8f2d56-6c4e6f-37444b-023927-252422-ccc5b9-fffcf2
+      
+      Umber = "#6C584C",
+      Chestnut = "#953931",
+      BurntSienna = "#E76F51",
+      LightCoral = "#F38F8F",
+      Peach = "#F4BA9B",
+      Saffron = "#E9C46A",
+      OrangeWeb = "#FAA930",
+      Jade = "#44AF69",
+      Verdigris = "#00AFB9",
+      QuinacridoneMagenta = "#8F2D56",
+      EnglishViolet = "#6C4E6F",
+      Charcoal = "#37444B",
+      DarkGreen = "#023927",
+      EerieBlack = "#252422",
+      Timberwolf = "#CCC5B9",
+      FloralWhite = "#FFFCF2"
+  }
