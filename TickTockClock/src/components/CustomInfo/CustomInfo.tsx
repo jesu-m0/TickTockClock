@@ -7,7 +7,6 @@ const CustomInfo: React.FC = () => {
       const {
             customTimerInfo,
             setCustomTimerInfo,
-            clockStatus
       } = useClockStatus();
 
       //Control the animation of + or - when clicked
