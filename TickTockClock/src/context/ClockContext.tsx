@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
-import { AnimationType, ClockStatus } from '../types';
+import { AnimationType, ClockStatus, Colors } from '../types';
 import { SimpleTimerInfo } from '../types/SimpleTimerInfo';
 import { CustomTimerInfo } from '../types/CustomTimerInfo';
 
@@ -53,7 +53,18 @@ export const ClockProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     });
     const [isAlternate, setIsAlternate] = useState<boolean>(false);
     const [customTimerInfo, setCustomTimerInfo] = useState<CustomTimerInfo>({
-        intervals: [],
+        intervals: [
+            {
+                name: "Warm Up",
+                duration: 300, // 5 minutes in seconds
+                color: Colors.BurntSienna,
+            },
+            {
+                name: "High Intensity",
+                duration: 180, // 3 minutes in seconds
+                color: Colors.Jade,
+            }
+        ],
         sets: 1,
         remainingIntervals: [],
         currentAnimation: AnimationType.NONE
