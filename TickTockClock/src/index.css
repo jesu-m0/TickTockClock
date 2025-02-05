@@ -10,3 +10,23 @@ p, h1, h2 {
 a {
     user-select: none;
 }
+
+/* WebKit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+      width: 8px; /* Thin scrollbar width */
+      height: 8px; /* Thin scrollbar height */
+}
+
+::-webkit-scrollbar-track {
+      background: transparent; /* Gray track */
+      border-radius: 9999px; /* Rounded track */
+}
+
+::-webkit-scrollbar-thumb {
+      background: theme('colors.burntSienna'); /* Using the Tailwind color variable */
+      border-radius: 9999px; /* Rounded thumb */
+}
+
+::-webkit-scrollbar-button {
+      display: none; /* Hide arrow buttons */
+}
