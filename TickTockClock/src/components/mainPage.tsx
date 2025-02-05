@@ -250,7 +250,7 @@ const MainPage: React.FC = () => {
             </p>
           </div>
 
-          {/*Expand clock*/}
+          {/*Expand button*/}
           <div className="order-7 lg:order-9 lg:col-span-4 col-span-12 row-span-1 relative">
             <button
               id="expand-button"
@@ -278,35 +278,23 @@ const MainPage: React.FC = () => {
             <div
               className={`dark:bg-eerieBlack bg-floralWhite z-10 transition-all
                   ${isExpanded ? "rounded-none" : "rounded-3xl"}
-                  ${
-                    openAnimation
-                      ? isExpanded
-                        ? "duration-700"
-                        : "duration-100"
-                      : divExist
-                      ? "duration-700"
-                      : "duration-100"
-                  }
+                  ${openAnimation ? 
+                        isExpanded ? "duration-700" : "duration-100"
+                        : 
+                        divExist ? "duration-700" : "duration-100"}
                   ${showExpandLetters ? "hidden" : ""}`}
-              style={{
-                position: "fixed",
-                top: isExpanded ? 0 : buttonPosition.top,
-                left: isExpanded ? 0 : buttonPosition.left,
-                width: divExist
-                  ? isExpanded
-                    ? "100vw"
-                    : `${buttonPosition.width}px`
-                  : 0,
-                height: divExist
-                  ? isExpanded
-                    ? "100vh"
-                    : `${buttonPosition.height}px`
-                  : 0,
-                transform: divExist
-                  ? "none"
-                  : `translate(${buttonPosition.width / 2}px, ${
-                      buttonPosition.height / 2
-                    }px)`,
+              style={{position: "fixed",
+                  top: isExpanded ? 0 : buttonPosition.top,
+                  left: isExpanded ? 0 : buttonPosition.left,
+                  width: divExist? 
+                        isExpanded ? "100vw" : `${buttonPosition.width}px`
+                        : 
+                        0,
+                  height: divExist ? 
+                  isExpanded ? "100vh" : `${buttonPosition.height}px` 
+                  : 
+                  0,
+                   transform: divExist ? "none" : `translate(${buttonPosition.width / 2}px, ${buttonPosition.height / 2}px)`,
               }}
             >
               <div
