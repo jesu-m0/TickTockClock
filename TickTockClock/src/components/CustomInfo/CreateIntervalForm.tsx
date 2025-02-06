@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useClockStatus } from "../../context/ClockContext";
 import { Colors } from "../../types";
 
@@ -20,27 +20,31 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
       const { customTimerInfo, setCustomTimerInfo } = useClockStatus();
       const [name, setName] = useState(""); // Custom name for the interval
       const [duration, setDuration] = useState("");
-      const [selectedColor, setSelectedColor] = useState<string>(Colors.BurntSienna); // Default color
+      const [selectedColor, setSelectedColor] = useState(
+            Object.values(Colors)[Math.floor(Math.random() * Object.values(Colors).length)]
+      ); // Random color by default
       const [isColorPickerOpen, setIsColorPickerOpen] = useState(false); // Track color picker visibility
 
       // Function to get the default name based on the selected color
       const getDefaultName = () => {
             const colorKey = Object.keys(Colors).find((key) => Colors[key] === selectedColor);
-
-            // Helper function to add spaces before capital letters
             const addSpacesBeforeCapitals = (str: string): string => {
-                  return str.replace(/([a-z])([A-Z])/g, "$1 $2"); // Insert a space between lowercase and uppercase letters
+                  return str.replace(/([a-z])([A-Z])/g, "$1 $2");
             };
-
-            return colorKey ? addSpacesBeforeCapitals(colorKey) : "Interval name"; // Fallback to "Interval name" if no match
+            return colorKey ? addSpacesBeforeCapitals(colorKey) : "Interval name";
       };
+
+      // Set the default name based on the randomly selected color on mount
+      useEffect(() => {
+            setName(getDefaultName());
+      }, []); // Run only once on mount
 
       const handleSubmit = (e: React.FormEvent) => {
             e.preventDefault();
             if (!name.trim() || !duration.trim()) return;
 
             const newInterval = {
-                  name: name.trim() || getDefaultName(), // Use custom name or fallback to default
+                  name: name.trim(), // Use the current name, even if it's empty
                   duration: parseInt(duration, 10),
                   color: selectedColor,
             };
@@ -94,7 +98,7 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
                                                 {/* Selected Color Button */}
                                                 <div
                                                       style={{ backgroundColor: selectedColor }}
-                                                      className="w-14 h-14 rounded-full border-2 border-timberwolf select-none"
+                                                      className="w-14 h-14 rounded-full border-4 border-floralWhite select-none"
                                                 ></div>
                                                 {/* Triangle SVG Indicator */}
                                                 <svg
@@ -142,17 +146,17 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
                                                       {/* Input Field */}
                                                       <input
                                                             type="text"
-                                                            value={name || getDefaultName()} // Show default name if no custom name is provided
+                                                            value={name} // Use the current name
                                                             onChange={(e) => setName(e.target.value.slice(0, 20))} // Enforce character limit of 20
                                                             placeholder="Interval name"
-                                                            className="w-full bg-blackOlive text-timberwolf text-3xl font-bold placeholder:text-timberwolf/70 focus:outline-none mb-2 leading-relaxed" // Add leading-relaxed for proper line height
+                                                            className="w-full bg-blackOlive text-timberwolf text-3xl font-bold placeholder:text-timberwolf/70 focus:outline-none mb-1 leading-relaxed" // Add leading-relaxed for proper line height
                                                       />
                                                       {/* Timberwolf Line */}
                                                       <div className="w-full h-[2px] bg-timberwolf"></div>
                                                 </div>
                                           </div>
 
-                                          {/* Iterval show */}
+                                          {/* Iterval show card */}
                                           <div className="order-4 col-span-4 row-span-4 bg-timberwolf rounded-3xl">
 
                                           </div>
@@ -162,9 +166,16 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
 
                                           </div>
 
-                                          {/* Progress bar of the color of the interval */}
-                                          <div className="order-6 col-span-4 row-span-1 bg-blackOlive rounded-3xl">
-
+                                          {/* Cancel and add */}
+                                          <div className="order-6 col-span-2 row-span-1 bg-burntSienna rounded-3xl flex items-center justify-center">
+                                                <p className="text-5xl text-blackOlive font-black">
+                                                      Cancel
+                                                </p>
+                                          </div>
+                                          <div className="order-7 col-span-2 row-span-1 bg-timberwolf rounded-3xl flex items-center justify-center">
+                                                <p className="text-5xl text-jade font-black">
+                                                      Add
+                                                </p>
                                           </div>
                                     </div>
                               </form>
