@@ -30,10 +30,6 @@ const CustomInfo: React.FC = () => {
             }
       };
 
-      const createNewInterval = () => {
-            //TODO: open "modal" to create a new interval
-      }
-
       const onDragEnd = (result: DropResult) => {
             // If there's no destination (dropped outside the area), do nothing
             if (!result.destination) return;
@@ -109,7 +105,13 @@ const CustomInfo: React.FC = () => {
                                           ref={provided.innerRef}
                                     >
                                           {/* Scrollable container for interval cards */}
-                                          <div className="overflow-y-scroll flex flex-col gap-2 h-full pr-2">
+                                          <div className="overflow-y-scroll flex flex-col gap-2 h-full pr-2"
+                                                ref={(el) => {
+                                                      // Attach the scroll container to the Droppable
+                                                      if (el) {
+                                                            provided.innerRef(el);
+                                                      }
+                                                }}>
                                                 {/* Map through intervals to create draggable items */}
                                                 {customTimerInfo.intervals.map((interval, index) => (
                                                       <Draggable
@@ -174,7 +176,7 @@ const CustomInfo: React.FC = () => {
                         <button id="add-button" className="bg-jade rounded-3xl h-full w-1/5 flex items-center justify-center 
                               hover:scale-105 transition-transform duration-200 cursor-pointer"
                               onClick={showForm}>
-                              
+
                               <p className="dark:text-eerieBlack text-blackOlive lg:text-5xl text-4xl font-black pb-2">
                                     Add
                               </p>
@@ -184,35 +186,36 @@ const CustomInfo: React.FC = () => {
                         {/* The animated container that will display the CreateIntervalForm */}
                         <div className={`dark:bg-jade z-10 transition-all
                                           ${isFormExpanded ? "rounded-none" : "rounded-3xl"}
-                                          ${openFormAnimation? 
-                                                isFormExpanded ? "duration-700" : "duration-100" 
-                                                : 
-                                                divFormExist ? "duration-700" : "duration-100"}
+                                          ${openFormAnimation ?
+                                    isFormExpanded ? "duration-700" : "duration-100"
+                                    :
+                                    divFormExist ? "duration-700" : "duration-100"}
                                           ${showAddLetters ? "hidden" : ""}`}
-                              style={{ position: "fixed",
+                              style={{
+                                    position: "fixed",
                                     top: isFormExpanded ? 0 : formButtonPosition.top,
                                     left: isFormExpanded ? 0 : formButtonPosition.left,
-                                    width: divFormExist ? 
+                                    width: divFormExist ?
                                           isFormExpanded ? "100vw" : `${formButtonPosition.width}px`
-                                          : 
+                                          :
                                           0,
-                                    height: divFormExist ? 
+                                    height: divFormExist ?
                                           isFormExpanded ? "100vh" : `${formButtonPosition.height}px`
-                                          : 
+                                          :
                                           0,
                                     transform: divFormExist ? "none" : `translate(${formButtonPosition.width / 2}px, ${formButtonPosition.height / 2}px)`,
                               }}>
                               <div className={`h-full w-full transition-opacity duration-200 
                                     ${showFormContent ? "opacity-100" : "opacity-0"}`} >
 
-                                    <CreateIntervalForm 
+                                    <CreateIntervalForm
                                           setIsFormExpanded={setIsFormExpanded}
                                           setShowFormContent={setShowFormContent}
                                           setShowAddLetters={setShowAddLetters}
                                           setDivFormExist={setDivFormExist}
                                           openFormAnimation={setOpenFormAnimation}
                                     />
-                              
+
                               </div>
                         </div>
                   </div>
