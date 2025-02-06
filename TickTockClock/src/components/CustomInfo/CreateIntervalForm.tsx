@@ -18,9 +18,8 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
       openFormAnimation,
 }) => {
       const { customTimerInfo, setCustomTimerInfo } = useClockStatus();
-      const [time, setTime] = useState(0);
       const [name, setName] = useState(""); // Custom name for the interval
-      const [duration, setDuration] = useState("");
+      const [duration, setDuration] = useState(0);
       const [selectedColor, setSelectedColor] = useState(
             Object.values(Colors)[Math.floor(Math.random() * Object.values(Colors).length)]
       ); // Random color by default
@@ -31,11 +30,11 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
             // Use the provided color or fall back to the selectedColor state
             const targetColor = color || selectedColor;
             const colorKey = Object.keys(Colors).find((key) => Colors[key as keyof typeof Colors] === targetColor);
-            
+
             const addSpacesBeforeCapitals = (str: string): string => {
                   return str.replace(/([a-z])([A-Z])/g, "$1 $2");
             };
-            
+
             return colorKey ? addSpacesBeforeCapitals(colorKey) : "Interval name";
       };
 
@@ -46,11 +45,11 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
 
       const handleSubmit = (e: React.FormEvent) => {
             e.preventDefault();
-            if (!name.trim() || !duration.trim()) return;
+            if (!name.trim() || duration <= 0) return;
 
             const newInterval = {
                   name: name.trim(), // Use the current name, even if it's empty
-                  duration: parseInt(duration, 10),
+                  duration: duration,
                   color: selectedColor,
             };
 
@@ -61,7 +60,7 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
 
             // Reset form fields
             setName("");
-            setDuration("");
+            setDuration(0);
       };
 
       // Format time to MM:SS
@@ -88,17 +87,82 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
             setIsClickedCancel(true);
 
             // Reset form fields to their default states
-            setDuration(""); // Clear the duration
+            setDuration(0); // Clear the duration
             const randomColor = Object.values(Colors)[Math.floor(Math.random() * Object.values(Colors).length)];
             setSelectedColor(randomColor);
             setName(getDefaultName(randomColor));
-            setTime(0); // Reset the time field if needed
 
             // Close the modal using the same logic as the cross button
             closeForm();
 
             // Reset the animation state after the animation completes
             setTimeout(() => setIsClickedCancel(false), 200); // Match the animation duration
+      };
+
+      // Function to handle duration updates
+      const handleIntervalDuration = (seconds: number, buttonId: string) => {
+            // Get the button element by its ID
+            const buttonElement = document.getElementById(buttonId);
+
+            if (buttonElement) {
+                  // Add the scale-animation class to the button
+                  buttonElement.classList.add("scale-animation");
+
+                  // Remove the class after 200ms
+                  setTimeout(() => {
+                        buttonElement.classList.remove("scale-animation");
+                  }, 300);
+            }
+
+            // Update the duration, ensuring it doesn't go below 0
+            const newDuration = Math.max(0, duration + seconds);
+            setDuration(newDuration);
+      };
+
+      const [isClickedAdd, setIsClickedAdd] = useState(false);
+
+      // Function to handle the "Add" button click
+      const handleAdd = () => {
+            // Validate that both the name and duration are provided
+            if (!name.trim() || duration <= 0) {
+                  if (!name.trim()) {
+                        console.log("name");
+
+                  }
+                  if (duration <= 0) {
+                        console.log("duration");
+
+                  }
+
+                  return; // Do nothing if validation fails
+            }
+
+            setIsClickedAdd(true);
+            setTimeout(() => {
+                  setIsClickedAdd(false)
+            }, 300)
+
+            // Create the new interval object
+            const newInterval = {
+                  name: name.trim(), // Use the current name
+                  duration: duration, // Convert duration to an integer
+                  color: selectedColor, // Use the currently selected color
+            };
+
+            // Update the customTimerInfo state with the new interval
+            setCustomTimerInfo({
+                  ...customTimerInfo,
+                  intervals: [...customTimerInfo.intervals, newInterval],
+            });
+
+            // Reset form fields to their default states
+            setDuration(0); // Clear the duration
+            const randomColor = Object.values(Colors)[Math.floor(Math.random() * Object.values(Colors).length)];
+            setSelectedColor(randomColor);
+            setName(getDefaultName(randomColor));
+
+            // Close the modal using the same logic as the cancel or cross button
+            closeForm();
       };
 
       return (
@@ -193,7 +257,7 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
                                           <div className="order-4 col-span-4 row-span-4 bg-timberwolf rounded-3xl flex flex-col">
                                                 <div className="p-4 h-full flex flex-col justify-center items-center">
                                                       <p className="font-black text-blackOlive text-8xl md:text-8xl xl:text-9xl text-center">
-                                                            {formatTime(time)}
+                                                            {formatTime(duration)}
                                                       </p>
                                                       <div className="flex px-8 w-full">
                                                             <p className="font-medium text-blackOlive text-lg text-center w-1/2">
@@ -219,36 +283,36 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
                                           {/* Duration picker */}
                                           <div className="order-6 col-span-6 row-span-2 bg-jade rounded-3xl flex flex-col items-center justify-center">
                                                 <div className="flex flex-row justify-center h-1/2 w-full">
-                                                      <div className="bg-blackOlive rounded-tl-3xl h-full w-1/5 border-r border-b border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
+                                                      <div id="intervalUp1s" onClick={() => handleIntervalDuration(1, "intervalUp1s")} className="bg-blackOlive rounded-tl-3xl h-full w-1/5 border-r border-b border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
                                                             <p className="text-timberwolf font-black text-5xl">+1''</p>
                                                       </div>
-                                                      <div className="bg-blackOlive h-full w-1/5 border-x border-b border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
+                                                      <div id="intervalUp5s" onClick={() => handleIntervalDuration(5, "intervalUp5s")} className="bg-blackOlive h-full w-1/5 border-x border-b border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
                                                             <p className="text-timberwolf font-black text-5xl">+5''</p>
                                                       </div>
-                                                      <div className="bg-blackOlive h-full w-1/5 border-x border-b border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
+                                                      <div id="intervalUp30s" onClick={() => handleIntervalDuration(30, "intervalUp30s")} className="bg-blackOlive h-full w-1/5 border-x border-b border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
                                                             <p className="text-timberwolf font-black text-5xl">+30''</p>
                                                       </div>
-                                                      <div className="bg-blackOlive h-full w-1/5 border-x border-b border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
+                                                      <div id="intervalUp5m" onClick={() => handleIntervalDuration(300, "intervalUp5m")} className="bg-blackOlive h-full w-1/5 border-x border-b border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
                                                             <p className="text-timberwolf font-black text-5xl">+5'</p>
                                                       </div>
-                                                      <div className="bg-blackOlive rounded-tr-3xl h-full w-1/5 border-l border-b border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
+                                                      <div id="intervalUp30m" onClick={() => handleIntervalDuration(1800, "intervalUp30m")} className="bg-blackOlive rounded-tr-3xl h-full w-1/5 border-l border-b border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
                                                             <p className="text-timberwolf font-black text-5xl">+30'</p>
                                                       </div>
                                                 </div>
                                                 <div className="flex flex-row justify-center h-1/2 w-full">
-                                                      <div className="bg-blackOlive rounded-bl-3xl h-full w-1/5 border-r border-t border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
+                                                      <div id="intervalDown1s" onClick={() => handleIntervalDuration(-1, "intervalDown1s")} className="bg-blackOlive rounded-bl-3xl h-full w-1/5 border-r border-t border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
                                                             <p className="text-timberwolf font-black text-5xl">-1''</p>
                                                       </div>
-                                                      <div className="bg-blackOlive h-full w-1/5 border-x border-t border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
+                                                      <div id="intervalDown5s" onClick={() => handleIntervalDuration(-5, "intervalDown5s")} className="bg-blackOlive h-full w-1/5 border-x border-t border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
                                                             <p className="text-timberwolf font-black text-5xl">-5''</p>
                                                       </div>
-                                                      <div className="bg-blackOlive h-full w-1/5 border-x border-t border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
+                                                      <div id="intervalDown30s" onClick={() => handleIntervalDuration(-30, "intervalDown30s")} className="bg-blackOlive h-full w-1/5 border-x border-t border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
                                                             <p className="text-timberwolf font-black text-5xl">-30''</p>
                                                       </div>
-                                                      <div className="bg-blackOlive h-full w-1/5 border-x border-t border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
+                                                      <div id="intervalDown5m" onClick={() => handleIntervalDuration(-300, "intervalDown5m")} className="bg-blackOlive h-full w-1/5 border-x border-t border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
                                                             <p className="text-timberwolf font-black text-5xl">-5'</p>
                                                       </div>
-                                                      <div className="bg-blackOlive rounded-br-3xl h-full w-1/5 border-l border-t border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
+                                                      <div id="intervalDown30m" onClick={() => handleIntervalDuration(-1800, "intervalDown30m")} className="bg-blackOlive rounded-br-3xl h-full w-1/5 border-l border-t border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
                                                             <p className="text-timberwolf font-black text-5xl">-30'</p>
                                                       </div>
                                                 </div>
@@ -264,7 +328,9 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
                                           >
                                                 <p className="text-center text-timberwolf text-5xl font-black">Cancel</p>
                                           </div>
-                                          <div className="order-9 col-span-4 row-span-1 bg-timberwolf rounded-3xl flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer">
+                                          <div className={`order-9 col-span-4 row-span-1 bg-timberwolf rounded-3xl flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer
+                                                ${isClickedAdd ? "scale-animation" : ""}`}
+                                                onClick={handleAdd}>
                                                 <p className="text-5xl text-blackOlive font-black">
                                                       Add
                                                 </p>
@@ -273,6 +339,28 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
                               </form>
                         </div>
                   </div>
+                  {/* CSS for the bounce animation */}
+                  <style>
+                        {`
+        @keyframes clickScale {
+          0% {
+            transform: scale(1);
+          }
+          50% {
+            transform: scale(0.95);
+          }
+          75% {
+            transform: scale(1.05);
+          }
+          100% {
+            transform: scale(1);
+          }
+        }
+        .scale-animation {
+          animation: clickScale 300ms ease-out;
+        }
+      `}
+                  </style>
             </>
       );
 };
