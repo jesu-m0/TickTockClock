@@ -208,6 +208,7 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
                                                             {Object.values(Colors).map((color) => (
                                                                   <button
                                                                         key={color}
+                                                                        type="button"
                                                                         onClick={(e) => {
                                                                               e.stopPropagation(); // Prevent closing the panel when selecting a color
                                                                               setSelectedColor(color);
