@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useClockStatus } from "../../context/ClockContext";
 import { Colors } from "../../types";
+import { v4 as uuidv4 } from "uuid";
+
 
 interface CreateIntervalFormProps {
       setIsFormExpanded: React.Dispatch<React.SetStateAction<boolean>>;
@@ -18,6 +20,7 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
       openFormAnimation,
 }) => {
       const { customTimerInfo, setCustomTimerInfo } = useClockStatus();
+      const [id] = useState(uuidv4());
       const [name, setName] = useState(""); // Custom name for the interval
       const [duration, setDuration] = useState(0);
       const [selectedColor, setSelectedColor] = useState(
@@ -43,25 +46,6 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
             setName(getDefaultName());
       }, []); // Run only once on mount
 
-      const handleSubmit = (e: React.FormEvent) => {
-            e.preventDefault();
-            if (!name.trim() || duration <= 0) return;
-
-            const newInterval = {
-                  name: name.trim(), // Use the current name, even if it's empty
-                  duration: duration,
-                  color: selectedColor,
-            };
-
-            setCustomTimerInfo({
-                  ...customTimerInfo,
-                  intervals: [...customTimerInfo.intervals, newInterval],
-            });
-
-            // Reset form fields
-            setName("");
-            setDuration(0);
-      };
 
       // Format time to MM:SS
       const formatTime = (seconds: number) => {
@@ -122,7 +106,8 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
       const [isClickedAdd, setIsClickedAdd] = useState(false);
 
       // Function to handle the "Add" button click
-      const handleAdd = () => {
+      const handleAdd = (e: React.FormEvent) => {
+            e.preventDefault(); //prevent reload
             // Validate that both the name and duration are provided
             if (!name.trim() || duration <= 0) {
                   if (!name.trim()) {
@@ -144,6 +129,7 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
 
             // Create the new interval object
             const newInterval = {
+                  id: id,
                   name: name.trim(), // Use the current name
                   duration: duration, // Convert duration to an integer
                   color: selectedColor, // Use the currently selected color
@@ -180,7 +166,7 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
                               </svg>
                         </button>
                         <div className="container mx-auto p-5">
-                              <form onSubmit={handleSubmit} className="p-4">
+                              <form onSubmit={handleAdd} className="p-4">
                                     <div className="grid grid-cols-12 lg:gap-5 gap-3 lg:auto-rows-[11vh] auto-rows-[10vh]">
                                           {/* Title */}
                                           <div className="order-1 col-span-12 row-span-1 rounded-3xl content-center bg-blackOlive">
@@ -328,13 +314,12 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
                                           >
                                                 <p className="text-center text-timberwolf text-5xl font-black">Cancel</p>
                                           </div>
-                                          <div className={`order-9 col-span-4 row-span-1 bg-timberwolf rounded-3xl flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer
-                                                ${isClickedAdd ? "scale-animation" : ""}`}
-                                                onClick={handleAdd}>
+                                          <button type="submit" className={`order-9 col-span-4 row-span-1 bg-timberwolf rounded-3xl flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer
+                                                ${isClickedAdd ? "scale-animation" : ""}`}>
                                                 <p className="text-5xl text-blackOlive font-black">
                                                       Add
                                                 </p>
-                                          </div>
+                                          </button>
                                     </div>
                               </form>
                         </div>
@@ -366,3 +351,5 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
 };
 
 export default CreateIntervalForm;
+
+

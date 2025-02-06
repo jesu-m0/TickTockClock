@@ -4,6 +4,7 @@ import { useClockStatus } from '../../context/ClockContext';
 import IntervalCard from './IntervalCard';
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
 import CreateIntervalForm from './CreateIntervalForm';
+import { UUIDTypes } from 'uuid';
 
 const CustomInfo: React.FC = () => {
 
@@ -92,6 +93,13 @@ const CustomInfo: React.FC = () => {
             setTimeout(() => setShowFormContent(true), 1000);
       };
 
+      const handleDeleteInterval = (id: UUIDTypes) => {
+            setCustomTimerInfo({
+                  ...customTimerInfo,
+                  intervals: customTimerInfo.intervals.filter((interval) => interval.id !== id),
+            });
+      };
+
       return (
             <>
                   {/* Main drag and drop wrapper that handles drag end events */}
@@ -125,7 +133,7 @@ const CustomInfo: React.FC = () => {
                                                                         {...provided.draggableProps}
                                                                         {...provided.dragHandleProps}
                                                                   >
-                                                                        <IntervalCard interval={interval} />
+                                                                        <IntervalCard interval={interval} onDelete={handleDeleteInterval} />
                                                                   </div>
                                                             )}
                                                       </Draggable>
