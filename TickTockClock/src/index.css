@@ -7,7 +7,7 @@ p, h1, h2 {
     user-select: none;
     pointer-events: none;
 }
-a {
+a, div {
     user-select: none;
 }
 
