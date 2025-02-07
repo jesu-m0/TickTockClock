@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Interval } from "../../types/CustomTimerInfo";
 import { UUIDTypes } from "uuid";
 import EditIntervalForm from "./EditIntervalForm";
-import Clock from "../Common/Clock";
 import { ClockStatus } from "../../types";
 import { useClockStatus } from "../../context/ClockContext";
 
