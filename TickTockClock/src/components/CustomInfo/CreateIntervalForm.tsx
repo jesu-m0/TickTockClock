@@ -20,7 +20,7 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
       openFormAnimation,
 }) => {
       const { customTimerInfo, setCustomTimerInfo } = useClockStatus();
-      const [id] = useState(uuidv4());
+      const [id, setId] = useState(uuidv4());
       const [name, setName] = useState(""); // Custom name for the interval
       const [duration, setDuration] = useState(0);
       const [selectedColor, setSelectedColor] = useState(
@@ -69,6 +69,9 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
       const handleCancel = () => {
             // Trigger the bounce animation
             setIsClickedCancel(true);
+
+            //updateId
+            setId(uuidv4());
 
             // Reset form fields to their default states
             setDuration(0); // Clear the duration
@@ -133,6 +136,7 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
             });
 
             // Reset form fields to their default states
+            setId(uuidv4()); // new Id
             setDuration(0); // Clear the duration
             const randomColor = Object.values(Colors)[Math.floor(Math.random() * Object.values(Colors).length)];
             setSelectedColor(randomColor);
