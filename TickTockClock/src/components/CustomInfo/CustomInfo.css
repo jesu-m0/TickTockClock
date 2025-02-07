@@ -1,0 +1,51 @@
+@keyframes clickScale {
+      0% {
+            transform: scale(1);
+      }
+
+      50% {
+            transform: scale(0.95);
+      }
+
+      75% {
+            transform: scale(1.05);
+      }
+
+      100% {
+            transform: scale(1);
+      }
+}
+
+@keyframes buttonError {
+      0% {
+            transform: rotate(0deg) scale(1.05);
+      }
+
+      20% {
+            transform: rotate(5deg) scale(1.05);
+      }
+
+      40% {
+            transform: rotate(-5deg) scale(1.05);
+      }
+
+      60% {
+            transform: rotate(5deg) scale(1.05);
+      }
+
+      80% {
+            transform: rotate(-5deg) scale(1.05);
+      }
+
+      100% {
+            transform: rotate(0deg) scale(1.05);
+      }
+}
+
+.scale-animation {
+      animation: clickScale 300ms ease-out;
+}
+
+.button-error-animation {
+      animation: buttonError 300ms ease-out;
+}

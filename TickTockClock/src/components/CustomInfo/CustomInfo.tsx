@@ -6,10 +6,12 @@ import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea
 import CreateIntervalForm from './CreateIntervalForm';
 import { UUIDTypes } from 'uuid';
 import { Interval } from '../../types/CustomTimerInfo';
+import { ClockStatus } from '../../types';
 
 const CustomInfo: React.FC = () => {
 
       const {
+            clockStatus,
             customTimerInfo,
             setCustomTimerInfo,
       } = useClockStatus();
@@ -19,16 +21,52 @@ const CustomInfo: React.FC = () => {
       const [minusClicked, setMinusClicked] = useState(false);
 
       const handleSetsUp = () => {
-            setCustomTimerInfo({ ...customTimerInfo, sets: customTimerInfo.sets + 1 })
-            setPlusClicked(true);
-            setTimeout(() => setPlusClicked(false), 300);
+            if (clockStatus == ClockStatus.RUNNING || clockStatus == ClockStatus.PAUSED) {
+                  const setsUpCustom = document.getElementById("setsUpCustom");
+                  if (setsUpCustom) {
+                        setsUpCustom.classList.add("button-error-animation");
+                        setTimeout(() => {
+                              setsUpCustom.classList.remove("button-error-animation");
+                        }, 300); // Remove the class after 300ms
+                  }
+                  const resetButton = document.getElementById("resetButton");
+                  if (resetButton) {
+                        resetButton.classList.add("button-error-animation");
+                        setTimeout(() => {
+                              resetButton.classList.remove("button-error-animation");
+                        }, 300); // Remove the class after 300ms
+                  }
+            } else {
+                  setCustomTimerInfo({ ...customTimerInfo, sets: customTimerInfo.sets + 1 })
+                  setPlusClicked(true);
+                  setTimeout(() => setPlusClicked(false), 300);
+            }
       };
 
       const handleSetsDown = () => {
-            if (customTimerInfo.sets > 1) {
-                  setCustomTimerInfo({ ...customTimerInfo, sets: customTimerInfo.sets - 1 });
-                  setMinusClicked(true);
-                  setTimeout(() => setMinusClicked(false), 300);
+            
+            
+            if (clockStatus == ClockStatus.RUNNING || clockStatus == ClockStatus.PAUSED) {
+                  const setsDownCustom = document.getElementById("setsDownCustom");
+                  if (setsDownCustom) {
+                        setsDownCustom.classList.add("button-error-animation");
+                        setTimeout(() => {
+                              setsDownCustom.classList.remove("button-error-animation");
+                        }, 300); // Remove the class after 300ms
+                  }
+                  const resetButton = document.getElementById("resetButton");
+                  if (resetButton) {
+                        resetButton.classList.add("button-error-animation");
+                        setTimeout(() => {
+                              resetButton.classList.remove("button-error-animation");
+                        }, 300); // Remove the class after 300ms
+                  }
+            } else {
+                  if (customTimerInfo.sets > 1) {
+                        setCustomTimerInfo({ ...customTimerInfo, sets: customTimerInfo.sets - 1 });
+                        setMinusClicked(true);
+                        setTimeout(() => setMinusClicked(false), 300);
+                  }
             }
       };
 
@@ -67,31 +105,49 @@ const CustomInfo: React.FC = () => {
 
       // Function to trigger the animation and show the form
       const showForm = () => {
-            // Use a zero-timeout so React renders the button before measuring its position.
-            setTimeout(() => {
-                  // Start by hiding the "Add" text
-                  setShowAddLetters(false);
-                  setOpenFormAnimation(true);
-
-                  // Get the button position and dimensions
-                  const button = document.getElementById("add-button");
-                  if (button) {
-                        const rect = button.getBoundingClientRect();
-                        setFormButtonPosition({
-                              top: rect.top,
-                              left: rect.left,
-                              width: rect.width,
-                              height: rect.height,
-                        });
-
-                        // After a short delay, indicate that the container div should exist (matching the button’s size)
-                        setTimeout(() => setDivFormExist(true), 200);
-                        // Then trigger the expansion to full screen (or your target size)
-                        setTimeout(() => setIsFormExpanded(true), 300);
+            if (clockStatus == ClockStatus.RUNNING || clockStatus == ClockStatus.PAUSED) {
+                  //Error animation
+                  const addButton = document.getElementById("add-button");
+                  if (addButton) {
+                        addButton.classList.add("button-error-animation");
+                        setTimeout(() => {
+                              addButton.classList.remove("button-error-animation");
+                        }, 300); // Remove the class after 300ms
                   }
-            }, 0);
-            // Finally, once the container is expanded, reveal the form content
-            setTimeout(() => setShowFormContent(true), 1000);
+                  const resetButton = document.getElementById("resetButton");
+                  if (resetButton) {
+                        resetButton.classList.add("button-error-animation");
+                        setTimeout(() => {
+                              resetButton.classList.remove("button-error-animation");
+                        }, 300); // Remove the class after 300ms
+                  }
+            } else {
+                  // Use a zero-timeout so React renders the button before measuring its position.
+                  setTimeout(() => {
+                        // Start by hiding the "Add" text
+                        setShowAddLetters(false);
+                        setOpenFormAnimation(true);
+
+                        // Get the button position and dimensions
+                        const button = document.getElementById("add-button");
+                        if (button) {
+                              const rect = button.getBoundingClientRect();
+                              setFormButtonPosition({
+                                    top: rect.top,
+                                    left: rect.left,
+                                    width: rect.width,
+                                    height: rect.height,
+                              });
+
+                              // After a short delay, indicate that the container div should exist (matching the button's size)
+                              setTimeout(() => setDivFormExist(true), 200);
+                              // Then trigger the expansion to full screen (or your target size)
+                              setTimeout(() => setIsFormExpanded(true), 300);
+                        }
+                  }, 0);
+                  // Finally, once the container is expanded, reveal the form content
+                  setTimeout(() => setShowFormContent(true), 1000);
+            }
       };
 
       const handleDeleteInterval = (id: UUIDTypes) => {
@@ -103,59 +159,88 @@ const CustomInfo: React.FC = () => {
 
       const updateInterval = (updatedInterval: Interval) => {
             setCustomTimerInfo({
-              ...customTimerInfo,
-              intervals: customTimerInfo.intervals.map((interval) =>
-                interval.id === updatedInterval.id ? updatedInterval : interval
-              ),
+                  ...customTimerInfo,
+                  intervals: customTimerInfo.intervals.map((interval) =>
+                        interval.id === updatedInterval.id ? updatedInterval : interval
+                  ),
             });
       };
+
+      const errorDragDrop = () => {
+            const intervalsContainer = document.getElementById("intervalsContainer");
+            if (intervalsContainer) {
+                  intervalsContainer.classList.add("button-error-animation");
+                  setTimeout(() => {
+                        intervalsContainer.classList.remove("button-error-animation");
+                  }, 300); // Remove the class after 300ms
+            }
+            const resetButton = document.getElementById("resetButton");
+            if (resetButton) {
+                  resetButton.classList.add("button-error-animation");
+                  setTimeout(() => {
+                        resetButton.classList.remove("button-error-animation");
+                  }, 300); // Remove the class after 300ms
+            }
+      }
 
       return (
             <>
                   {/* Main drag and drop wrapper that handles drag end events */}
-                  <DragDropContext onDragEnd={onDragEnd}>
-                        {/* Droppable area where items can be dropped */}
-                        <Droppable droppableId="intervals">
-                              {(provided) => (
-                                    <div
-                                          className="order-9 lg:order-6 lg:col-span-8 col-span-12 lg:row-span-4 row-span-6 rounded-3xl bg-eerieBlack px-4 py-6"
-                                          {...provided.droppableProps}
-                                          ref={provided.innerRef}
-                                    >
-                                          {/* Scrollable container for interval cards */}
-                                          <div className="overflow-y-scroll flex flex-col gap-2 h-full pr-2"
-                                                ref={(el) => {
-                                                      // Attach the scroll container to the Droppable
-                                                      if (el) {
-                                                            provided.innerRef(el);
-                                                      }
-                                                }}>
-                                                {/* Map through intervals to create draggable items */}
-                                                {customTimerInfo.intervals.map((interval, index) => (
-                                                      <Draggable
-                                                            key={index}
-                                                            draggableId={`interval-${index}`}
-                                                            index={index}
-                                                      >
-                                                            {(provided) => (
-                                                                  <div
-                                                                        ref={provided.innerRef}
-                                                                        {...provided.draggableProps}
-                                                                        {...provided.dragHandleProps}
-                                                                  >
-                                                                        <IntervalCard interval={interval} onDelete={handleDeleteInterval} onUpdate={updateInterval}/>
-                                                                  </div>
-                                                            )}
-                                                      </Draggable>
-                                                ))}
-                                                {/* Placeholder maintains space during dragging */}
-                                                {provided.placeholder}
+                  {clockStatus === ClockStatus.RUNNING || clockStatus === ClockStatus.PAUSED ? (
+                        <div id="intervalsContainer" onClick={errorDragDrop} className="order-9 lg:order-6 lg:col-span-8 col-span-12 lg:row-span-4 row-span-6 rounded-3xl bg-eerieBlack px-4 py-6">
+                              {/* Scrollable container for interval cards */}
+                              <div className="overflow-y-scroll flex flex-col gap-2 h-full pr-2">
+                                    {customTimerInfo.intervals.map((interval, index) => (
+                                          <div key={index}>
+                                                <IntervalCard interval={interval} onDelete={handleDeleteInterval} onUpdate={updateInterval} />
                                           </div>
-                                    </div>
-                              )}
-                        </Droppable>
-                  </DragDropContext>
-
+                                    ))}
+                              </div>
+                        </div>
+                  ) : (
+                        <DragDropContext onDragEnd={onDragEnd}>
+                              {/* Droppable area where items can be dropped */}
+                              <Droppable droppableId="intervals">
+                                    {(provided) => (
+                                          <div
+                                                className="order-9 lg:order-6 lg:col-span-8 col-span-12 lg:row-span-4 row-span-6 rounded-3xl bg-eerieBlack px-4 py-6"
+                                                {...provided.droppableProps}
+                                                ref={provided.innerRef}
+                                          >
+                                                {/* Scrollable container for interval cards */}
+                                                <div className="overflow-y-scroll flex flex-col gap-2 h-full pr-2"
+                                                      ref={(el) => {
+                                                            // Attach the scroll container to the Droppable
+                                                            if (el) {
+                                                                  provided.innerRef(el);
+                                                            }
+                                                      }}>
+                                                      {/* Map through intervals to create draggable items */}
+                                                      {customTimerInfo.intervals.map((interval, index) => (
+                                                            <Draggable
+                                                                  key={index}
+                                                                  draggableId={`interval-${index}`}
+                                                                  index={index}
+                                                            >
+                                                                  {(provided) => (
+                                                                        <div
+                                                                              ref={provided.innerRef}
+                                                                              {...provided.draggableProps}
+                                                                              {...provided.dragHandleProps}
+                                                                        >
+                                                                              <IntervalCard interval={interval} onDelete={handleDeleteInterval} onUpdate={updateInterval} />
+                                                                        </div>
+                                                                  )}
+                                                            </Draggable>
+                                                      ))}
+                                                      {/* Placeholder maintains space during dragging */}
+                                                      {provided.placeholder}
+                                                </div>
+                                          </div>
+                                    )}
+                              </Droppable>
+                        </DragDropContext>
+                  )}
 
                   {/* Sets  */}
                   <div className='order-10 lg:order-11 lg:col-span-8 col-span-12 lg:row-span-1 row-span-1 rounded-3xl flex items-center lg:gap-5 gap-3'>
@@ -166,7 +251,7 @@ const CustomInfo: React.FC = () => {
                         </div>
 
                         {/* Sets down */}
-                        <div
+                        <div id="setsDownCustom"
                               className={`dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full w-1/5 flex items-center justify-center 
                 hover:scale-105 transition-transform duration-200 cursor-pointer
                 ${minusClicked ? 'scale-animation' : ''}`}
@@ -181,7 +266,7 @@ const CustomInfo: React.FC = () => {
                         </div>
 
                         {/* Sets up */}
-                        <div
+                        <div id='setsUpCustom'
                               className={`dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full w-1/5 flex items-center justify-center 
                 hover:scale-105 transition-transform duration-200 cursor-pointer
                 ${plusClicked ? 'scale-animation' : ''}`}

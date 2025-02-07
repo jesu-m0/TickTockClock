@@ -2,6 +2,9 @@ import { useState } from "react";
 import { Interval } from "../../types/CustomTimerInfo";
 import { UUIDTypes } from "uuid";
 import EditIntervalForm from "./EditIntervalForm";
+import Clock from "../Common/Clock";
+import { ClockStatus } from "../../types";
+import { useClockStatus } from "../../context/ClockContext";
 
 interface IntervalCardProps {
       interval: Interval;
@@ -14,7 +17,9 @@ const IntervalCard = ({ interval, onDelete, onUpdate }: IntervalCardProps) => {
 
       // Function to handle opening the modal
       const handleDeleteClick = () => {
-            setIsDeleteModalOpen(true);
+            if (clockStatus != ClockStatus.RUNNING && clockStatus != ClockStatus.PAUSED) {
+                  setIsDeleteModalOpen(true);
+            }
       };
 
       // Function to handle closing the modal
@@ -47,33 +52,38 @@ const IntervalCard = ({ interval, onDelete, onUpdate }: IntervalCardProps) => {
             height: 0,
       });
 
+      const {
+            clockStatus,
+      } = useClockStatus();
 
       // Function to trigger the animation and show the form
       const showEditForm = () => {
-            // Use a zero-timeout so React renders the button before measuring its position.
-            setTimeout(() => {
-                  // Start by hiding the card text
-                  setShowCardContent(false);
-                  setOpenEditFormAnimation(true);
-                  // Get the button position and dimensions
-                  const button = document.getElementById(interval.id.toString());
-                  if (button) {                      
-                        const rect = button.getBoundingClientRect();
-                        setCardPosition({
-                              top: rect.top,
-                              left: rect.left,
-                              width: rect.width,
-                              height: rect.height,
-                        });                        
+            if (clockStatus != ClockStatus.RUNNING && clockStatus != ClockStatus.PAUSED) {
+                  // Use a zero-timeout so React renders the button before measuring its position.
+                  setTimeout(() => {
+                        // Start by hiding the card text
+                        setShowCardContent(false);
+                        setOpenEditFormAnimation(true);
+                        // Get the button position and dimensions
+                        const button = document.getElementById(interval.id.toString());
+                        if (button) {
+                              const rect = button.getBoundingClientRect();
+                              setCardPosition({
+                                    top: rect.top,
+                                    left: rect.left,
+                                    width: rect.width,
+                                    height: rect.height,
+                              });
 
-                        // After a short delay, indicate that the container div should exist (matching the button's size)
-                        setTimeout(() => setDivEditFormExist(true), 200);
-                        // Then trigger the expansion to full screen (or your target size)
-                        setTimeout(() => setIsEditFormExpanded(true), 300);
-                  }
-            }, 0);
-            // Finally, once the container is expanded, reveal the form content
-            setTimeout(() => setShowEditFormContent(true), 1000);            
+                              // After a short delay, indicate that the container div should exist (matching the button's size)
+                              setTimeout(() => setDivEditFormExist(true), 200);
+                              // Then trigger the expansion to full screen (or your target size)
+                              setTimeout(() => setIsEditFormExpanded(true), 300);
+                        }
+                  }, 0);
+                  // Finally, once the container is expanded, reveal the form content
+                  setTimeout(() => setShowEditFormContent(true), 1000);
+            }
       };
 
       const closeEditForm = () => {
@@ -147,19 +157,19 @@ const IntervalCard = ({ interval, onDelete, onUpdate }: IntervalCardProps) => {
                                           ${openEditFormAnimation ?
                                           (isEditFormExpanded ? "duration-700" : "duration-100")
                                           :
-                                          (divEditFormExist? "duration-700" : "duration-100")} 
+                                          (divEditFormExist ? "duration-700" : "duration-100")} 
                                           ${showCardContent ? "hidden" : ""}`}
 
                                     style={{
                                           position: "fixed",
                                           top: isEditFormExpanded ? 0 : cardPosition.top,
                                           left: isEditFormExpanded ? 0 : cardPosition.left,
-                                          width: divEditFormExist?
-                                                isEditFormExpanded? "100vw" : `${cardPosition.width}px`
+                                          width: divEditFormExist ?
+                                                isEditFormExpanded ? "100vw" : `${cardPosition.width}px`
                                                 :
                                                 0,
-                                          height: divEditFormExist?
-                                                isEditFormExpanded? "100vh" : `${cardPosition.height}px`
+                                          height: divEditFormExist ?
+                                                isEditFormExpanded ? "100vh" : `${cardPosition.height}px`
                                                 :
                                                 0,
                                           transform: divEditFormExist ? "none" : `translate(${cardPosition.width / 2}px, ${cardPosition.height / 2}px)`,

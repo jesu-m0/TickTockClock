@@ -13,6 +13,8 @@ export interface Interval {
 export interface CustomTimerInfo {
       intervals: Interval[]; // Workout intervals sequence
       sets: number; // Number of sets to repeat
-      remainingIntervals: Interval[]; // Intervals left in the current set
       currentAnimation: AnimationType; // Current animation state
+      
+      remainingSets: number; //Sets remaaining
+      remainingIntervals: Interval[]; // Intervals left in the current set
 }
