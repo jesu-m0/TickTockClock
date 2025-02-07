@@ -70,8 +70,9 @@ export const ClockProvider: React.FC<{ children: React.ReactNode }> = ({ childre
                   }
             ],
             sets: 1,
+            currentAnimation: AnimationType.NONE,
             remainingIntervals: [],
-            currentAnimation: AnimationType.NONE
+            remainingSets: 1,
       })
       return (
             <ClockContext.Provider value={{
