@@ -5,6 +5,7 @@ import IntervalCard from './IntervalCard';
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
 import CreateIntervalForm from './CreateIntervalForm';
 import { UUIDTypes } from 'uuid';
+import { Interval } from '../../types/CustomTimerInfo';
 
 const CustomInfo: React.FC = () => {
 
@@ -100,6 +101,15 @@ const CustomInfo: React.FC = () => {
             });
       };
 
+      const updateInterval = (updatedInterval: Interval) => {
+            setCustomTimerInfo({
+              ...customTimerInfo,
+              intervals: customTimerInfo.intervals.map((interval) =>
+                interval.id === updatedInterval.id ? updatedInterval : interval
+              ),
+            });
+      };
+
       return (
             <>
                   {/* Main drag and drop wrapper that handles drag end events */}
@@ -133,7 +143,7 @@ const CustomInfo: React.FC = () => {
                                                                         {...provided.draggableProps}
                                                                         {...provided.dragHandleProps}
                                                                   >
-                                                                        <IntervalCard interval={interval} onDelete={handleDeleteInterval} />
+                                                                        <IntervalCard interval={interval} onDelete={handleDeleteInterval} onUpdate={updateInterval}/>
                                                                   </div>
                                                             )}
                                                       </Draggable>
@@ -192,12 +202,12 @@ const CustomInfo: React.FC = () => {
                         </button>
 
                         {/* The animated container that will display the CreateIntervalForm */}
-                        <div className={`dark:bg-jade z-10 transition-all
+                        <div className={`bg-jade z-10 transition-all
                                           ${isFormExpanded ? "rounded-none" : "rounded-3xl"}
                                           ${openFormAnimation ?
-                                    isFormExpanded ? "duration-700" : "duration-100"
+                                    (isFormExpanded ? "duration-700" : "duration-100")
                                     :
-                                    divFormExist ? "duration-700" : "duration-100"}
+                                    (divFormExist ? "duration-700" : "duration-100")}
                                           ${showAddLetters ? "hidden" : ""}`}
                               style={{
                                     position: "fixed",

@@ -1,87 +1,56 @@
-import { useEffect, useState } from "react";
-import { useClockStatus } from "../../context/ClockContext";
+import { useState } from "react";
 import { Colors } from "../../types";
-import { v4 as uuidv4 } from "uuid";
+import { Interval } from "../../types/CustomTimerInfo";
 
-
-interface CreateIntervalFormProps {
-      setIsFormExpanded: React.Dispatch<React.SetStateAction<boolean>>;
-      setShowFormContent: React.Dispatch<React.SetStateAction<boolean>>;
-      setShowAddLetters: React.Dispatch<React.SetStateAction<boolean>>;
-      setDivFormExist: React.Dispatch<React.SetStateAction<boolean>>;
-      openFormAnimation: React.Dispatch<React.SetStateAction<boolean>>;
+interface EditIntervalFormProps {
+      interval: Interval; // The interval to edit
+      onSave: (updatedInterval: Interval) => void; // Callback to save changes
+      onClose: () => void; // Callback to close the form
 }
 
-const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
-      setIsFormExpanded,
-      setShowFormContent,
-      setShowAddLetters,
-      setDivFormExist,
-      openFormAnimation,
-}) => {
-      const { customTimerInfo, setCustomTimerInfo } = useClockStatus();
-      const [id] = useState(uuidv4());
-      const [name, setName] = useState(""); // Custom name for the interval
-      const [duration, setDuration] = useState(0);
-      const [selectedColor, setSelectedColor] = useState(
-            Object.values(Colors)[Math.floor(Math.random() * Object.values(Colors).length)]
-      ); // Random color by default
+const EditIntervalForm: React.FC<EditIntervalFormProps> = ({ interval, onSave, onClose }) => {
+      const [name, setName] = useState(interval.name); // Name of the interval
+      const [duration, setDuration] = useState(interval.duration); // Duration of the interval
+      const [selectedColor, setSelectedColor] = useState(interval.color); // Selected color
       const [isColorPickerOpen, setIsColorPickerOpen] = useState(false); // Track color picker visibility
 
-      // Function to get the default name based on the selected color
-      const getDefaultName = (color?: string) => {
-            // Use the provided color or fall back to the selectedColor state
-            const targetColor = color || selectedColor;
-            const colorKey = Object.keys(Colors).find((key) => Colors[key as keyof typeof Colors] === targetColor);
+      const [isClickedCancel, setIsClickedCancel] = useState(false);
+      const [isClickedSave, setIsClickedSave] = useState(false);
 
-            const addSpacesBeforeCapitals = (str: string): string => {
-                  return str.replace(/([a-z])([A-Z])/g, "$1 $2");
+      // Function to handle saving the updated interval
+      const handleSave = (e: React.FormEvent) => {
+            e.preventDefault(); //prevent reload
+
+            // Validate that both the name and duration are provided
+            if (!name.trim() || duration <= 0) {
+                  return; // TODO: add error control animation
+            }
+
+            setIsClickedSave(true)
+            setTimeout(() => {
+                  setIsClickedSave(false)
+            }, 300)
+
+
+            // Create the new updated interval
+            const updatedInterval = {
+                  id: interval.id,
+                  name: name.trim(), // Use the current name
+                  duration: duration,
+                  color: selectedColor, // Use the currently selected color
             };
 
-            return colorKey ? addSpacesBeforeCapitals(colorKey) : "Interval name";
+            onSave(updatedInterval); // Pass the updated interval to the parent
+            onClose(); // Close the form
       };
 
-      // Set the default name based on the randomly selected color on mount
-      useEffect(() => {
-            setName(getDefaultName());
-      }, []); // Run only once on mount
-
-
-      // Format time to MM:SS
-      const formatTime = (seconds: number) => {
-            const mins = String(Math.floor(seconds / 60)).padStart(2, "0");
-            const secs = String(seconds % 60).padStart(2, "0");
-            return `${mins}:${secs}`;
-      };
-
-      // Function to close the form with animations
-      const closeForm = () => {
-            openFormAnimation(false); // Trigger animation to close the form
-            setShowFormContent(false); // Hide content 200ms
-            setTimeout(() => setIsFormExpanded(false), 200); // Unexpand the form 700ms
-            setTimeout(() => setDivFormExist(false), 900); // Remove the div entirely 100ms
-            setTimeout(() => setShowAddLetters(true), 1000); // Show "Add" letters 200ms
-      };
-
-      const [isClickedCancel, setIsClickedCancel] = useState(false);
-
-      // Function to handle cancel logic
       const handleCancel = () => {
-            // Trigger the bounce animation
-            setIsClickedCancel(true);
-
-            // Reset form fields to their default states
-            setDuration(0); // Clear the duration
-            const randomColor = Object.values(Colors)[Math.floor(Math.random() * Object.values(Colors).length)];
-            setSelectedColor(randomColor);
-            setName(getDefaultName(randomColor));
-
-            // Close the modal using the same logic as the cross button
-            closeForm();
-
-            // Reset the animation state after the animation completes
-            setTimeout(() => setIsClickedCancel(false), 200); // Match the animation duration
-      };
+            setIsClickedCancel(true)
+            setTimeout(() => {
+                  setIsClickedCancel(false)
+            }, 300)
+            onClose();
+      }
 
       // Function to handle duration updates
       const handleIntervalDuration = (seconds: number, buttonId: string) => {
@@ -103,70 +72,40 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
             setDuration(newDuration);
       };
 
-      const [isClickedAdd, setIsClickedAdd] = useState(false);
 
-      // Function to handle the "Add" button click
-      const handleAdd = (e: React.FormEvent) => {
-            e.preventDefault(); //prevent reload
-            // Validate that both the name and duration are provided
-            if (!name.trim() || duration <= 0) {
-                  return; // TODO: add error control animation
-            }
-
-            setIsClickedAdd(true);
-            setTimeout(() => {
-                  setIsClickedAdd(false)
-            }, 300)
-
-            // Create the new interval object
-            const newInterval = {
-                  id: id,
-                  name: name.trim(), // Use the current name
-                  duration: duration,
-                  color: selectedColor, // Use the currently selected color
-            };
-
-            // Update the customTimerInfo state with the new interval
-            setCustomTimerInfo({
-                  ...customTimerInfo,
-                  intervals: [...customTimerInfo.intervals, newInterval],
-            });
-
-            // Reset form fields to their default states
-            setDuration(0); // Clear the duration
-            const randomColor = Object.values(Colors)[Math.floor(Math.random() * Object.values(Colors).length)];
-            setSelectedColor(randomColor);
-            setName(getDefaultName(randomColor));
-
-            // Close the modal using the same logic as the cancel or cross button
-            closeForm();
+      // Format time to MM:SS
+      const formatTime = (seconds: number) => {
+            const mins = String(Math.floor(seconds / 60)).padStart(2, "0");
+            const secs = String(seconds % 60).padStart(2, "0");
+            return `${mins}:${secs}`;
       };
 
       return (
             <>
                   <div className="h-full w-full">
-                        <button onClick={closeForm}>
+                        <button onClick={onClose}>
                               <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
-                                    className="text-blackOlive h-12 w-12 mt-4 ml-4"
+                                    className="text-timberwolf h-12 w-12 mt-4 ml-4"
                               >
                                     <path d="M18 6 6 18" />
                                     <path d="m6 6 12 12" />
                               </svg>
                         </button>
+
                         <div className="container mx-auto p-5">
-                              <form onSubmit={handleAdd} className="p-4">
+                              <form onSubmit={handleSave} className="p-4">
                                     <div className="grid grid-cols-12 lg:gap-5 gap-3 lg:auto-rows-[11vh] auto-rows-[10vh]">
                                           {/* Title */}
-                                          <div className="order-1 col-span-12 row-span-1 rounded-3xl content-center bg-blackOlive">
-                                                <p className="text-5xl font-black text-timberwolf text-center">Create interval</p>
+                                          <div className="order-1 col-span-12 row-span-1 rounded-3xl content-center bg-eerieBlack">
+                                                <p className="text-5xl font-black text-timberwolf text-center">Edit interval</p>
                                           </div>
 
                                           {/* Color Picker Section */}
                                           <div
-                                                className="order-2 col-span-2 row-span-1 rounded-3xl bg-blackOlive flex items-center justify-evenly p-2 cursor-pointer relative"
+                                                className="order-2 col-span-2 row-span-1 rounded-3xl bg-eerieBlack flex items-center justify-evenly p-2 cursor-pointer relative"
                                                 onClick={() => setIsColorPickerOpen(!isColorPickerOpen)} // Toggle color picker visibility
                                           >
                                                 {/* Selected Color Button */}
@@ -188,9 +127,11 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
                                                 >
                                                       <path d="M6 9l6 6 6-6" />
                                                 </svg>
+
+
                                                 {/* Color Picker Panel */}
                                                 <div
-                                                      className={`absolute top-full mt-2 w-64 p-4 bg-blackOlive rounded-2xl shadow-lg z-50 transform transition-all duration-300 ease-in-out ${isColorPickerOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2 pointer-events-none"
+                                                      className={`absolute top-full mt-2 w-64 p-4 bg-eerieBlack rounded-2xl shadow-lg z-50 transform transition-all duration-300 ease-in-out ${isColorPickerOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2 pointer-events-none"
                                                             }`}
                                                       style={{ width: "max-content" }}
                                                 >
@@ -215,7 +156,7 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
                                           </div>
 
                                           {/* Interval Name Label */}
-                                          <div className="order-3 col-span-6 row-span-1 rounded-3xl bg-blackOlive pt-4 px-8 pb-6 relative">
+                                          <div className="order-3 col-span-6 row-span-1 rounded-3xl bg-eerieBlack pt-4 px-8 pb-6 relative">
                                                 {/* Inner Container to Respect Parent Padding */}
                                                 <div className="w-full h-full flex flex-col justify-end items-center">
                                                       {/* Input Field */}
@@ -224,7 +165,7 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
                                                             value={name} // Use the current name
                                                             onChange={(e) => setName(e.target.value.slice(0, 20))} // Enforce character limit of 20
                                                             placeholder="Interval name"
-                                                            className="w-full bg-blackOlive text-timberwolf text-3xl font-bold placeholder:text-timberwolf/70 focus:outline-none mb-1 leading-relaxed" // Add leading-relaxed for proper line height
+                                                            className="w-full bg-eerieBlack text-timberwolf text-3xl font-bold placeholder:text-timberwolf/70 focus:outline-none mb-1 leading-relaxed" // Add leading-relaxed for proper line height
                                                       />
                                                       {/* Timberwolf Line */}
                                                       <div className="w-full h-[2px] bg-timberwolf"></div>
@@ -248,104 +189,81 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
                                                 </div>
                                                 <div className="w-full flex flex-row">
                                                       <div className="h-6 flex-1 rounded-bl-3xl bg-burntSienna"></div>
-                                                      <div className="h-6 flex-1 bg-saffron"></div>
+                                                      <div className="h-6 flex-1 bg-jade"></div>
                                                       <div className="h-6 flex-1 bg-burntSienna"></div>
-                                                      <div className="h-6 flex-1 bg-saffron"></div>
+                                                      <div className="h-6 flex-1 bg-jade"></div>
                                                       <div className="h-6 flex-1 bg-burntSienna"></div>
-                                                      <div className="h-6 flex-1 rounded-br-3xl bg-saffron"></div>
+                                                      <div className="h-6 flex-1 rounded-br-3xl bg-jade"></div>
                                                 </div>
                                           </div>
 
                                           {/* empty column */}
-                                          <div className="order-5 col-span-1 row-span-2 bg-jade rounded-3xl flex flex-col items-center justify-center">
+                                          <div className="order-5 col-span-1 row-span-2 rounded-3xl flex flex-col items-center justify-center">
                                           </div>
 
                                           {/* Duration picker */}
-                                          <div className="order-6 col-span-6 row-span-2 bg-jade rounded-3xl flex flex-col items-center justify-center">
+                                          <div className="order-6 col-span-6 row-span-2 bg-eerieBlack rounded-3xl flex flex-col items-center justify-center">
                                                 <div className="flex flex-row justify-center h-1/2 w-full">
-                                                      <div id="intervalUp1s" onClick={() => handleIntervalDuration(1, "intervalUp1s")} className="bg-blackOlive rounded-tl-3xl h-full w-1/5 border-r border-b border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
+                                                      <div id="intervalUp1s" onClick={() => handleIntervalDuration(1, "intervalUp1s")} className="bg-eerieBlack rounded-tl-3xl h-full w-1/5 border-r border-b border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
                                                             <p className="text-timberwolf font-black text-5xl">+1''</p>
                                                       </div>
-                                                      <div id="intervalUp5s" onClick={() => handleIntervalDuration(5, "intervalUp5s")} className="bg-blackOlive h-full w-1/5 border-x border-b border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
+                                                      <div id="intervalUp5s" onClick={() => handleIntervalDuration(5, "intervalUp5s")} className="bg-eerieBlack h-full w-1/5 border-x border-b border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
                                                             <p className="text-timberwolf font-black text-5xl">+5''</p>
                                                       </div>
-                                                      <div id="intervalUp30s" onClick={() => handleIntervalDuration(30, "intervalUp30s")} className="bg-blackOlive h-full w-1/5 border-x border-b border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
+                                                      <div id="intervalUp30s" onClick={() => handleIntervalDuration(30, "intervalUp30s")} className="bg-eerieBlack h-full w-1/5 border-x border-b border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
                                                             <p className="text-timberwolf font-black text-5xl">+30''</p>
                                                       </div>
-                                                      <div id="intervalUp5m" onClick={() => handleIntervalDuration(300, "intervalUp5m")} className="bg-blackOlive h-full w-1/5 border-x border-b border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
+                                                      <div id="intervalUp5m" onClick={() => handleIntervalDuration(300, "intervalUp5m")} className="bg-eerieBlack h-full w-1/5 border-x border-b border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
                                                             <p className="text-timberwolf font-black text-5xl">+5'</p>
                                                       </div>
-                                                      <div id="intervalUp30m" onClick={() => handleIntervalDuration(1800, "intervalUp30m")} className="bg-blackOlive rounded-tr-3xl h-full w-1/5 border-l border-b border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
+                                                      <div id="intervalUp30m" onClick={() => handleIntervalDuration(1800, "intervalUp30m")} className="bg-eerieBlack rounded-tr-3xl h-full w-1/5 border-l border-b border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
                                                             <p className="text-timberwolf font-black text-5xl">+30'</p>
                                                       </div>
                                                 </div>
                                                 <div className="flex flex-row justify-center h-1/2 w-full">
-                                                      <div id="intervalDown1s" onClick={() => handleIntervalDuration(-1, "intervalDown1s")} className="bg-blackOlive rounded-bl-3xl h-full w-1/5 border-r border-t border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
+                                                      <div id="intervalDown1s" onClick={() => handleIntervalDuration(-1, "intervalDown1s")} className="bg-eerieBlack rounded-bl-3xl h-full w-1/5 border-r border-t border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
                                                             <p className="text-timberwolf font-black text-5xl">-1''</p>
                                                       </div>
-                                                      <div id="intervalDown5s" onClick={() => handleIntervalDuration(-5, "intervalDown5s")} className="bg-blackOlive h-full w-1/5 border-x border-t border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
+                                                      <div id="intervalDown5s" onClick={() => handleIntervalDuration(-5, "intervalDown5s")} className="bg-eerieBlack h-full w-1/5 border-x border-t border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
                                                             <p className="text-timberwolf font-black text-5xl">-5''</p>
                                                       </div>
-                                                      <div id="intervalDown30s" onClick={() => handleIntervalDuration(-30, "intervalDown30s")} className="bg-blackOlive h-full w-1/5 border-x border-t border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
+                                                      <div id="intervalDown30s" onClick={() => handleIntervalDuration(-30, "intervalDown30s")} className="bg-eerieBlack h-full w-1/5 border-x border-t border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
                                                             <p className="text-timberwolf font-black text-5xl">-30''</p>
                                                       </div>
-                                                      <div id="intervalDown5m" onClick={() => handleIntervalDuration(-300, "intervalDown5m")} className="bg-blackOlive h-full w-1/5 border-x border-t border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
+                                                      <div id="intervalDown5m" onClick={() => handleIntervalDuration(-300, "intervalDown5m")} className="bg-eerieBlack h-full w-1/5 border-x border-t border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
                                                             <p className="text-timberwolf font-black text-5xl">-5'</p>
                                                       </div>
-                                                      <div id="intervalDown30m" onClick={() => handleIntervalDuration(-1800, "intervalDown30m")} className="bg-blackOlive rounded-br-3xl h-full w-1/5 border-l border-t border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
+                                                      <div id="intervalDown30m" onClick={() => handleIntervalDuration(-1800, "intervalDown30m")} className="bg-eerieBlack rounded-br-3xl h-full w-1/5 border-l border-t border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
                                                             <p className="text-timberwolf font-black text-5xl">-30'</p>
                                                       </div>
                                                 </div>
                                           </div>
 
                                           {/* empty column */}
-                                          <div className="order-7 col-span-1 row-span-2 bg-jade rounded-3xl flex flex-col items-center justify-center">
+                                          <div className="order-7 col-span-1 row-span-2 rounded-3xl flex flex-col items-center justify-center">
                                           </div>
 
-                                          {/* Cancel and add */}
-                                          <div
-                                                className={`order-8 col-span-4 row-span-1 bg-burntSienna rounded-3xl flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer 
+                                          {/* Cancel and Save */}
+                                          <div className={`order-8 col-span-4 row-span-1 bg-burntSienna rounded-3xl flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer 
                                                             ${isClickedCancel ? "scale-animation" : ""}`}
                                                 onClick={handleCancel}
                                           >
-                                                <p className="text-center text-timberwolf text-5xl font-black">Cancel</p>
+                                                <p className="text-center text-eerieBlack text-5xl font-black">Cancel</p>
                                           </div>
-                                          <button type="submit" className={`order-9 col-span-4 row-span-1 bg-timberwolf rounded-3xl flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer
-                                                ${isClickedAdd ? "scale-animation" : ""}`}>
-                                                <p className="text-5xl text-blackOlive font-black">
-                                                      Add
+                                          <button type="submit" className={`order-9 col-span-4 row-span-1 bg-jade rounded-3xl flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer
+                                                ${isClickedSave ? "scale-animation" : ""}`}>
+                                                <p className="text-5xl text-floralWhite font-black">
+                                                      Save
                                                 </p>
                                           </button>
+
                                     </div>
                               </form>
                         </div>
+
                   </div>
-                  {/* CSS for the bounce animation */}
-                  <style>
-                        {`
-        @keyframes clickScale {
-          0% {
-            transform: scale(1);
-          }
-          50% {
-            transform: scale(0.95);
-          }
-          75% {
-            transform: scale(1.05);
-          }
-          100% {
-            transform: scale(1);
-          }
-        }
-        .scale-animation {
-          animation: clickScale 300ms ease-out;
-        }
-      `}
-                  </style>
             </>
       );
 };
 
-export default CreateIntervalForm;
-
-
+export default EditIntervalForm;
