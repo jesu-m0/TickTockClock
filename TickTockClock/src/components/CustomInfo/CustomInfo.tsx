@@ -187,7 +187,7 @@ const CustomInfo: React.FC = () => {
             <>
                   {/* Main drag and drop wrapper that handles drag end events */}
                   {clockStatus === ClockStatus.RUNNING || clockStatus === ClockStatus.PAUSED ? (
-                        <div id="intervalsContainer" onClick={errorDragDrop} className="order-9 lg:order-6 lg:col-span-8 col-span-12 lg:row-span-4 row-span-6 rounded-3xl bg-eerieBlack px-4 py-6">
+                        <div id="intervalsContainer" onClick={errorDragDrop} className="order-9 lg:order-6 lg:col-span-8 col-span-12 lg:row-span-4 row-span-6 rounded-3xl bg-floralWhite dark:bg-eerieBlack px-4 py-6">
                               {/* Scrollable container for interval cards */}
                               <div className="overflow-y-scroll flex flex-col gap-2 h-full pr-2">
                                     {customTimerInfo.intervals.map((interval, index) => (
@@ -203,7 +203,7 @@ const CustomInfo: React.FC = () => {
                               <Droppable droppableId="intervals">
                                     {(provided) => (
                                           <div
-                                                className="order-9 lg:order-6 lg:col-span-8 col-span-12 lg:row-span-4 row-span-6 rounded-3xl bg-eerieBlack px-4 py-6"
+                                                className="order-9 lg:order-6 lg:col-span-8 col-span-12 lg:row-span-4 row-span-6 rounded-3xl bg-floralWhite dark:bg-eerieBlack px-4 py-6"
                                                 {...provided.droppableProps}
                                                 ref={provided.innerRef}
                                           >

@@ -88,7 +88,7 @@ const EditIntervalForm: React.FC<EditIntervalFormProps> = ({ interval, onSave, o
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
-                                    className="text-timberwolf h-12 w-12 mt-4 ml-4"
+                                    className="text-blackOlive dark:text-timberwolf h-12 w-12 mt-4 ml-4"
                               >
                                     <path d="M18 6 6 18" />
                                     <path d="m6 6 12 12" />
@@ -99,19 +99,19 @@ const EditIntervalForm: React.FC<EditIntervalFormProps> = ({ interval, onSave, o
                               <form onSubmit={handleSave} className="p-4">
                                     <div className="grid grid-cols-12 lg:gap-5 gap-3 lg:auto-rows-[11vh] auto-rows-[10vh]">
                                           {/* Title */}
-                                          <div className="order-1 col-span-12 row-span-1 rounded-3xl content-center bg-eerieBlack">
-                                                <p className="text-5xl font-black text-timberwolf text-center">Edit interval</p>
+                                          <div className="order-1 col-span-12 row-span-1 rounded-3xl content-center bg-floralWhite dark:bg-eerieBlack">
+                                                <p className="text-5xl font-black text-blackOlive dark:text-timberwolf text-center">Edit interval</p>
                                           </div>
 
                                           {/* Color Picker Section */}
                                           <div
-                                                className="order-2 col-span-2 row-span-1 rounded-3xl bg-eerieBlack flex items-center justify-evenly p-2 cursor-pointer relative"
+                                                className="order-2 col-span-2 row-span-1 rounded-3xl bg-floralWhite dark:bg-eerieBlack flex items-center justify-evenly p-2 cursor-pointer relative"
                                                 onClick={() => setIsColorPickerOpen(!isColorPickerOpen)} // Toggle color picker visibility
                                           >
                                                 {/* Selected Color Button */}
                                                 <div
                                                       style={{ backgroundColor: selectedColor }}
-                                                      className="w-14 h-14 rounded-full border-4 border-floralWhite select-none"
+                                                      className="w-14 h-14 rounded-full border-4 border-eerieBlack dark:border-floralWhite select-none"
                                                 ></div>
                                                 {/* Triangle SVG Indicator */}
                                                 <svg
@@ -122,7 +122,7 @@ const EditIntervalForm: React.FC<EditIntervalFormProps> = ({ interval, onSave, o
                                                       strokeWidth="2"
                                                       strokeLinecap="round"
                                                       strokeLinejoin="round"
-                                                      className={`w-10 h-10 text-timberwolf transition-transform duration-300 ease-in-out ${isColorPickerOpen ? "-rotate-180" : "rotate-0"
+                                                      className={`w-10 h-10 text-blackOlive dark:text-timberwolf transition-transform duration-300 ease-in-out ${isColorPickerOpen ? "-rotate-180" : "rotate-0"
                                                             }`}
                                                 >
                                                       <path d="M6 9l6 6 6-6" />
@@ -131,11 +131,11 @@ const EditIntervalForm: React.FC<EditIntervalFormProps> = ({ interval, onSave, o
 
                                                 {/* Color Picker Panel */}
                                                 <div
-                                                      className={`absolute top-full mt-2 w-64 p-4 bg-eerieBlack rounded-2xl shadow-lg z-50 transform transition-all duration-300 ease-in-out ${isColorPickerOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2 pointer-events-none"
+                                                      className={`absolute top-full mt-2 w-64 p-4 bg-floralWhite dark:bg-eerieBlack rounded-2xl shadow-lg z-50 transform transition-all duration-300 ease-in-out ${isColorPickerOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2 pointer-events-none"
                                                             }`}
                                                       style={{ width: "max-content" }}
                                                 >
-                                                      <h3 className="text-timberwolf mb-3 select-none text-center text-xl font-bold">Interval color</h3>
+                                                      <h3 className="text-blackOlive dark:text-timberwolf mb-3 select-none text-center text-xl font-bold">Interval color</h3>
                                                       <div className="grid grid-cols-4 gap-2">
                                                             {Object.values(Colors).map((color) => (
                                                                   <button
@@ -156,7 +156,7 @@ const EditIntervalForm: React.FC<EditIntervalFormProps> = ({ interval, onSave, o
                                           </div>
 
                                           {/* Interval Name Label */}
-                                          <div className="order-3 col-span-6 row-span-1 rounded-3xl bg-eerieBlack pt-4 px-8 pb-6 relative">
+                                          <div className="order-3 col-span-6 row-span-1 rounded-3xl bg-floralWhite dark:bg-eerieBlack pt-4 px-8 pb-6 relative">
                                                 {/* Inner Container to Respect Parent Padding */}
                                                 <div className="w-full h-full flex flex-col justify-end items-center">
                                                       {/* Input Field */}
@@ -165,15 +165,15 @@ const EditIntervalForm: React.FC<EditIntervalFormProps> = ({ interval, onSave, o
                                                             value={name} // Use the current name
                                                             onChange={(e) => setName(e.target.value.slice(0, 20))} // Enforce character limit of 20
                                                             placeholder="Interval name"
-                                                            className="w-full bg-eerieBlack text-timberwolf text-3xl font-bold placeholder:text-timberwolf/70 focus:outline-none mb-1 leading-relaxed" // Add leading-relaxed for proper line height
+                                                            className="w-full bg-floralWhite dark:bg-eerieBlack text-blackOlive dark:text-timberwolf text-3xl font-bold placeholder:text-blackOlive/70 dark:placeholder:text-timberwolf/70 focus:outline-none mb-1 leading-relaxed" // Add leading-relaxed for proper line height
                                                       />
                                                       {/* Timberwolf Line */}
-                                                      <div className="w-full h-[2px] bg-timberwolf"></div>
+                                                      <div className="w-full h-[2px] bg-blackOlive dark:bg-timberwolf"></div>
                                                 </div>
                                           </div>
 
                                           {/* Iterval show card */}
-                                          <div className="order-4 col-span-4 row-span-4 bg-timberwolf rounded-3xl flex flex-col">
+                                          <div className="order-4 col-span-4 row-span-4 bg-floralWhite dark:bg-timberwolf rounded-3xl flex flex-col">
                                                 <div className="p-4 h-full flex flex-col justify-center items-center">
                                                       <p className="font-black text-blackOlive text-8xl md:text-8xl xl:text-9xl text-center">
                                                             {formatTime(duration)}
@@ -204,37 +204,37 @@ const EditIntervalForm: React.FC<EditIntervalFormProps> = ({ interval, onSave, o
                                           {/* Duration picker */}
                                           <div className="order-6 col-span-6 row-span-2 bg-eerieBlack rounded-3xl flex flex-col items-center justify-center">
                                                 <div className="flex flex-row justify-center h-1/2 w-full">
-                                                      <div id="intervalUp1s" onClick={() => handleIntervalDuration(1, "intervalUp1s")} className="bg-eerieBlack rounded-tl-3xl h-full w-1/5 border-r border-b border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
-                                                            <p className="text-timberwolf font-black text-5xl">+1''</p>
+                                                      <div id="intervalUp1s" onClick={() => handleIntervalDuration(1, "intervalUp1s")} className="bg-floralWhite dark:bg-eerieBlack rounded-tl-3xl h-full w-1/5 border-r border-b border-blackOlive dark:border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
+                                                            <p className="text-blackOlive dark:text-timberwolf font-black text-5xl">+1''</p>
                                                       </div>
-                                                      <div id="intervalUp5s" onClick={() => handleIntervalDuration(5, "intervalUp5s")} className="bg-eerieBlack h-full w-1/5 border-x border-b border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
-                                                            <p className="text-timberwolf font-black text-5xl">+5''</p>
+                                                      <div id="intervalUp5s" onClick={() => handleIntervalDuration(5, "intervalUp5s")} className="bg-floralWhite dark:bg-eerieBlack h-full w-1/5 border-x border-b border-blackOlive dark:border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
+                                                            <p className="text-blackOlive dark:text-timberwolf font-black text-5xl">+5''</p>
                                                       </div>
-                                                      <div id="intervalUp30s" onClick={() => handleIntervalDuration(30, "intervalUp30s")} className="bg-eerieBlack h-full w-1/5 border-x border-b border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
-                                                            <p className="text-timberwolf font-black text-5xl">+30''</p>
+                                                      <div id="intervalUp30s" onClick={() => handleIntervalDuration(30, "intervalUp30s")} className="bg-floralWhite dark:bg-eerieBlack h-full w-1/5 border-x border-b border-blackOlive dark:border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
+                                                            <p className="text-blackOlive dark:text-timberwolf font-black text-5xl">+30''</p>
                                                       </div>
-                                                      <div id="intervalUp5m" onClick={() => handleIntervalDuration(300, "intervalUp5m")} className="bg-eerieBlack h-full w-1/5 border-x border-b border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
-                                                            <p className="text-timberwolf font-black text-5xl">+5'</p>
+                                                      <div id="intervalUp5m" onClick={() => handleIntervalDuration(300, "intervalUp5m")} className="bg-floralWhite dark:bg-eerieBlack h-full w-1/5 border-x border-b border-blackOlive dark:border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
+                                                            <p className="text-blackOlive dark:text-timberwolf font-black text-5xl">+5'</p>
                                                       </div>
-                                                      <div id="intervalUp30m" onClick={() => handleIntervalDuration(1800, "intervalUp30m")} className="bg-eerieBlack rounded-tr-3xl h-full w-1/5 border-l border-b border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
-                                                            <p className="text-timberwolf font-black text-5xl">+30'</p>
+                                                      <div id="intervalUp30m" onClick={() => handleIntervalDuration(1800, "intervalUp30m")} className="bg-floralWhite dark:bg-eerieBlack rounded-tr-3xl h-full w-1/5 border-l border-b border-blackOlive dark:border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
+                                                            <p className="text-blackOlive dark:text-timberwolf font-black text-5xl">+30'</p>
                                                       </div>
                                                 </div>
                                                 <div className="flex flex-row justify-center h-1/2 w-full">
-                                                      <div id="intervalDown1s" onClick={() => handleIntervalDuration(-1, "intervalDown1s")} className="bg-eerieBlack rounded-bl-3xl h-full w-1/5 border-r border-t border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
-                                                            <p className="text-timberwolf font-black text-5xl">-1''</p>
+                                                      <div id="intervalDown1s" onClick={() => handleIntervalDuration(-1, "intervalDown1s")} className="bg-floralWhite dark:bg-eerieBlack rounded-bl-3xl h-full w-1/5 border-r border-t border-blackOlive dark:border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
+                                                            <p className="text-blackOlive dark:text-timberwolf font-black text-5xl">-1''</p>
                                                       </div>
-                                                      <div id="intervalDown5s" onClick={() => handleIntervalDuration(-5, "intervalDown5s")} className="bg-eerieBlack h-full w-1/5 border-x border-t border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
-                                                            <p className="text-timberwolf font-black text-5xl">-5''</p>
+                                                      <div id="intervalDown5s" onClick={() => handleIntervalDuration(-5, "intervalDown5s")} className="bg-floralWhite dark:bg-eerieBlack h-full w-1/5 border-x border-t border-blackOlive dark:border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
+                                                            <p className="text-blackOlive dark:text-timberwolf font-black text-5xl">-5''</p>
                                                       </div>
-                                                      <div id="intervalDown30s" onClick={() => handleIntervalDuration(-30, "intervalDown30s")} className="bg-eerieBlack h-full w-1/5 border-x border-t border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
-                                                            <p className="text-timberwolf font-black text-5xl">-30''</p>
+                                                      <div id="intervalDown30s" onClick={() => handleIntervalDuration(-30, "intervalDown30s")} className="bg-floralWhite dark:bg-eerieBlack h-full w-1/5 border-x border-t border-blackOlive dark:border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
+                                                            <p className="text-blackOlive dark:text-timberwolf font-black text-5xl">-30''</p>
                                                       </div>
-                                                      <div id="intervalDown5m" onClick={() => handleIntervalDuration(-300, "intervalDown5m")} className="bg-eerieBlack h-full w-1/5 border-x border-t border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
-                                                            <p className="text-timberwolf font-black text-5xl">-5'</p>
+                                                      <div id="intervalDown5m" onClick={() => handleIntervalDuration(-300, "intervalDown5m")} className="bg-floralWhite dark:bg-eerieBlack h-full w-1/5 border-x border-t border-blackOlive dark:border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
+                                                            <p className="text-blackOlive dark:text-timberwolf font-black text-5xl">-5'</p>
                                                       </div>
-                                                      <div id="intervalDown30m" onClick={() => handleIntervalDuration(-1800, "intervalDown30m")} className="bg-eerieBlack rounded-br-3xl h-full w-1/5 border-l border-t border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
-                                                            <p className="text-timberwolf font-black text-5xl">-30'</p>
+                                                      <div id="intervalDown30m" onClick={() => handleIntervalDuration(-1800, "intervalDown30m")} className="bg-floralWhite dark:bg-eerieBlack rounded-br-3xl h-full w-1/5 border-l border-t border-blackOlive dark:border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
+                                                            <p className="text-blackOlive dark:text-timberwolf font-black text-5xl">-30'</p>
                                                       </div>
                                                 </div>
                                           </div>
@@ -248,7 +248,7 @@ const EditIntervalForm: React.FC<EditIntervalFormProps> = ({ interval, onSave, o
                                                             ${isClickedCancel ? "scale-animation" : ""}`}
                                                 onClick={handleCancel}
                                           >
-                                                <p className="text-center text-eerieBlack text-5xl font-black">Cancel</p>
+                                                <p className="text-center text-blackOlive dark:text-eerieBlack text-5xl font-black">Cancel</p>
                                           </div>
                                           <button type="submit" className={`order-9 col-span-4 row-span-1 bg-jade rounded-3xl flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer
                                                 ${isClickedSave ? "scale-animation" : ""}`}>
