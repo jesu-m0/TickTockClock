@@ -163,7 +163,7 @@ const MainPage: React.FC = () => {
       return (
             <div>
                   <div className="container mx-auto p-5">
-                        <div className="grid grid-cols-12 lg:gap-5 gap-3 lg:auto-rows-[11vh] auto-rows-[10vh]">
+                        <div className="grid grid-cols-12 lg:gap-5 gap-3 lg:auto-rows-[100px] auto-rows-[10vh]">
                               <Header></Header>
 
                               {/*Clock */}
@@ -183,29 +183,21 @@ const MainPage: React.FC = () => {
                               {/*Mode selection*/}
                               <div id="modeSelection" className="order-8 lg:order-5 lg:col-span-8 col-span-12 row-span-1 content-center flex">
                                     {/*Simple btn*/}
-                                    <div
-                                          className="w-1/2 h-full rounded-3xl content-center dark:bg-eerieBlack bg-floralWhite cursor-pointer flex flex-col overflow-hidden"
-                                          onClick={changeToSimple}
-                                    >
+                                    <div className="w-1/2 h-full rounded-3xl content-center dark:bg-eerieBlack bg-floralWhite cursor-pointer flex flex-col overflow-hidden"
+                                          onClick={changeToSimple}>
+
                                           {/*Title*/}
-                                          <div className="lg:pt-4 pt-2 px-4 h-4/5">
-                                                <p
-                                                      className={`font-extrabold dark:text-timberwolf text-blackOlive text-2xl lg:text-4xl text-center pt-1 lg:pt-2  transition-colors duration-300`}
-                                                >
+                                          <div className="lg:pt-4 pt-2 px-4 h-4/5 flex items-center justify-center">
+                                                <p className={`font-extrabold dark:text-timberwolf text-blackOlive text-2xl lg:text-4xl text-center transition-colors duration-300`}>
                                                       Simple
                                                 </p>
                                           </div>
 
                                           {/*Bar*/}
                                           <div className="w-full flex flex-row h-1/5">
-                                                <div
-                                                      className={`
-                                                      ${isSimpleMode
-                                                                  ? "bg-jade"
-                                                                  : "dark:bg-eerieBlack bg-floralWhite"
-                                                            }
-                                                      lg:h-6 h-full flex-1 rounded-b-3xl transform duration-300`}
-                                                ></div>
+                                                <div className={`h-full flex-1 rounded-b-3xl transform duration-300
+                                                      ${isSimpleMode ? "bg-jade" : "dark:bg-eerieBlack bg-floralWhite"}`}>
+                                                </div>
                                           </div>
                                     </div>
 
@@ -215,22 +207,18 @@ const MainPage: React.FC = () => {
                                           onClick={changeToCustom}
                                     >
                                           {/*Title*/}
-                                          <div className="pt-2 lg:pt-4 px-4 h-4/5">
-                                                <p
-                                                      className={`font-extrabold dark:text-timberwolf text-blackOlive text-2xl lg:text-4xl text-center pt-1 lg:pt-2 transition-colors duration-300`}
-                                                >
+                                          <div className="pt-2 lg:pt-4 px-4 h-4/5 flex justify-center items-center">
+                                                <p className={`font-extrabold dark:text-timberwolf text-blackOlive text-2xl lg:text-4xl text-center transition-colors duration-300`}>
                                                       Custom
                                                 </p>
                                           </div>
 
                                           {/*Bar*/}
                                           <div className="w-full flex flex-row h-1/5">
-                                                <div
-                                                      className={`
-                ${isSimpleMode ? "dark:bg-eerieBlack bg-floralWhite" : "bg-jade"
-                                                            }
-                h-6 flex-1 rounded-b-3xl transform duration-300`}
-                                                ></div>
+                                                <div className={`h-full flex-1 rounded-b-3xl transform duration-300 
+                                                                  ${isSimpleMode ? "dark:bg-eerieBlack bg-floralWhite" : "bg-jade"}`}>
+
+                                                </div>
                                           </div>
                                     </div>
                               </div>

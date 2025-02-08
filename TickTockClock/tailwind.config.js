@@ -17,6 +17,9 @@ export default {
         saffron: '#E9C46A',
         jade: '#44Af69'
       },
+      gridTemplateRows: {
+            'max-100': 'minmax(0, 100px)', // Custom utility
+      },
     },
   },
   plugins: [

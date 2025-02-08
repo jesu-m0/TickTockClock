@@ -4,7 +4,7 @@
   }
 
 .time-controls-layout {
-  @apply flex lg:flex-col flex-row items-center lg:w-1/2 w-full px-4 lg:px-0 lg:py-0 pt-4 pb-4 lg:pb-0;
+  @apply flex lg:flex-col flex-row items-center justify-evenly lg:w-1/2 w-full px-4 lg:px-0 lg:py-0 pt-4 pb-4 lg:pb-0;
 }
 
 .timer-phase-title {
@@ -12,11 +12,11 @@
 }
 
 .lap-timer-display-container {
-  @apply p-4 dark:bg-timberwolf bg-floralWhite rounded-3xl mx-auto lg:mt-2 mt-0 lg:w-4/5 w-1/2;
+  @apply p-3 dark:bg-timberwolf bg-floralWhite rounded-3xl lg:mt-2 mt-0 lg:w-4/5;
 }
 
 .lap-timer-digits {
-  @apply lg:text-7xl text-4xl font-black dark:text-eerieBlack text-blackOlive w-full text-center;
+  @apply lg:text-7xl text-3xl font-black dark:text-eerieBlack text-blackOlive w-full text-center;
 }
 
 .timer-lap-buttons-layout {

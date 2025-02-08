@@ -175,7 +175,7 @@ const SimpleInfo: React.FC = () => {
                         <div className='h-full'>
 
                               {/* Work Section */}
-                              <div className='h-1/2 items-center flex lg:flex-row flex-col bg-burntSienna rounded-t-3xl'>
+                              <div className='h-1/2 items-center flex lg:flex-row flex-col justify-evenly bg-burntSienna rounded-t-3xl'>
 
                                     {/* Work Timer Display */}
                                     <div className='time-controls-layout'>
@@ -222,7 +222,7 @@ const SimpleInfo: React.FC = () => {
 
 
                               {/* Rest Section */}
-                              <div className='h-1/2 items-center flex lg:flex-row flex-col rounded-b-3xl bg-jade'>
+                              <div className='h-1/2 items-center flex lg:flex-row flex-col justify-evenly rounded-b-3xl bg-jade'>
                                     {/* Rest Timer Display */}
                                     <div className='time-controls-layout'>
                                           <p className="timer-phase-title">Rest lap</p>
@@ -268,8 +268,8 @@ const SimpleInfo: React.FC = () => {
                         </div>
                   </div>
 
-                  {/* Second section - New functionality (11/10vh = 1 row) */}
-                  <div className='lg:h-[11vh] h-[10vh] rounded-3xl flex items-center lg:gap-5 gap-3'>
+                  {/* Sets management */}
+                  <div className='lg:h-[100px] h-[10vh] rounded-3xl flex items-center lg:gap-5 gap-3'>
                         <div className='dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full w-2/5 flex items-center justify-center'>
                               <p className="dark:text-timberwolf text-blackOlive lg:text-5xl text-3xl font-black">Sets</p>
                         </div>

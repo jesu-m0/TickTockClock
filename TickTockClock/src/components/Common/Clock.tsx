@@ -380,7 +380,7 @@ const Clock: React.FC = () => {
                   </div>
                   {/*Sets progress bar*/}
                   <div
-                        className={`lg:h-[11vh] h-[10vh] rounded-3xl relative overflow-hidden dark:bg-eerieBlack bg-floralWhite flex items-center justify-center`}
+                        className={`lg:h-[100px] h-[10vh] rounded-3xl relative overflow-hidden dark:bg-eerieBlack bg-floralWhite flex items-center justify-center`}
                   >
                         {(clockStatus === ClockStatus.RUNNING || clockStatus === ClockStatus.PAUSED) && (
                               <>
