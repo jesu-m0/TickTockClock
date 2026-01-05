@@ -2,7 +2,7 @@ import React, { useEffect, useCallback } from "react";
 import { AnimationType, ClockStatus, Colors } from "../../types";
 import { useClockStatus } from "../../context/ClockContext";
 import { useTheme } from "../../context/ThemeContext";
-import { playTimerFinishedSound } from "../../utils/soundNotification";
+import { playTimerFinishedSound, playWorkLapFinishedSound, playRestLapFinishedSound } from "../../utils/soundNotification";
 
 const Clock: React.FC = () => {
       const { isDarkMode } = useTheme();
@@ -196,6 +196,10 @@ const Clock: React.FC = () => {
                                     } else if (time === 0 && simpleTimerInfo.isWorkLap) {
                                           // Work lap ended, next step will be rest lap (after 1 second pause)
                                           console.log("Status Change: RUNNING -> RUNNING: work lap ended.");
+
+                                          // Play work lap finished sound
+                                          playWorkLapFinishedSound();
+
                                           setTimeout(() => {
                                                 setRunningToRunningWorkLapEndedSimple();
                                           }, 1000);
@@ -207,6 +211,10 @@ const Clock: React.FC = () => {
                                                 (simpleTimerInfo.remainingSets - 1) +
                                                 " sets remaining."
                                           );
+
+                                          // Play rest lap finished sound
+                                          playRestLapFinishedSound();
+
                                           setTimeout(() => {
                                                 setRunningToRunningRestLapEndedSimple();
                                           }, 1000);
