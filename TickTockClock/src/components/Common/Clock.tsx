@@ -2,6 +2,7 @@ import React, { useEffect, useCallback } from "react";
 import { AnimationType, ClockStatus, Colors } from "../../types";
 import { useClockStatus } from "../../context/ClockContext";
 import { useTheme } from "../../context/ThemeContext";
+import { playTimerFinishedSound } from "../../utils/soundNotification";
 
 const Clock: React.FC = () => {
       const { isDarkMode } = useTheme();
@@ -61,6 +62,9 @@ const Clock: React.FC = () => {
                   currentAnimation: AnimationType.WORKOUT_FINISHED_SIMPLE,
             });
             setClockStatus(ClockStatus.FINISHED);
+
+            // Play notification sound
+            playTimerFinishedSound();
       }, [simpleTimerInfo, setSimpleTimerInfo, setTime, setClockStatus]);
 
       const setRunningToRunningWorkLapEndedSimple = useCallback(() => {
@@ -294,6 +298,9 @@ const Clock: React.FC = () => {
                                     } else if (time == 0 && customTimerInfo.remainingIntervals.length == 1 && customTimerInfo.remainingSets == 1) {
                                           console.log("Status change: RUNNING -> FINISHED");
                                           setClockStatus(ClockStatus.FINISHED);
+
+                                          // Play notification sound
+                                          playTimerFinishedSound();
                                     }
                                     break;
                               case ClockStatus.PAUSED:
