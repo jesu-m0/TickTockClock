@@ -1,6 +1,15 @@
 .time-button {
-  @apply h-20 lg:h-24 text-2xl lg:text-3xl dark:bg-eerieBlack bg-blackOlive dark:text-timberwolf text-floralWhite rounded-2xl font-bold cursor-pointer
+  @apply h-20 lg:h-24 text-2xl lg:text-3xl dark:bg-eerieBlack bg-blackOlive dark:text-timberwolf text-floralWhite rounded-md font-bold cursor-pointer
   hover:scale-105 transition-transform duration-200 flex justify-center items-center;
+}
+
+/* First and last buttons in each row get larger corner radius */
+.time-button:first-child {
+  @apply rounded-l-2xl;
+}
+
+.time-button:last-child {
+  @apply rounded-r-2xl;
 }
 
 /* Variable button widths based on size */
