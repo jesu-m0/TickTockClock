@@ -3,7 +3,6 @@ import { AnimationType, ClockStatus, Colors } from "../../types";
 import { useClockStatus } from "../../context/ClockContext";
 import { useTheme } from "../../context/ThemeContext";
 import { playTimerFinishedSound, playWorkLapFinishedSound, playRestLapFinishedSound } from "../../utils/soundNotification";
-import { requestWakeLock, releaseWakeLock } from "../../utils/wakeLock";
 
 const Clock: React.FC = () => {
       const { isDarkMode } = useTheme();
