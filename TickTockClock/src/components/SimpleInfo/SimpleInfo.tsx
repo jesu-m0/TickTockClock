@@ -202,7 +202,7 @@ const SimpleInfo: React.FC = () => {
 
                                     {/* Work Controls */}
                                     <div className='timer-lap-buttons-layout'>
-                                          <div className="flex gap-2 justify-center">
+                                          <div className="flex gap-1 justify-center max-w-full">
                                                 {workUpButtons.map(button => (
                                                       <a
                                                             key={button.id}
@@ -216,7 +216,7 @@ const SimpleInfo: React.FC = () => {
                                                 ))}
                                           </div>
 
-                                          <div className="flex gap-2 justify-center">
+                                          <div className="flex gap-1 justify-center max-w-full">
                                                 {workDownButtons.map(button => (
                                                       <a
                                                             key={button.id}
@@ -248,7 +248,7 @@ const SimpleInfo: React.FC = () => {
 
                                     {/* Rest Controls */}
                                     <div className='timer-lap-buttons-layout'>
-                                          <div className="flex gap-2 justify-center">
+                                          <div className="flex gap-1 justify-center max-w-full">
                                                 {restUpButtons.map(button => (
                                                       <a
                                                             key={button.id}
@@ -262,7 +262,7 @@ const SimpleInfo: React.FC = () => {
                                                 ))}
                                           </div>
 
-                                          <div className="flex gap-2 justify-center">
+                                          <div className="flex gap-1 justify-center max-w-full">
                                                 {restDownButtons.map(button => (
                                                       <a
                                                             key={button.id}
@@ -281,28 +281,28 @@ const SimpleInfo: React.FC = () => {
                   </div>
 
                   {/* Sets management */}
-                  <div className='lg:h-[100px] h-[10vh] rounded-3xl flex items-center lg:gap-5 gap-3'>
+                  <div className='lg:h-[100px] h-[10vh] min-h-[60px] rounded-3xl flex items-center lg:gap-5 gap-2 sm:gap-3'>
                         <div className='dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full w-2/5 flex items-center justify-center'>
-                              <p className="dark:text-timberwolf text-blackOlive lg:text-5xl text-3xl font-black">Sets</p>
+                              <p className="dark:text-timberwolf text-blackOlive lg:text-5xl text-2xl sm:text-3xl font-black">Sets</p>
                         </div>
                         <div
-                              className={`dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full w-1/5 flex items-center justify-center 
+                              className={`dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full w-1/5 flex items-center justify-center
                                     hover:scale-105 transition-transform duration-200 cursor-pointer
                                     ${minusClicked ? 'scale-animation' : ''}`}
                               onClick={handleSetsDown}
                         >
-                              <p className="dark:text-timberwolf text-blackOlive lg:text-5xl text-4xl font-black pb-2">-</p>
+                              <p className="dark:text-timberwolf text-blackOlive lg:text-5xl text-3xl sm:text-4xl font-black pb-2">-</p>
                         </div>
                         <div className='dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full w-1/5 flex items-center justify-center'>
-                              <p className="dark:text-timberwolf text-blackOlive lg:text-5xl text-4xl font-black">{simpleTimerInfo.sets}</p>
+                              <p className="dark:text-timberwolf text-blackOlive lg:text-5xl text-3xl sm:text-4xl font-black">{simpleTimerInfo.sets}</p>
                         </div>
                         <div
-                              className={`dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full w-1/5 flex items-center justify-center 
+                              className={`dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full w-1/5 flex items-center justify-center
                                     hover:scale-105 transition-transform duration-200 cursor-pointer
                                     ${plusClicked ? 'scale-animation' : ''}`}
                               onClick={handleSetsUp}
                         >
-                              <p className="dark:text-timberwolf text-blackOlive lg:text-5xl text-4xl font-black pb-2">+</p>
+                              <p className="dark:text-timberwolf text-blackOlive lg:text-5xl text-3xl sm:text-4xl font-black pb-2">+</p>
                         </div>
                   </div>
             </div>

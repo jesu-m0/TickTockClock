@@ -168,7 +168,7 @@ const MainPage: React.FC = () => {
       return (
             <div>
                   <div className="container mx-auto p-5">
-                        <div className="grid grid-cols-12 lg:gap-5 gap-3 lg:auto-rows-[100px] auto-rows-[10vh]">
+                        <div className="grid grid-cols-12 lg:gap-5 gap-3 lg:auto-rows-[100px] auto-rows-[10vh] mb-16 md:mb-4">
                               <Header></Header>
 
                               {/*Clock */}
@@ -335,7 +335,7 @@ const MainPage: React.FC = () => {
                         </div>
 
                         {/*Signature*/}
-                        <footer className="mt-5">
+                        <footer className="mt-6 md:mt-4">
                               <p className="text-blackOlive dark:text-timberwolf text-sm pointer-events-auto">
                                     Made with {"<"}3 by{" "}
                                     <a

@@ -14,23 +14,61 @@
 
 /* Variable button widths based on size */
 .time-button-xs {
-  @apply w-14 lg:w-16;
+  flex-shrink: 1;
+  flex-grow: 0;
+  width: 3.25rem !important;
+  min-width: 2.5rem !important;
 }
 
 .time-button-s {
-  @apply w-16 lg:w-20;
+  flex-shrink: 1;
+  flex-grow: 0;
+  width: 3.75rem !important;
+  min-width: 3rem !important;
 }
 
 .time-button-m {
-  @apply w-20 lg:w-28;
+  flex-shrink: 1;
+  flex-grow: 0;
+  width: 4.25rem !important;
+  min-width: 3.25rem !important;
 }
 
 .time-button-l {
-  @apply w-24 lg:w-36;
+  flex-shrink: 1;
+  flex-grow: 0;
+  width: 5rem !important;
+  min-width: 3.75rem !important;
 }
 
 .time-button-xl {
-  @apply w-28 lg:w-44;
+  flex-shrink: 1;
+  flex-grow: 0;
+  width: 5.75rem !important;
+  min-width: 4.5rem !important;
+}
+
+/* Large screens - full size buttons */
+@media (min-width: 1536px) {
+  .time-button-xs {
+    width: 4rem !important;
+  }
+
+  .time-button-s {
+    width: 5rem !important;
+  }
+
+  .time-button-m {
+    width: 7rem !important;
+  }
+
+  .time-button-l {
+    width: 9rem !important;
+  }
+
+  .time-button-xl {
+    width: 11rem !important;
+  }
 }
 
 .time-controls-layout {
@@ -50,5 +88,12 @@
 }
 
 .timer-lap-buttons-layout {
-  @apply flex flex-col lg:w-1/2 w-full items-center gap-2 pb-2 lg:pb-0 px-3;
+  @apply flex flex-col lg:w-1/2 w-full items-center gap-2 pb-2 lg:pb-0 px-1 sm:px-2;
+  max-width: 100%;
+}
+
+@media (min-width: 1536px) {
+  .timer-lap-buttons-layout {
+    @apply px-3;
+  }
 } 
