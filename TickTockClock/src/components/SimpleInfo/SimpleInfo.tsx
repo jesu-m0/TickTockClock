@@ -8,6 +8,7 @@ export interface WorkDurationButton {
       seconds: number;
       label: string;
       isClicked: boolean;
+      size: 'xs' | 's' | 'm' | 'l' | 'xl';
 }
 
 const SimpleInfo: React.FC = () => {
@@ -20,31 +21,31 @@ const SimpleInfo: React.FC = () => {
       const [buttonDoAnimation, setButtonDoAnimation] = useState<string>("");
 
       const [workUpButtons, setWorkUpButtons] = useState<WorkDurationButton[]>([
-            { id: 'workUp1', seconds: 1, label: '+1"', isClicked: false },
-            { id: 'workUp5', seconds: 5, label: '+5"', isClicked: false },
-            { id: 'workUp30', seconds: 30, label: '+30"', isClicked: false },
-            { id: 'workUp300', seconds: 300, label: "+5'", isClicked: false },
+            { id: 'workUp1', seconds: 1, label: '+1"', isClicked: false, size: 'xs' },
+            { id: 'workUp5', seconds: 5, label: '+5"', isClicked: false, size: 's' },
+            { id: 'workUp30', seconds: 30, label: '+30"', isClicked: false, size: 'm' },
+            { id: 'workUp300', seconds: 300, label: "+5'", isClicked: false, size: 'xl' },
       ]);
 
       const [workDownButtons, setWorkDownButtons] = useState<WorkDurationButton[]>([
-            { id: 'workDown1', seconds: 1, label: '-1"', isClicked: false },
-            { id: 'workDown5', seconds: 5, label: '-5"', isClicked: false },
-            { id: 'workDown30', seconds: 30, label: '-30"', isClicked: false },
-            { id: 'workDown300', seconds: 300, label: "-5'", isClicked: false },
+            { id: 'workDown1', seconds: 1, label: '-1"', isClicked: false, size: 'xs' },
+            { id: 'workDown5', seconds: 5, label: '-5"', isClicked: false, size: 's' },
+            { id: 'workDown30', seconds: 30, label: '-30"', isClicked: false, size: 'm' },
+            { id: 'workDown300', seconds: 300, label: "-5'", isClicked: false, size: 'xl' },
       ]);
 
       const [restUpButtons, setRestUpButtons] = useState<WorkDurationButton[]>([
-            { id: 'restUp1', seconds: 1, label: '+1"', isClicked: false },
-            { id: 'restUp5', seconds: 5, label: '+5"', isClicked: false },
-            { id: 'restUp30', seconds: 30, label: '+30"', isClicked: false },
-            { id: 'restUp300', seconds: 300, label: "+5'", isClicked: false },
+            { id: 'restUp1', seconds: 1, label: '+1"', isClicked: false, size: 'xs' },
+            { id: 'restUp5', seconds: 5, label: '+5"', isClicked: false, size: 's' },
+            { id: 'restUp30', seconds: 30, label: '+30"', isClicked: false, size: 'm' },
+            { id: 'restUp300', seconds: 300, label: "+5'", isClicked: false, size: 'xl' },
       ]);
 
       const [restDownButtons, setRestDownButtons] = useState<WorkDurationButton[]>([
-            { id: 'restDown1', seconds: 1, label: '-1"', isClicked: false },
-            { id: 'restDown5', seconds: 5, label: '-5"', isClicked: false },
-            { id: 'restDown30', seconds: 30, label: '-30"', isClicked: false },
-            { id: 'restDown300', seconds: 300, label: "-5'", isClicked: false },
+            { id: 'restDown1', seconds: 1, label: '-1"', isClicked: false, size: 'xs' },
+            { id: 'restDown5', seconds: 5, label: '-5"', isClicked: false, size: 's' },
+            { id: 'restDown30', seconds: 30, label: '-30"', isClicked: false, size: 'm' },
+            { id: 'restDown300', seconds: 300, label: "-5'", isClicked: false, size: 'xl' },
       ]);
 
       //Control the animation of + or - when clicked
@@ -167,6 +168,17 @@ const SimpleInfo: React.FC = () => {
             return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
       };
 
+      const getSizeClass = (size: 'xs' | 's' | 'm' | 'l' | 'xl'): string => {
+            const sizeMap = {
+                  'xs': 'time-button-xs',
+                  's': 'time-button-s',
+                  'm': 'time-button-m',
+                  'l': 'time-button-l',
+                  'xl': 'time-button-xl'
+            };
+            return sizeMap[size];
+      };
+
       return (
             <div className='order-9 lg:order-6 lg:col-span-8 col-span-12 lg:row-span-5 row-span-7 flex flex-col lg:gap-5 gap-3'>
 
@@ -194,7 +206,7 @@ const SimpleInfo: React.FC = () => {
                                                 {workUpButtons.map(button => (
                                                       <a
                                                             key={button.id}
-                                                            className={`time-button 
+                                                            className={`time-button ${getSizeClass(button.size)}
                                                                   ${button.isClicked ? 'scale-animation' : ''}
                                                                   ${(simpleTimerInfo.currentAnimation === AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_NOT_00) && buttonDoAnimation === button.id ? 'button-error-animation' : ''}`}
                                                             onClick={() => handleWorkDurationUp(button.seconds, button.id)}
@@ -208,7 +220,7 @@ const SimpleInfo: React.FC = () => {
                                                 {workDownButtons.map(button => (
                                                       <a
                                                             key={button.id}
-                                                            className={`time-button 
+                                                            className={`time-button ${getSizeClass(button.size)}
                                                                   ${button.isClicked ? 'scale-animation' : ''}
                                                                   ${(simpleTimerInfo.currentAnimation === AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_NOT_00) && buttonDoAnimation === button.id ? 'button-error-animation' : ''}`}
                                                             onClick={() => handleWorkDurationDown(button.seconds, button.id)}
@@ -240,7 +252,7 @@ const SimpleInfo: React.FC = () => {
                                                 {restUpButtons.map(button => (
                                                       <a
                                                             key={button.id}
-                                                            className={`time-button 
+                                                            className={`time-button ${getSizeClass(button.size)}
                                                                   ${button.isClicked ? 'scale-animation' : ''}
                                                                   ${(simpleTimerInfo.currentAnimation === AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_NOT_00) && buttonDoAnimation === button.id ? 'button-error-animation' : ''}`}
                                                             onClick={() => handleRestDurationUp(button.seconds, button.id)}
@@ -254,7 +266,7 @@ const SimpleInfo: React.FC = () => {
                                                 {restDownButtons.map(button => (
                                                       <a
                                                             key={button.id}
-                                                            className={`time-button 
+                                                            className={`time-button ${getSizeClass(button.size)}
                                                                   ${button.isClicked ? 'scale-animation' : ''}
                                                                   ${(simpleTimerInfo.currentAnimation === AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_NOT_00) && buttonDoAnimation === button.id ? 'button-error-animation' : ''}`}
                                                             onClick={() => handleRestDurationDown(button.seconds, button.id)}

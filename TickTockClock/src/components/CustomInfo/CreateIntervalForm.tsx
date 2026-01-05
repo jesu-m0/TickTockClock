@@ -260,50 +260,44 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
                                                 </div>
                                           </div>
 
-                                          {/* empty column */}
-                                          <div className="order-5 lg:col-span-1 lg:row-span-2 bg-jade rounded-3xl hidden lg:flex flex-col items-center justify-center">
-                                          </div>
-
                                           {/* Duration picker */}
-                                          <div className="order-6 col-span-12 lg:col-span-6 row-span-2 bg-jade rounded-3xl flex flex-col items-center justify-center">
-                                                <div className="flex flex-row justify-center h-1/2 w-full">
-                                                      <div id="intervalUp1s" onClick={() => handleIntervalDuration(1, "intervalUp1s")} className="bg-floralWhite dark:bg-blackOlive rounded-tl-3xl h-full w-1/5 border-r border-b border-blackOlive dark:border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
-                                                            <p className="text-blackOlive dark:text-timberwolf font-black text-2xl lg:text-4xl xl:text-5xl">+1''</p>
+                                          <div className="order-5 col-span-12 lg:col-span-8 row-span-2 bg-jade rounded-3xl flex flex-col items-center justify-center overflow-hidden p-3">
+                                                <div className="flex flex-row gap-1 w-full flex-1">
+                                                      <div id="intervalUp1s" onClick={() => handleIntervalDuration(1, "intervalUp1s")} className="bg-floralWhite dark:bg-blackOlive rounded-tl-3xl rounded-md h-full flex-[0.8] flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer">
+                                                            <p className="text-blackOlive dark:text-timberwolf font-black text-lg lg:text-2xl xl:text-3xl">+1''</p>
                                                       </div>
-                                                      <div id="intervalUp5s" onClick={() => handleIntervalDuration(5, "intervalUp5s")} className="bg-floralWhite dark:bg-blackOlive h-full w-1/5 border-x border-b border-blackOlive dark:border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
-                                                            <p className="text-blackOlive dark:text-timberwolf font-black text-2xl lg:text-4xl xl:text-5xl">+5''</p>
+                                                      <div id="intervalUp5s" onClick={() => handleIntervalDuration(5, "intervalUp5s")} className="bg-floralWhite dark:bg-blackOlive rounded-md h-full flex-1 flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer">
+                                                            <p className="text-blackOlive dark:text-timberwolf font-black text-lg lg:text-2xl xl:text-3xl">+5''</p>
                                                       </div>
-                                                      <div id="intervalUp30s" onClick={() => handleIntervalDuration(30, "intervalUp30s")} className="bg-floralWhite dark:bg-blackOlive h-full w-1/5 border-x border-b border-blackOlive dark:border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
-                                                            <p className="text-blackOlive dark:text-timberwolf font-black text-2xl lg:text-4xl xl:text-5xl">+30''</p>
+                                                      <div id="intervalUp30s" onClick={() => handleIntervalDuration(30, "intervalUp30s")} className="bg-floralWhite dark:bg-blackOlive rounded-md h-full flex-[1.3] flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer">
+                                                            <p className="text-blackOlive dark:text-timberwolf font-black text-lg lg:text-2xl xl:text-3xl">+30''</p>
                                                       </div>
-                                                      <div id="intervalUp5m" onClick={() => handleIntervalDuration(300, "intervalUp5m")} className="bg-floralWhite dark:bg-blackOlive h-full w-1/5 border-x border-b border-blackOlive dark:border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
-                                                            <p className="text-blackOlive dark:text-timberwolf font-black text-2xl lg:text-4xl xl:text-5xl">+5'</p>
+                                                      <div id="intervalUp5m" onClick={() => handleIntervalDuration(300, "intervalUp5m")} className="bg-floralWhite dark:bg-blackOlive rounded-md h-full flex-[1.5] flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer">
+                                                            <p className="text-blackOlive dark:text-timberwolf font-black text-lg lg:text-2xl xl:text-3xl">+5'</p>
                                                       </div>
-                                                      <div id="intervalUp30m" onClick={() => handleIntervalDuration(1800, "intervalUp30m")} className="bg-floralWhite dark:bg-blackOlive rounded-tr-3xl h-full w-1/5 border-l border-b border-blackOlive dark:border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
-                                                            <p className="text-blackOlive dark:text-timberwolf font-black text-2xl lg:text-4xl xl:text-5xl">+30'</p>
-                                                      </div>
-                                                </div>
-                                                <div className="flex flex-row justify-center h-1/2 w-full">
-                                                      <div id="intervalDown1s" onClick={() => handleIntervalDuration(-1, "intervalDown1s")} className="bg-floralWhite dark:bg-blackOlive rounded-bl-3xl h-full w-1/5 border-r border-t border-blackOlive dark:border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
-                                                            <p className="text-blackOlive dark:text-timberwolf font-black text-2xl lg:text-4xl xl:text-5xl">-1''</p>
-                                                      </div>
-                                                      <div id="intervalDown5s" onClick={() => handleIntervalDuration(-5, "intervalDown5s")} className="bg-floralWhite dark:bg-blackOlive h-full w-1/5 border-x border-t border-blackOlive dark:border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
-                                                            <p className="text-blackOlive dark:text-timberwolf font-black text-2xl lg:text-4xl xl:text-5xl">-5''</p>
-                                                      </div>
-                                                      <div id="intervalDown30s" onClick={() => handleIntervalDuration(-30, "intervalDown30s")} className="bg-floralWhite dark:bg-blackOlive h-full w-1/5 border-x border-t border-blackOlive dark:border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
-                                                            <p className="text-blackOlive dark:text-timberwolf font-black text-2xl lg:text-4xl xl:text-5xl">-30''</p>
-                                                      </div>
-                                                      <div id="intervalDown5m" onClick={() => handleIntervalDuration(-300, "intervalDown5m")} className="bg-floralWhite dark:bg-blackOlive h-full w-1/5 border-x border-t border-blackOlive dark:border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
-                                                            <p className="text-blackOlive dark:text-timberwolf font-black text-2xl lg:text-4xl xl:text-5xl">-5'</p>
-                                                      </div>
-                                                      <div id="intervalDown30m" onClick={() => handleIntervalDuration(-1800, "intervalDown30m")} className="bg-floralWhite dark:bg-blackOlive rounded-br-3xl h-full w-1/5 border-l border-t border-blackOlive dark:border-timberwolf flex items-center justify-center hover:scale-105 transition-transform duration-200">
-                                                            <p className="text-blackOlive dark:text-timberwolf font-black text-2xl lg:text-4xl xl:text-5xl">-30'</p>
+                                                      <div id="intervalUp30m" onClick={() => handleIntervalDuration(1800, "intervalUp30m")} className="bg-floralWhite dark:bg-blackOlive rounded-tr-3xl rounded-md h-full flex-[1.8] flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer">
+                                                            <p className="text-blackOlive dark:text-timberwolf font-black text-lg lg:text-2xl xl:text-3xl">+30'</p>
                                                       </div>
                                                 </div>
-                                          </div>
-
-                                          {/* empty column */}
-                                          <div className="order-7 col-span-1 row-span-2 bg-jade rounded-3xl hidden lg:flex flex-col items-center justify-center">
+                                                {/* Horizontal divider line */}
+                                                <div className="w-full h-1 bg-jade"></div>
+                                                <div className="flex flex-row gap-1 w-full flex-1">
+                                                      <div id="intervalDown1s" onClick={() => handleIntervalDuration(-1, "intervalDown1s")} className="bg-floralWhite dark:bg-blackOlive rounded-bl-3xl rounded-md h-full flex-[0.8] flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer">
+                                                            <p className="text-blackOlive dark:text-timberwolf font-black text-lg lg:text-2xl xl:text-3xl">-1''</p>
+                                                      </div>
+                                                      <div id="intervalDown5s" onClick={() => handleIntervalDuration(-5, "intervalDown5s")} className="bg-floralWhite dark:bg-blackOlive rounded-md h-full flex-1 flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer">
+                                                            <p className="text-blackOlive dark:text-timberwolf font-black text-lg lg:text-2xl xl:text-3xl">-5''</p>
+                                                      </div>
+                                                      <div id="intervalDown30s" onClick={() => handleIntervalDuration(-30, "intervalDown30s")} className="bg-floralWhite dark:bg-blackOlive rounded-md h-full flex-[1.3] flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer">
+                                                            <p className="text-blackOlive dark:text-timberwolf font-black text-lg lg:text-2xl xl:text-3xl">-30''</p>
+                                                      </div>
+                                                      <div id="intervalDown5m" onClick={() => handleIntervalDuration(-300, "intervalDown5m")} className="bg-floralWhite dark:bg-blackOlive rounded-md h-full flex-[1.5] flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer">
+                                                            <p className="text-blackOlive dark:text-timberwolf font-black text-lg lg:text-2xl xl:text-3xl">-5'</p>
+                                                      </div>
+                                                      <div id="intervalDown30m" onClick={() => handleIntervalDuration(-1800, "intervalDown30m")} className="bg-floralWhite dark:bg-blackOlive rounded-br-3xl rounded-md h-full flex-[1.8] flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer">
+                                                            <p className="text-blackOlive dark:text-timberwolf font-black text-lg lg:text-2xl xl:text-3xl">-30'</p>
+                                                      </div>
+                                                </div>
                                           </div>
 
                                           {/* Cancel and add */}

@@ -1,7 +1,28 @@
 .time-button {
-  @apply lg:w-16 lg:h-16 w-12 h-12 text-xl dark:bg-eerieBlack bg-blackOlive dark:text-timberwolf text-floralWhite rounded-3xl lg:px-4 px-7 lg:py-2 py-1 font-bold cursor-pointer
+  @apply h-20 lg:h-24 text-2xl lg:text-3xl dark:bg-eerieBlack bg-blackOlive dark:text-timberwolf text-floralWhite rounded-2xl font-bold cursor-pointer
   hover:scale-105 transition-transform duration-200 flex justify-center items-center;
-  }
+}
+
+/* Variable button widths based on size */
+.time-button-xs {
+  @apply w-14 lg:w-16;
+}
+
+.time-button-s {
+  @apply w-16 lg:w-20;
+}
+
+.time-button-m {
+  @apply w-20 lg:w-28;
+}
+
+.time-button-l {
+  @apply w-24 lg:w-36;
+}
+
+.time-button-xl {
+  @apply w-28 lg:w-44;
+}
 
 .time-controls-layout {
   @apply flex lg:flex-col flex-row items-center justify-evenly lg:w-1/2 w-full px-4 lg:px-0 lg:py-0 pt-4 pb-4 lg:pb-0;
@@ -20,5 +41,5 @@
 }
 
 .timer-lap-buttons-layout {
-  @apply flex flex-col lg:w-1/2 w-full items-center gap-2 pb-4 lg:pb-0;
+  @apply flex flex-col lg:w-1/2 w-full items-center gap-2 pb-2 lg:pb-0 px-3;
 } 
