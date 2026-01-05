@@ -194,18 +194,22 @@ const Clock: React.FC = () => {
                                           console.log("Status Change: RUNNING -> FINISHED");
                                           setRunningToFinishedSimple();
                                     } else if (time === 0 && simpleTimerInfo.isWorkLap) {
-                                          // Work lap ended, next step will be rest lap
+                                          // Work lap ended, next step will be rest lap (after 1 second pause)
                                           console.log("Status Change: RUNNING -> RUNNING: work lap ended.");
-                                          setRunningToRunningWorkLapEndedSimple();
+                                          setTimeout(() => {
+                                                setRunningToRunningWorkLapEndedSimple();
+                                          }, 1000);
                                           //} else if (time === 0 && simpleLapCounts.workLaps < simpleLapCounts.restLaps) {
                                     } else if (time === 0 && !simpleTimerInfo.isWorkLap) {
-                                          // Rest lap ended, next step will be work lap & remaining sets - 1
+                                          // Rest lap ended, next step will be work lap & remaining sets - 1 (after 1 second pause)
                                           console.log(
                                                 "Status Change: RUNNING -> RUNNING: rest lap ended, cycle completed. " +
                                                 (simpleTimerInfo.remainingSets - 1) +
                                                 " sets remaining."
                                           );
-                                          setRunningToRunningRestLapEndedSimple();
+                                          setTimeout(() => {
+                                                setRunningToRunningRestLapEndedSimple();
+                                          }, 1000);
                                     }
 
                                     break;
@@ -281,19 +285,23 @@ const Clock: React.FC = () => {
                                           setClockStatus(ClockStatus.PAUSED)
                                     } else if (time == 0 && customTimerInfo.remainingIntervals.length > 1) {
                                           console.log("Interval finished, there are more left: RUNNING -> RUNNING")
-                                          setCustomTimerInfo({
-                                                ...customTimerInfo,
-                                                remainingIntervals: customTimerInfo.remainingIntervals.slice(1),
-                                          });
-                                          setTime(customTimerInfo.remainingIntervals[1].duration)
+                                          setTimeout(() => {
+                                                setCustomTimerInfo({
+                                                      ...customTimerInfo,
+                                                      remainingIntervals: customTimerInfo.remainingIntervals.slice(1),
+                                                });
+                                                setTime(customTimerInfo.remainingIntervals[1].duration)
+                                          }, 1000);
                                     } else if (time == 0 && customTimerInfo.remainingIntervals.length == 1 && customTimerInfo.remainingSets > 1) {
                                           console.log("Set finished, loading intervals: RUNNING -> RUNNING");
-                                          setCustomTimerInfo({
-                                                ...customTimerInfo,
-                                                remainingSets: customTimerInfo.remainingSets--,
-                                                remainingIntervals: [...customTimerInfo.intervals]
-                                          });
-                                          setTime(customTimerInfo.intervals[0].duration)
+                                          setTimeout(() => {
+                                                setCustomTimerInfo({
+                                                      ...customTimerInfo,
+                                                      remainingSets: customTimerInfo.remainingSets--,
+                                                      remainingIntervals: [...customTimerInfo.intervals]
+                                                });
+                                                setTime(customTimerInfo.intervals[0].duration)
+                                          }, 1000);
 
                                     } else if (time == 0 && customTimerInfo.remainingIntervals.length == 1 && customTimerInfo.remainingSets == 1) {
                                           console.log("Status change: RUNNING -> FINISHED");
