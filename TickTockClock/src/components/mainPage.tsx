@@ -7,6 +7,7 @@ import CustomInfo from "./CustomInfo/CustomInfo";
 import { AnimationType, ClockStatus } from "../types";
 import { useClockStatus } from "../context/ClockContext";
 import ExpandedContent from "./Common/ExpandedContent.tsx";
+import { initializeAudioContext } from "../utils/soundNotification";
 
 const MainPage: React.FC = () => {
       //Expanded content
@@ -106,6 +107,10 @@ const MainPage: React.FC = () => {
                   });
                   return;
             } else {
+                  // Initialize audio context when starting (required for iOS)
+                  if (isPaused) {
+                        initializeAudioContext().catch(console.error);
+                  }
                   setIsPaused(!isPaused);
                   setIsClickedPause(true);
                   setTimeout(() => setIsClickedPause(false), 300);

@@ -1,3 +1,38 @@
+// Shared AudioContext instance for iOS compatibility
+let audioContext: AudioContext | null = null;
+
+/**
+ * Initializes the AudioContext (should be called on user interaction for iOS compatibility)
+ * This ensures audio can play on iOS Safari, which requires user interaction to enable audio
+ */
+export const initializeAudioContext = async (): Promise<void> => {
+  await getAudioContext();
+};
+
+/**
+ * Gets or creates the AudioContext, ensuring it's resumed (required for iOS)
+ */
+const getAudioContext = async (): Promise<AudioContext | null> => {
+  if (typeof window === 'undefined') return null;
+
+  try {
+    // Create AudioContext if it doesn't exist
+    if (!audioContext) {
+      audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+    }
+
+    // Resume AudioContext if suspended (required for iOS Safari)
+    if (audioContext.state === 'suspended') {
+      await audioContext.resume();
+    }
+
+    return audioContext;
+  } catch (error) {
+    console.warn('Could not create/resume AudioContext:', error);
+    return null;
+  }
+};
+
 /**
  * Helper function to play a tone using Web Audio API
  */
@@ -30,16 +65,15 @@ const playTone = (
  * Plays a notification sound when the timer finishes
  * Uses Web Audio API to generate a pleasant three-tone chime
  */
-export const playTimerFinishedSound = () => {
-  if (typeof window === 'undefined') return;
+export const playTimerFinishedSound = async () => {
+  const ctx = await getAudioContext();
+  if (!ctx) return;
 
   try {
-    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-
     // Play three ascending tones (pleasant chime)
-    playTone(audioContext, 523.25, 0);    // C5
-    playTone(audioContext, 659.25, 0.15); // E5
-    playTone(audioContext, 783.99, 0.3);  // G5
+    playTone(ctx, 523.25, 0);    // C5
+    playTone(ctx, 659.25, 0.15); // E5
+    playTone(ctx, 783.99, 0.3);  // G5
 
   } catch (error) {
     console.warn('Could not play timer finished sound:', error);
@@ -50,14 +84,13 @@ export const playTimerFinishedSound = () => {
  * Plays a short beep when work lap finishes
  * Higher pitched and energetic (time to rest!)
  */
-export const playWorkLapFinishedSound = () => {
-  if (typeof window === 'undefined') return;
+export const playWorkLapFinishedSound = async () => {
+  const ctx = await getAudioContext();
+  if (!ctx) return;
 
   try {
-    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-
     // Single higher pitched beep (energetic - work done!)
-    playTone(audioContext, 659.25, 0, 0.2, 0.25); // E5
+    playTone(ctx, 659.25, 0, 0.2, 0.25); // E5
 
   } catch (error) {
     console.warn('Could not play work lap sound:', error);
@@ -68,14 +101,13 @@ export const playWorkLapFinishedSound = () => {
  * Plays a short beep when rest lap finishes
  * Lower pitched and motivating (time to work!)
  */
-export const playRestLapFinishedSound = () => {
-  if (typeof window === 'undefined') return;
+export const playRestLapFinishedSound = async () => {
+  const ctx = await getAudioContext();
+  if (!ctx) return;
 
   try {
-    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-
     // Single lower pitched beep (motivating - back to work!)
-    playTone(audioContext, 523.25, 0, 0.2, 0.25); // C5
+    playTone(ctx, 523.25, 0, 0.2, 0.25); // C5
 
   } catch (error) {
     console.warn('Could not play rest lap sound:', error);
