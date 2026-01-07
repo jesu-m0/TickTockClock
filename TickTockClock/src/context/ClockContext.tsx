@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useMemo, useRef } from 'react';
 import { AnimationType, ClockStatus, Colors } from '../types';
 import { SimpleTimerInfo } from '../types/SimpleTimerInfo';
 import { CustomTimerInfo } from '../types/CustomTimerInfo';
@@ -42,7 +42,8 @@ const ClockContext = createContext<ClockContextType | undefined>(undefined);
 
 export const ClockProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       // Default intervals to use when no local storage data exists
-      const getDefaultIntervals = () => [
+      // Memoized to prevent creating new objects on every render
+      const defaultIntervals = useMemo(() => [
             {
                   id: uuidv4(),
                   name: "Warm Up",
@@ -55,11 +56,14 @@ export const ClockProvider: React.FC<{ children: React.ReactNode }> = ({ childre
                   duration: 180, // 3 minutes in seconds
                   color: Colors.Jade,
             }
-      ];
+      ], []);
 
       // Load intervals and sets from local storage, or use defaults
       const loadedIntervals = loadIntervalsFromLocalStorage();
       const loadedSets = loadSetsFromLocalStorage();
+
+      // Use ref to track if this is the initial mount
+      const isInitialMount = useRef(true);
 
       const [clockStatus, setClockStatus] = useState<ClockStatus>(ClockStatus.ZERO);
       const [time, setTime] = useState<number>(0);
@@ -76,7 +80,7 @@ export const ClockProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       });
       const [isAlternate, setIsAlternate] = useState<boolean>(false);
       const [customTimerInfo, setCustomTimerInfo] = useState<CustomTimerInfo>({
-            intervals: loadedIntervals || getDefaultIntervals(),
+            intervals: loadedIntervals || defaultIntervals,
             sets: loadedSets || 1,
             currentAnimation: AnimationType.NONE,
             remainingIntervals: [],
@@ -84,13 +88,42 @@ export const ClockProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       })
 
       // Save intervals and sets to local storage whenever they change
-      useEffect(() => {
-            saveIntervalsToLocalStorage(customTimerInfo.intervals);
-      }, [customTimerInfo.intervals]);
+      // We use a ref to track the previous values to avoid saving when only runtime values change
+      const prevIntervalsRef = useRef<string>('');
+      const prevSetsRef = useRef<number>(0);
 
       useEffect(() => {
-            saveSetsToLocalStorage(customTimerInfo.sets);
-      }, [customTimerInfo.sets]);
+            // Serialize intervals to compare by value, not by reference
+            const currentIntervalsStr = JSON.stringify(customTimerInfo.intervals);
+            const currentSets = customTimerInfo.sets;
+
+            // Check if this is initial mount
+            if (isInitialMount.current) {
+                  isInitialMount.current = false;
+                  prevIntervalsRef.current = currentIntervalsStr;
+                  prevSetsRef.current = currentSets;
+                  console.log("[localStorage] Initial mount - skipping save");
+                  return;
+            }
+
+            // Only save if intervals or sets actually changed (not remainingIntervals/remainingSets)
+            const intervalsChanged = prevIntervalsRef.current !== currentIntervalsStr;
+            const setsChanged = prevSetsRef.current !== currentSets;
+
+            if (intervalsChanged || setsChanged) {
+                  console.log("[localStorage] Saving to localStorage", {
+                        intervalsChanged,
+                        setsChanged,
+                        intervalsCount: customTimerInfo.intervals.length,
+                        sets: currentSets
+                  });
+                  saveIntervalsToLocalStorage(customTimerInfo.intervals);
+                  saveSetsToLocalStorage(currentSets);
+
+                  prevIntervalsRef.current = currentIntervalsStr;
+                  prevSetsRef.current = currentSets;
+            }
+      }, [customTimerInfo.intervals, customTimerInfo.sets]);
 
       return (
             <ClockContext.Provider value={{

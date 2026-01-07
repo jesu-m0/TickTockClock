@@ -293,6 +293,10 @@ const Clock: React.FC = () => {
                                           setClockStatus(ClockStatus.PAUSED)
                                     } else if (time == 0 && customTimerInfo.remainingIntervals.length > 1) {
                                           console.log("Interval finished, there are more left: RUNNING -> RUNNING")
+
+                                          // Play interval finished sound
+                                          playWorkLapFinishedSound();
+
                                           setTimeout(() => {
                                                 setCustomTimerInfo({
                                                       ...customTimerInfo,
@@ -302,10 +306,14 @@ const Clock: React.FC = () => {
                                           }, 1000);
                                     } else if (time == 0 && customTimerInfo.remainingIntervals.length == 1 && customTimerInfo.remainingSets > 1) {
                                           console.log("Set finished, loading intervals: RUNNING -> RUNNING");
+
+                                          // Play set finished sound
+                                          playRestLapFinishedSound();
+
                                           setTimeout(() => {
                                                 setCustomTimerInfo({
                                                       ...customTimerInfo,
-                                                      remainingSets: customTimerInfo.remainingSets--,
+                                                      remainingSets: customTimerInfo.remainingSets - 1,
                                                       remainingIntervals: [...customTimerInfo.intervals]
                                                 });
                                                 setTime(customTimerInfo.intervals[0].duration)
@@ -332,6 +340,7 @@ const Clock: React.FC = () => {
                                     if (customTimerInfo.intervals.length > 0) {
                                           //TODO: finished animation
                                           console.log("Status change: FINISHED -> READY");
+                                          setIsPaused(true);
                                           setClockStatus(ClockStatus.READY);
                                     }
                                     break;
@@ -445,7 +454,7 @@ const Clock: React.FC = () => {
                               </>
                         )}
                         <p className="font-bold dark:text-timberwolf text-blackOlive text-4xl lg:text-5xl text-center relative z-10">
-                              {isSimpleMode ? simpleTimerInfo.remainingSets : customTimerInfo.sets}
+                              {isSimpleMode ? simpleTimerInfo.remainingSets : customTimerInfo.remainingSets}
                         </p>
                   </div>
             </>
