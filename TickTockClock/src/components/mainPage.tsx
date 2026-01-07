@@ -168,7 +168,7 @@ const MainPage: React.FC = () => {
       return (
             <div>
                   <div className="container mx-auto p-5">
-                        <div className="grid grid-cols-12 lg:gap-5 gap-3 lg:auto-rows-[100px] auto-rows-[10vh] mb-16 md:mb-4">
+                        <div className="grid grid-cols-12 lg:gap-5 gap-3 lg:auto-rows-[100px] auto-rows-[10vh]">
                               <Header></Header>
 
                               {/*Clock */}
@@ -267,7 +267,7 @@ const MainPage: React.FC = () => {
                               >
                                     <p className="font-bold dark:text-eerieBlack text-floralWhite text-4xl md:text-4xl xl:text-6xl text-center">
                                           {isPaused ? "Start" : "Stop"}
-                                    </p>
+                                    </p> 
                               </div>
 
                               {/*Expand button*/}
@@ -333,22 +333,22 @@ const MainPage: React.FC = () => {
                                     </div>
                               </div>
                         </div>
-
-                        {/*Signature*/}
-                        <footer className="mt-6 md:mt-4">
-                              <p className="text-blackOlive dark:text-timberwolf text-sm pointer-events-auto">
-                                    Made with {"<"}3 by{" "}
-                                    <a
-                                          href="https://jmoreno.dev"
-                                          className="underline hover:cursor-pointer hover:text-jade dark:hover:text-jade transition-colors duration-300"
-                                          target="_blank"
-                                          rel="noopener noreferrer"
-                                    >
-                                          jmoreno.dev
-                                    </a>
-                              </p>
-                        </footer>
                   </div>
+
+                  {/*Signature*/}
+                  <footer className="container mx-auto px-5 pb-5">
+                        <p className="text-blackOlive dark:text-timberwolf text-xs md:text-sm text-center pointer-events-auto">
+                              Made with {"<"}3 by{" "}
+                              <a
+                                    href="https://jmoreno.dev"
+                                    className="underline hover:cursor-pointer hover:text-jade dark:hover:text-jade transition-colors duration-300"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                              >
+                                    jmoreno.dev
+                              </a>
+                        </p>
+                  </footer>
             </div>
       );
 };
