@@ -1,8 +1,9 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { AnimationType, ClockStatus, Colors } from '../types';
 import { SimpleTimerInfo } from '../types/SimpleTimerInfo';
 import { CustomTimerInfo } from '../types/CustomTimerInfo';
 import { v4 as uuidv4 } from "uuid";
+import { loadIntervalsFromLocalStorage, saveIntervalsToLocalStorage, loadSetsFromLocalStorage, saveSetsToLocalStorage } from '../utils/localStorage';
 
 
 interface ClockContextType {
@@ -40,6 +41,26 @@ interface ClockContextType {
 const ClockContext = createContext<ClockContextType | undefined>(undefined);
 
 export const ClockProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+      // Default intervals to use when no local storage data exists
+      const getDefaultIntervals = () => [
+            {
+                  id: uuidv4(),
+                  name: "Warm Up",
+                  duration: 300, // 5 minutes in seconds
+                  color: Colors.BurntSienna,
+            },
+            {
+                  id: uuidv4(),
+                  name: "High Intensity",
+                  duration: 180, // 3 minutes in seconds
+                  color: Colors.Jade,
+            }
+      ];
+
+      // Load intervals and sets from local storage, or use defaults
+      const loadedIntervals = loadIntervalsFromLocalStorage();
+      const loadedSets = loadSetsFromLocalStorage();
+
       const [clockStatus, setClockStatus] = useState<ClockStatus>(ClockStatus.ZERO);
       const [time, setTime] = useState<number>(0);
       const [isPaused, setIsPaused] = useState<boolean>(true);
@@ -55,25 +76,22 @@ export const ClockProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       });
       const [isAlternate, setIsAlternate] = useState<boolean>(false);
       const [customTimerInfo, setCustomTimerInfo] = useState<CustomTimerInfo>({
-            intervals: [
-                  {
-                        id: uuidv4(),
-                        name: "Warm Up",
-                        duration: 300, // 5 minutes in seconds
-                        color: Colors.BurntSienna,
-                  },
-                  {
-                        id: uuidv4(),
-                        name: "High Intensity",
-                        duration: 180, // 3 minutes in seconds
-                        color: Colors.Jade,
-                  }
-            ],
-            sets: 1,
+            intervals: loadedIntervals || getDefaultIntervals(),
+            sets: loadedSets || 1,
             currentAnimation: AnimationType.NONE,
             remainingIntervals: [],
-            remainingSets: 1,
+            remainingSets: loadedSets || 1,
       })
+
+      // Save intervals and sets to local storage whenever they change
+      useEffect(() => {
+            saveIntervalsToLocalStorage(customTimerInfo.intervals);
+      }, [customTimerInfo.intervals]);
+
+      useEffect(() => {
+            saveSetsToLocalStorage(customTimerInfo.sets);
+      }, [customTimerInfo.sets]);
+
       return (
             <ClockContext.Provider value={{
                   clockStatus,
