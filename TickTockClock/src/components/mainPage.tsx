@@ -166,9 +166,9 @@ const MainPage: React.FC = () => {
       }, [simpleTimerInfo.currentAnimation]);
 
       return (
-            <div>
+            <div className="pb-16">
                   <div className="container mx-auto p-5">
-                        <div className="grid grid-cols-12 lg:gap-5 gap-3 lg:auto-rows-[100px] auto-rows-[10vh]">
+                        <div className="grid grid-cols-12 lg:gap-5 gap-3" style={{ gridAutoRows: 'clamp(60px, 8vw, 100px)' }}>
                               <Header></Header>
 
                               {/*Clock */}
