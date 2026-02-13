@@ -168,12 +168,12 @@ const MainPage: React.FC = () => {
       return (
             <div className="pb-16">
                   <div className="container mx-auto p-5">
-                        <div className="grid grid-cols-12 lg:gap-5 gap-3" style={{ gridAutoRows: 'clamp(60px, 8vw, 100px)' }}>
+                        <div className="grid grid-cols-12 lg:gap-5 gap-3" style={{ gridAutoRows: 'minmax(60px, auto)' }}>
                               <Header></Header>
 
                               {/*Clock */}
                               <div
-                                    className={`order-4 lg:order-4 lg:col-span-4 col-span-12 row-span-4 rounded-3xl content-center flex flex-col lg:gap-5 gap-3
+                                    className={`order-4 lg:order-4 lg:col-span-4 col-span-12 lg:row-span-4 row-span-4 rounded-3xl content-center flex flex-col lg:gap-5 gap-3
                                     ${simpleTimerInfo.currentAnimation ===
                                                 AnimationType.ALREADY_RESET ||
                                                 simpleTimerInfo.currentAnimation ===
@@ -186,21 +186,21 @@ const MainPage: React.FC = () => {
                               </div>
 
                               {/*Mode selection*/}
-                              <div id="modeSelection" className="order-8 lg:order-5 lg:col-span-8 col-span-12 row-span-1 content-center flex">
+                              <div id="modeSelection" className="order-8 lg:order-5 lg:col-span-8 col-span-12 row-span-1 h-[60px] flex">
                                     {/*Simple btn*/}
-                                    <div className="w-1/2 h-full rounded-3xl content-center dark:bg-eerieBlack bg-floralWhite cursor-pointer flex flex-col overflow-hidden"
+                                    <div className="w-1/2 h-full rounded-3xl dark:bg-eerieBlack bg-floralWhite cursor-pointer flex flex-col overflow-hidden"
                                           onClick={changeToSimple}>
 
                                           {/*Title*/}
-                                          <div className="lg:pt-4 pt-2 px-4 h-4/5 flex items-center justify-center">
-                                                <p className={`font-extrabold dark:text-timberwolf text-blackOlive text-2xl lg:text-4xl text-center transition-colors duration-300`}>
+                                          <div className="px-4 flex-1 flex items-center justify-center">
+                                                <p className={`font-extrabold dark:text-timberwolf text-blackOlive text-xl lg:text-2xl text-center transition-colors duration-300`}>
                                                       Simple
                                                 </p>
                                           </div>
 
                                           {/*Bar*/}
-                                          <div className="w-full flex flex-row h-1/5">
-                                                <div className={`h-full flex-1 rounded-b-3xl transform duration-300
+                                          <div className="w-full h-1">
+                                                <div className={`h-full w-full rounded-b-3xl transform duration-300
                                                       ${isSimpleMode ? "bg-jade" : "dark:bg-eerieBlack bg-floralWhite"}`}>
                                                 </div>
                                           </div>
@@ -208,19 +208,19 @@ const MainPage: React.FC = () => {
 
                                     {/*Custom btn*/}
                                     <div
-                                          className="w-1/2 h-full rounded-3xl content-center dark:bg-eerieBlack bg-floralWhite cursor-pointer flex flex-col overflow-hidden"
+                                          className="w-1/2 h-full rounded-3xl dark:bg-eerieBlack bg-floralWhite cursor-pointer flex flex-col overflow-hidden"
                                           onClick={changeToCustom}
                                     >
                                           {/*Title*/}
-                                          <div className="pt-2 lg:pt-4 px-4 h-4/5 flex justify-center items-center">
-                                                <p className={`font-extrabold dark:text-timberwolf text-blackOlive text-2xl lg:text-4xl text-center transition-colors duration-300`}>
+                                          <div className="px-4 flex-1 flex justify-center items-center">
+                                                <p className={`font-extrabold dark:text-timberwolf text-blackOlive text-xl lg:text-2xl text-center transition-colors duration-300`}>
                                                       Custom
                                                 </p>
                                           </div>
 
                                           {/*Bar*/}
-                                          <div className="w-full flex flex-row h-1/5">
-                                                <div className={`h-full flex-1 rounded-b-3xl transform duration-300 
+                                          <div className="w-full h-1">
+                                                <div className={`h-full w-full rounded-b-3xl transform duration-300
                                                                   ${isSimpleMode ? "dark:bg-eerieBlack bg-floralWhite" : "bg-jade"}`}>
 
                                                 </div>
@@ -232,7 +232,7 @@ const MainPage: React.FC = () => {
 
                               {/*Reset*/}
                               <div id="resetButton"
-                                    className={`order-5 lg:order-7 lg:col-span-2 col-span-6 row-span-1 bg-saffron p-4 rounded-3xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer 
+                                    className={`order-5 lg:order-7 lg:col-span-2 col-span-6 row-span-1 bg-saffron p-4 rounded-3xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer
           ${isClickedReset ? "scale-animation" : ""}
           ${simpleTimerInfo.currentAnimation === AnimationType.ALREADY_RESET
                                                 ? "button-error-animation"
@@ -267,7 +267,7 @@ const MainPage: React.FC = () => {
                               >
                                     <p className="font-bold dark:text-eerieBlack text-floralWhite text-4xl md:text-4xl xl:text-6xl text-center">
                                           {isPaused ? "Start" : "Stop"}
-                                    </p> 
+                                    </p>
                               </div>
 
                               {/*Expand button*/}

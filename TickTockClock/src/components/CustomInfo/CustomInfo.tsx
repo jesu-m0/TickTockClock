@@ -189,7 +189,7 @@ const CustomInfo: React.FC = () => {
                   {clockStatus === ClockStatus.RUNNING || clockStatus === ClockStatus.PAUSED ? (
                         <div id="intervalsContainer" onClick={errorDragDrop} className="order-9 lg:order-6 lg:col-span-8 col-span-12 lg:row-span-4 row-span-6 rounded-3xl bg-floralWhite dark:bg-eerieBlack px-4 py-6">
                               {/* Scrollable container for interval cards */}
-                              <div className="overflow-y-scroll flex flex-col gap-2 h-full pr-2">
+                              <div className="overflow-y-auto flex flex-col gap-2 h-full pr-2">
                                     {customTimerInfo.intervals.map((interval, index) => (
                                           <div key={index}>
                                                 <IntervalCard interval={interval} onDelete={handleDeleteInterval} onUpdate={updateInterval} />
@@ -208,7 +208,7 @@ const CustomInfo: React.FC = () => {
                                                 ref={provided.innerRef}
                                           >
                                                 {/* Scrollable container for interval cards */}
-                                                <div className="overflow-y-scroll flex flex-col gap-2 h-full pr-2"
+                                                <div className="overflow-y-auto flex flex-col gap-2 h-full pr-2"
                                                       ref={(el) => {
                                                             // Attach the scroll container to the Droppable
                                                             if (el) {
@@ -244,47 +244,47 @@ const CustomInfo: React.FC = () => {
 
 
                   {/* Sets  */}
-                  <div className='order-10 lg:order-11 lg:col-span-8 col-span-12 lg:row-span-1 row-span-2 rounded-3xl flex flex-col lg:flex-row items-center lg:gap-5 gap-3'>
+                  <div className='order-10 lg:order-11 lg:col-span-8 col-span-12 row-span-1 h-[60px] rounded-3xl flex flex-row items-stretch lg:gap-5 gap-3'>
 
-                        <div className='h-1/2 lg:h-full w-full lg:w-4/5 flex lg:gap-5 gap-3'>
+                        <div className='w-4/5 flex lg:gap-5 gap-3'>
 
                               {/* Sets */}
                               <div className='dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full w-1/4 flex items-center justify-center'>
-                                    <p className="dark:text-timberwolf text-blackOlive xl:text-5xl lg:text-4 text-3xl font-black">Sets</p>
+                                    <p className="dark:text-timberwolf text-blackOlive text-2xl lg:text-3xl font-black">Sets</p>
                               </div>
 
                               {/* Sets down */}
                               <div id="setsDownCustom"
-                                    className={`dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full w-1/4 flex items-center justify-center 
+                                    className={`dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full w-1/4 flex items-center justify-center
                 hover:scale-105 transition-transform duration-200 cursor-pointer
                 ${minusClicked ? 'scale-animation' : ''}`}
                                     onClick={handleSetsDown}
                               >
-                                    <p className="dark:text-timberwolf text-blackOlive lg:text-5xl text-4xl font-black pb-2">-</p>
+                                    <p className="dark:text-timberwolf text-blackOlive text-2xl lg:text-3xl font-black">-</p>
                               </div>
 
                               {/* Number of sets */}
                               <div className='dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full w-1/4 flex items-center justify-center'>
-                                    <p className="dark:text-timberwolf text-blackOlive lg:text-5xl text-4xl font-black">{customTimerInfo.sets}</p>
+                                    <p className="dark:text-timberwolf text-blackOlive text-2xl lg:text-3xl font-black">{customTimerInfo.sets}</p>
                               </div>
 
                               {/* Sets up */}
-                              <div id='setsUpCustom' className={`dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full w-1/4 flex items-center justify-center 
+                              <div id='setsUpCustom' className={`dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full w-1/4 flex items-center justify-center
                 hover:scale-105 transition-transform duration-200 cursor-pointer
                 ${plusClicked ? 'scale-animation' : ''}`}
                                     onClick={handleSetsUp}
                               >
-                                    <p className="dark:text-timberwolf text-blackOlive lg:text-5xl text-4xl font-black pb-2">+</p>
+                                    <p className="dark:text-timberwolf text-blackOlive text-2xl lg:text-3xl font-black">+</p>
                               </div>
                         </div>
 
-                        <div className='w-full lg:w-1/5 h-1/2 lg:h-full'>
+                        <div className='w-1/5'>
                               {/* Add an interval */}
-                              <button id="add-button" className="bg-jade rounded-3xl h-full w-full flex items-center justify-center 
+                              <button id="add-button" className="bg-jade rounded-3xl h-full w-full flex items-center justify-center
                               hover:scale-105 transition-transform duration-200 cursor-pointer"
                                     onClick={showForm}>
 
-                                    <p className="dark:text-eerieBlack text-blackOlive lg:text-5xl text-4xl font-black pb-2">
+                                    <p className="dark:text-eerieBlack text-blackOlive text-2xl lg:text-3xl font-black">
                                           Add
                                     </p>
 
