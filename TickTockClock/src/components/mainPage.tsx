@@ -269,7 +269,7 @@ const MainPage: React.FC = () => {
                                           </div>
 
                                           {/*Bar*/}
-                                          <div className="w-full h-1">
+                                          <div className="w-full h-1.5">
                                                 <div className={`h-full w-full rounded-b-3xl transform duration-300
                                                       ${isSimpleMode ? "bg-jade" : "dark:bg-eerieBlack bg-floralWhite"}`}>
                                                 </div>
@@ -289,7 +289,7 @@ const MainPage: React.FC = () => {
                                           </div>
 
                                           {/*Bar*/}
-                                          <div className="w-full h-1">
+                                          <div className="w-full h-1.5">
                                                 <div className={`h-full w-full rounded-b-3xl transform duration-300
                                                                   ${isSimpleMode ? "dark:bg-eerieBlack bg-floralWhite" : "bg-jade"}`}>
 
