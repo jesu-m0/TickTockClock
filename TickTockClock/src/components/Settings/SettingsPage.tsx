@@ -41,18 +41,12 @@ const SettingsPage: React.FC = () => {
     <div className="pb-4 lg:pb-16">
       <div className="container mx-auto p-5">
         {/* ===== HEADER (bento grid with fixed rows) ===== */}
+        {/* Mobile: row 1 = TickTockClock (4 cols), row 2 = back + settings + toggle */}
+        {/* Desktop: single row of 12 cols */}
         <div className="grid grid-cols-4 lg:grid-cols-12 gap-3 lg:gap-5 [grid-auto-rows:60px] lg:[grid-auto-rows:80px]">
 
-          {/* Back arrow - 1x1 */}
-          <div
-            className="col-span-1 lg:col-start-1 lg:row-start-1 h-full rounded-3xl bg-floralWhite dark:bg-eerieBlack flex items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-200"
-            onClick={() => navigate('/')}
-          >
-            <BackArrowIcon />
-          </div>
-
-          {/* TickTockClock label - mobile: 3x1, desktop: 5x1 */}
-          <div className="col-span-3 lg:col-span-5 lg:col-start-2 lg:row-start-1 h-full p-4 rounded-3xl bg-floralWhite dark:bg-eerieBlack flex items-center justify-center">
+          {/* TickTockClock label - mobile: 4x1 (fills row 1), desktop: 5x1 */}
+          <div className="col-span-4 lg:col-span-5 lg:col-start-2 lg:row-start-1 h-full p-4 rounded-3xl bg-floralWhite dark:bg-eerieBlack flex items-center justify-center">
             <h1 className="font-extrabold text-timberwolf text-4xl md:text-5xl xl:text-6xl text-center">
               <span className="text-burntSienna">Tick</span>
               <span className="text-burntSienna">Tock</span>
@@ -60,26 +54,54 @@ const SettingsPage: React.FC = () => {
             </h1>
           </div>
 
-          {/* Settings label - desktop: 5x1 */}
-          <div className="hidden lg:flex lg:col-span-5 lg:col-start-7 lg:row-start-1 h-full p-4 rounded-3xl bg-floralWhite dark:bg-eerieBlack items-center justify-center">
-            <h2 className="font-bold text-blackOlive dark:text-timberwolf text-3xl lg:text-4xl 2xl:text-6xl text-center">{t.settings}</h2>
+          {/* Back arrow - 1x1, flows to row 2 on mobile */}
+          <div
+            className="col-span-1 lg:col-start-1 lg:row-start-1 h-full rounded-3xl bg-floralWhite dark:bg-eerieBlack flex items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-200"
+            onClick={() => navigate('/')}
+          >
+            <BackArrowIcon />
+          </div>
+
+          {/* Settings label - mobile: 2x1 (row 2), desktop: 5x1 */}
+          <div className="col-span-2 lg:col-span-5 lg:col-start-7 lg:row-start-1 h-full p-4 rounded-3xl bg-floralWhite dark:bg-eerieBlack flex items-center justify-center">
+            <h2 className="font-bold text-blackOlive dark:text-timberwolf text-2xl lg:text-4xl 2xl:text-6xl text-center">{t.settings}</h2>
           </div>
 
           {/* Theme toggle - 1x1 */}
           <ThemeToggleButton />
         </div>
 
+        {/* ===== MOBILE TAB BAR ===== */}
+        <div className="lg:hidden mt-3 rounded-3xl bg-floralWhite dark:bg-eerieBlack p-2 flex gap-1">
+          {navItems.map((item) => (
+            <NavLink
+              key={item.to}
+              to={item.to}
+              className={({ isActive }) =>
+                `flex-1 flex items-center justify-center gap-2 rounded-xl px-3 py-2.5 font-semibold text-sm transition-colors duration-200
+                ${isActive
+                  ? 'bg-jade/15 text-jade'
+                  : 'text-blackOlive dark:text-timberwolf'
+                }`
+              }
+            >
+              {item.icon}
+              <span>{item.label}</span>
+            </NavLink>
+          ))}
+        </div>
+
         {/* ===== SIDEBAR + CONTENT ===== */}
         <div className="flex gap-3 lg:gap-5 mt-3 lg:mt-5">
 
-          {/* Sidebar */}
-          <div className="shrink-0 w-48 lg:w-56 rounded-3xl bg-floralWhite dark:bg-eerieBlack p-3 flex flex-col gap-1 self-start">
+          {/* Sidebar - desktop only */}
+          <div className="hidden lg:flex shrink-0 w-56 rounded-3xl bg-floralWhite dark:bg-eerieBlack p-3 flex-col gap-1 self-start">
             {navItems.map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}
                 className={({ isActive }) =>
-                  `flex items-center gap-3 rounded-xl px-4 py-3 font-semibold text-sm lg:text-base transition-colors duration-200 cursor-pointer
+                  `flex items-center gap-3 rounded-xl px-4 py-3 font-semibold text-base transition-colors duration-200 cursor-pointer
                   ${isActive
                     ? 'bg-jade/15 text-jade'
                     : 'text-blackOlive dark:text-timberwolf hover:bg-blackOlive/5 dark:hover:bg-blackOlive/50'
@@ -104,6 +126,13 @@ const SettingsPage: React.FC = () => {
             <Outlet />
           </div>
 
+        </div>
+
+        {/* Auto-save notice - mobile only */}
+        <div className="lg:hidden mt-3">
+          <p className="text-blackOlive/40 dark:text-timberwolf/30 text-xs text-center">
+            {t.settingsSavedAutomatically}
+          </p>
         </div>
       </div>
     </div>
