@@ -55,7 +55,7 @@ const GeneralSection: React.FC = () => {
         <p className="font-bold text-blackOlive dark:text-timberwolf text-sm lg:text-base">
           {t.appLanguage}
         </p>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           {languages.map((lang) => (
             <button
               key={lang.value}
