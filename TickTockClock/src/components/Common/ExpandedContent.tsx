@@ -1,6 +1,7 @@
 import React from "react";
 import { useClockStatus } from "../../context/ClockContext";
 import { ClockStatus, Colors } from "../../types";
+import { useTranslation } from "../../i18n/useTranslation";
 
 interface ExpandedContentProps {
       setIsExpanded: React.Dispatch<React.SetStateAction<boolean>>;
@@ -54,6 +55,7 @@ const ExpandedContent: React.FC<ExpandedContentProps> = ({
             // Animation state
             isAlternate,
       } = useClockStatus();
+      const { t } = useTranslation();
 
       return (
             <>
@@ -79,10 +81,10 @@ const ExpandedContent: React.FC<ExpandedContentProps> = ({
                                           </p>
                                           <div className="flex px-8 w-full">
                                                 <p className="font-medium text-blackOlive dark:text-eerieBlack text-lg text-center w-1/2">
-                                                      min
+                                                      {t.min}
                                                 </p>
                                                 <p className="font-medium text-blackOlive dark:text-eerieBlack text-lg text-center w-1/2">
-                                                      sec
+                                                      {t.sec}
                                                 </p>
                                           </div>
                                     </div>

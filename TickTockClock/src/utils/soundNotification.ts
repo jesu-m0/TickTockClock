@@ -113,3 +113,59 @@ export const playRestLapFinishedSound = async () => {
     console.warn('Could not play rest lap sound:', error);
   }
 };
+
+/**
+ * Sound previews for settings - each key maps to a distinct sound
+ */
+const playBeep = async () => {
+  const ctx = await getAudioContext();
+  if (!ctx) return;
+  playTone(ctx, 880, 0, 0.15, 0.3); // A5 short beep
+};
+
+const playChime = async () => {
+  const ctx = await getAudioContext();
+  if (!ctx) return;
+  playTone(ctx, 523.25, 0, 0.3, 0.25);    // C5
+  playTone(ctx, 659.25, 0.15, 0.3, 0.25);  // E5
+  playTone(ctx, 783.99, 0.3, 0.3, 0.25);   // G5
+};
+
+const playBoxingBell = async () => {
+  const ctx = await getAudioContext();
+  if (!ctx) return;
+  playTone(ctx, 440, 0, 0.4, 0.35);       // A4 strong hit
+  playTone(ctx, 440, 0.05, 0.35, 0.2);    // A4 overlay for richness
+  playTone(ctx, 880, 0, 0.5, 0.15);       // A5 shimmer
+};
+
+const playWhistle = async () => {
+  const ctx = await getAudioContext();
+  if (!ctx) return;
+  playTone(ctx, 1174.66, 0, 0.15, 0.3);   // D6
+  playTone(ctx, 1318.51, 0.12, 0.25, 0.3); // E6
+};
+
+const playSimpleTone = async () => {
+  const ctx = await getAudioContext();
+  if (!ctx) return;
+  playTone(ctx, 587.33, 0, 0.4, 0.3); // D5 sustained tone
+};
+
+const soundPreviewMap: Record<string, () => Promise<void>> = {
+  'beep': playBeep,
+  'chime': playChime,
+  'boxing-bell': playBoxingBell,
+  'whistle': playWhistle,
+  'tone': playSimpleTone,
+};
+
+/**
+ * Preview a sound by its key (used in settings)
+ */
+export const previewSound = async (soundKey: string): Promise<void> => {
+  const playFn = soundPreviewMap[soundKey];
+  if (playFn) {
+    await playFn();
+  }
+};

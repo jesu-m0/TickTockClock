@@ -8,8 +8,11 @@ import { AnimationType, ClockStatus } from "../types";
 import { useClockStatus } from "../context/ClockContext";
 import ExpandedContent from "./Common/ExpandedContent.tsx";
 import { initializeAudioContext } from "../utils/soundNotification";
+import { useTranslation } from "../i18n/useTranslation";
 
 const MainPage: React.FC = () => {
+      const { t } = useTranslation();
+
       //Expanded content
       const [showExpandLetters, setShowExpandLetters] = useState(true);
       const [isExpanded, setIsExpanded] = useState(false);
@@ -184,7 +187,7 @@ const MainPage: React.FC = () => {
                                     onClick={handleReset}
                               >
                                     <p className="font-bold text-eerieBlack text-3xl lg:text-5xl text-center">
-                                          Reset
+                                          {t.reset}
                                     </p>
                               </div>
 
@@ -197,7 +200,7 @@ const MainPage: React.FC = () => {
                                     onClick={handlePauseStart}
                               >
                                     <p className="font-bold dark:text-eerieBlack text-floralWhite text-3xl lg:text-5xl text-center">
-                                          {isPaused ? "Start" : "Stop"}
+                                          {isPaused ? t.start : t.stop}
                                     </p>
                               </div>
 
@@ -219,7 +222,7 @@ const MainPage: React.FC = () => {
                                           <p className={`font-bold dark:text-timberwolf text-blackOlive text-3xl lg:text-5xl text-center transition-opacity duration-200
                                                 ${showExpandLetters ? "opacity-100" : "opacity-0"}`}
                                           >
-                                                Expand
+                                                {t.expand}
                                           </p>
                                     </button>
 
@@ -261,7 +264,7 @@ const MainPage: React.FC = () => {
                                           {/*Title*/}
                                           <div className="px-4 flex-1 flex items-center justify-center">
                                                 <p className={`font-extrabold dark:text-timberwolf text-blackOlive text-3xl lg:text-4xl text-center transition-colors duration-300`}>
-                                                      Simple
+                                                      {t.simple}
                                                 </p>
                                           </div>
 
@@ -281,7 +284,7 @@ const MainPage: React.FC = () => {
                                           {/*Title*/}
                                           <div className="px-4 flex-1 flex justify-center items-center">
                                                 <p className={`font-extrabold dark:text-timberwolf text-blackOlive text-3xl lg:text-4xl text-center transition-colors duration-300`}>
-                                                      Custom
+                                                      {t.custom}
                                                 </p>
                                           </div>
 
@@ -303,7 +306,7 @@ const MainPage: React.FC = () => {
                   {/*Signature*/}
                   <footer className="container mx-auto px-5 pb-5">
                         <p className="text-blackOlive dark:text-timberwolf text-xs md:text-sm text-center pointer-events-auto">
-                              Made with {"<"}3 by{" "}
+                              {t.madeWith}{" "}
                               <a
                                     href="https://jmoreno.dev"
                                     className="underline hover:cursor-pointer hover:text-jade dark:hover:text-jade transition-colors duration-300"

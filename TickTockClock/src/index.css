@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --color-jade: #44AF69;
+  --color-timberwolf: #CCC5B9;
+}
+
 /* Move this to index.css for global effect */
 p, h1, h2 {
     user-select: none;

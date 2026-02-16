@@ -4,6 +4,7 @@ import { UUIDTypes } from "uuid";
 import EditIntervalForm from "./EditIntervalForm";
 import { ClockStatus } from "../../types";
 import { useClockStatus } from "../../context/ClockContext";
+import { useTranslation } from "../../i18n/useTranslation";
 
 interface IntervalCardProps {
       interval: Interval;
@@ -12,6 +13,7 @@ interface IntervalCardProps {
 }
 
 const IntervalCard = ({ interval, onDelete, onUpdate }: IntervalCardProps) => {
+      const { t, tf } = useTranslation();
       const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
       // Function to handle opening the modal
@@ -221,22 +223,22 @@ const IntervalCard = ({ interval, onDelete, onUpdate }: IntervalCardProps) => {
                   {isDeleteModalOpen && (
                         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-lg">
                               <div className="m-3 bg-floralWhite dark:bg-blackOlive p-10 rounded-2xl shadow-lg max-w-md w-full">
-                                    <h2 className="text-blackOlive dark:text-timberwolf text-4xl lg:text-5xl font-black mb-4">Are you sure?</h2>
+                                    <h2 className="text-blackOlive dark:text-timberwolf text-4xl lg:text-5xl font-black mb-4">{t.areYouSure}</h2>
                                     <p className="text-blackOlive/70 dark:text-timberwolf/70 mb-6 text-xl font-bold dark:font-semibold">
-                                          This action will permanently delete the interval "{interval.name}".
+                                          {tf('deleteConfirmation', { name: interval.name })}
                                     </p>
                                     <div className="flex justify-evenly gap-4">
                                           <button
                                                 onClick={handleCloseModal}
                                                 className="px-8 py-4 bg-blackOlive dark:bg-timberwolf text-floralWhite dark:text-blackOlive rounded-2xl hover:bg-eerieBlack dark:hover:bg-floralWhite transition-colors text-2xl font-bold"
                                           >
-                                                Cancel
+                                                {t.cancel}
                                           </button>
                                           <button
                                                 onClick={handleConfirmDelete}
                                                 className="px-8 py-4 bg-burntSienna text-white rounded-2xl hover:bg-red-700 transition-colors text-2xl font-bold"
                                           >
-                                                Delete
+                                                {t.delete}
                                           </button>
                                     </div>
                               </div>

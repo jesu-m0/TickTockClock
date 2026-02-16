@@ -3,9 +3,11 @@ import { AnimationType, ClockStatus, Colors } from "../../types";
 import { useClockStatus } from "../../context/ClockContext";
 import { useTheme } from "../../context/ThemeContext";
 import { playTimerFinishedSound, playWorkLapFinishedSound, playRestLapFinishedSound } from "../../utils/soundNotification";
+import { useTranslation } from "../../i18n/useTranslation";
 
 const Clock: React.FC = () => {
       const { isDarkMode } = useTheme();
+      const { t } = useTranslation();
       const {
             // Clock status
             clockStatus,
@@ -376,10 +378,10 @@ const Clock: React.FC = () => {
                               </p>
                               <div className="flex px-8 w-full">
                                     <p className="font-medium text-blackOlive dark:text-eerieBlack text-lg text-center w-1/2">
-                                          min
+                                          {t.min}
                                     </p>
                                     <p className="font-medium text-blackOlive dark:text-eerieBlack text-lg text-center w-1/2">
-                                          sec
+                                          {t.sec}
                                     </p>
                               </div>
                         </div>

@@ -7,8 +7,10 @@ import CreateIntervalForm from './CreateIntervalForm';
 import { UUIDTypes } from 'uuid';
 import { Interval } from '../../types/CustomTimerInfo';
 import { ClockStatus } from '../../types';
+import { useTranslation } from '../../i18n/useTranslation';
 
 const CustomInfo: React.FC = () => {
+      const { t } = useTranslation();
 
       const {
             clockStatus,
@@ -248,7 +250,7 @@ const CustomInfo: React.FC = () => {
 
                         {/* Sets */}
                         <div className='col-span-4 lg:w-1/5 dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full flex items-center justify-center'>
-                              <p className="dark:text-timberwolf text-blackOlive text-3xl lg:text-4xl font-black">Sets</p>
+                              <p className="dark:text-timberwolf text-blackOlive text-3xl lg:text-4xl font-black">{t.sets}</p>
                         </div>
 
                         {/* Sets down */}
@@ -280,7 +282,7 @@ const CustomInfo: React.FC = () => {
                               hover:scale-105 transition-transform duration-200 cursor-pointer"
                               onClick={showForm}>
                               <p className="dark:text-eerieBlack text-blackOlive text-2xl lg:text-3xl font-black">
-                                    Add
+                                    {t.add}
                               </p>
                         </button>
 

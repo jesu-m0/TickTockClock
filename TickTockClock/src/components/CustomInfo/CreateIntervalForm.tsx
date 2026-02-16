@@ -6,6 +6,7 @@ import ColorPicker from "./shared/ColorPicker";
 import IntervalNameInput from "./shared/IntervalNameInput";
 import IntervalTimeDisplay from "./shared/IntervalTimeDisplay";
 import DurationPicker from "./shared/DurationPicker";
+import { useTranslation } from "../../i18n/useTranslation";
 
 
 interface CreateIntervalFormProps {
@@ -24,6 +25,7 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
       openFormAnimation,
 }) => {
       const { customTimerInfo, setCustomTimerInfo } = useClockStatus();
+      const { t } = useTranslation();
       const [id, setId] = useState(uuidv4());
       const [name, setName] = useState(""); // Custom name for the interval
       const [duration, setDuration] = useState(0);
@@ -41,7 +43,7 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
                   return str.replace(/([a-z])([A-Z])/g, "$1 $2");
             };
 
-            return colorKey ? addSpacesBeforeCapitals(colorKey) : "Interval name";
+            return colorKey ? addSpacesBeforeCapitals(colorKey) : t.intervalName;
       };
 
       // Set the default name based on the randomly selected color on mount
@@ -140,7 +142,7 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
                                     <div className="grid grid-cols-12 lg:gap-5 gap-3 lg:auto-rows-[100px] auto-rows-[10vh]">
                                           {/* Title */}
                                           <div className="order-1 col-span-12 row-span-1 rounded-3xl content-center bg-floralWhite dark:bg-blackOlive">
-                                                <p className="text-3xl lg:text-5xl font-black text-blackOlive dark:text-timberwolf text-center">Create interval</p>
+                                                <p className="text-3xl lg:text-5xl font-black text-blackOlive dark:text-timberwolf text-center">{t.createInterval}</p>
                                           </div>
 
                                           {/* Color Picker Section */}
@@ -175,12 +177,12 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
                                                             ${isClickedCancel ? "scale-animation" : ""}`}
                                                 onClick={handleCancel}
                                           >
-                                                <p className="text-center text-floralWhite dark:text-timberwolf text-4xl lg:text-5xl font-black">Cancel</p>
+                                                <p className="text-center text-floralWhite dark:text-timberwolf text-4xl lg:text-5xl font-black">{t.cancel}</p>
                                           </div>
                                           <button type="submit" className={`order-9 col-span-6 lg:col-span-4 row-span-1 bg-floralWhite dark:bg-timberwolf rounded-3xl flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer
                                                 ${isClickedAdd ? "scale-animation" : ""}`}>
                                                 <p className=" text-4xl lg:text-5xl text-blackOlive font-black">
-                                                      Add
+                                                      {t.add}
                                                 </p>
                                           </button>
                                     </div>

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Colors } from "../../../types";
+import { useTranslation } from "../../../i18n/useTranslation";
 
 interface ColorPickerProps {
       selectedColor: Colors;
@@ -12,6 +13,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
       onColorChange,
       variant = "create"
 }) => {
+      const { t } = useTranslation();
       const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
 
       // Define background classes based on variant
@@ -54,7 +56,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
                         style={{ width: "max-content" }}
                   >
                         <h3 className="text-blackOlive dark:text-timberwolf mb-3 select-none text-center text-xl font-bold">
-                              Interval color
+                              {t.intervalColor}
                         </h3>
                         <div className="grid grid-cols-4 gap-2">
                               {Object.values(Colors).map((color) => (

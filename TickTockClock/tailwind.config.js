@@ -15,7 +15,8 @@ export default {
         timberwolf: '#CCC5B9',
         floralWhite: '#FFFCF2',
         saffron: '#E9C46A',
-        jade: '#44Af69'
+        jade: '#44Af69',
+        jadeLight: '#5CC97F'
       },
       gridTemplateRows: {
             'max-100': 'minmax(0, 100px)', // Custom utility

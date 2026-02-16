@@ -1,3 +1,5 @@
+import { useTranslation } from "../../../i18n/useTranslation";
+
 interface IntervalNameInputProps {
       name: string;
       onNameChange: (name: string) => void;
@@ -9,6 +11,7 @@ const IntervalNameInput: React.FC<IntervalNameInputProps> = ({
       onNameChange,
       variant = "create"
 }) => {
+      const { t } = useTranslation();
       // Define background classes based on variant
       const bgClasses = variant === "create"
             ? "bg-floralWhite dark:bg-blackOlive"
@@ -22,7 +25,7 @@ const IntervalNameInput: React.FC<IntervalNameInputProps> = ({
                               type="text"
                               value={name}
                               onChange={(e) => onNameChange(e.target.value.slice(0, 17))}
-                              placeholder="Interval name"
+                              placeholder={t.intervalName}
                               className={`w-full ${bgClasses} text-blackOlive dark:text-timberwolf text-xl lg:text-3xl font-bold placeholder:text-blackOlive/70 dark:placeholder:text-timberwolf/70 focus:outline-none mb-1 leading-relaxed`}
                         />
                         {/* Timberwolf Line */}

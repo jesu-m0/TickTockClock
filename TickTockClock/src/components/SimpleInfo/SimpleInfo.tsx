@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './SimpleInfo.css';
 import { AnimationType, ClockStatus } from '../../types';
 import { useClockStatus } from '../../context/ClockContext';
+import { useTranslation } from '../../i18n/useTranslation';
 
 export interface WorkDurationButton {
       id: string;
@@ -17,6 +18,7 @@ const SimpleInfo: React.FC = () => {
             setSimpleTimerInfo,
             clockStatus
       } = useClockStatus();
+      const { t } = useTranslation();
 
       const [buttonDoAnimation, setButtonDoAnimation] = useState<string>("");
 
@@ -190,7 +192,7 @@ const SimpleInfo: React.FC = () => {
 
                                     {/* Work Timer Display */}
                                     <div className='time-controls-layout'>
-                                          <p className="timer-phase-title">Work lap</p>
+                                          <p className="timer-phase-title">{t.workLap}</p>
                                           <div className={`lap-timer-display-container
                                                 ${simpleTimerInfo.currentAnimation === AnimationType.EMPTY_LAPS_DURATION && simpleTimerInfo.workLapDuration === 0 ? 'button-error-animation' : ''}`}>
                                                 <p className='lap-timer-digits'>
@@ -236,7 +238,7 @@ const SimpleInfo: React.FC = () => {
                               <div className='flex-1 items-center flex lg:flex-row flex-col justify-evenly rounded-b-3xl bg-jade'>
                                     {/* Rest Timer Display */}
                                     <div className='time-controls-layout'>
-                                          <p className="timer-phase-title">Rest lap</p>
+                                          <p className="timer-phase-title">{t.restLap}</p>
                                           <div className={`lap-timer-display-container 
                                                 ${simpleTimerInfo.currentAnimation === AnimationType.EMPTY_LAPS_DURATION && simpleTimerInfo.restLapDuration === 0 ? 'button-error-animation' : ''}`}>
                                                 <p className='lap-timer-digits'>
@@ -282,7 +284,7 @@ const SimpleInfo: React.FC = () => {
                   {/* Sets setter - mobile: 4x2, desktop: 8x1 */}
                   <div className='col-span-4 row-span-2 lg:col-span-8 lg:col-start-5 lg:row-start-8 lg:row-span-1 h-full rounded-3xl grid grid-cols-4 grid-rows-2 lg:flex items-center gap-3 lg:gap-5'>
                         <div className='col-span-4 lg:w-2/5 dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full flex items-center justify-center'>
-                              <p className="dark:text-timberwolf text-blackOlive text-3xl lg:text-4xl font-black">Sets</p>
+                              <p className="dark:text-timberwolf text-blackOlive text-3xl lg:text-4xl font-black">{t.sets}</p>
                         </div>
                         <div
                               className={`col-span-1 lg:w-1/5 dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full flex items-center justify-center

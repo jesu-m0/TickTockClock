@@ -4,6 +4,7 @@ import ColorPicker from "./shared/ColorPicker";
 import IntervalNameInput from "./shared/IntervalNameInput";
 import IntervalTimeDisplay from "./shared/IntervalTimeDisplay";
 import DurationPicker from "./shared/DurationPicker";
+import { useTranslation } from "../../i18n/useTranslation";
 
 interface EditIntervalFormProps {
       interval: Interval; // The interval to edit
@@ -12,6 +13,7 @@ interface EditIntervalFormProps {
 }
 
 const EditIntervalForm: React.FC<EditIntervalFormProps> = ({ interval, onSave, onClose }) => {
+      const { t } = useTranslation();
       const [name, setName] = useState(interval.name); // Name of the interval
       const [duration, setDuration] = useState(interval.duration); // Duration of the interval
       const [selectedColor, setSelectedColor] = useState(interval.color); // Selected color
@@ -74,7 +76,7 @@ const EditIntervalForm: React.FC<EditIntervalFormProps> = ({ interval, onSave, o
                                     <div className="grid grid-cols-12 lg:gap-5 gap-3 lg:auto-rows-[100px] auto-rows-[10vh]">
                                           {/* Title */}
                                           <div className="order-1 col-span-12 row-span-1 rounded-3xl content-center bg-floralWhite dark:bg-eerieBlack">
-                                                <p className="text-4xl lg:text-5xl font-black text-blackOlive dark:text-timberwolf text-center">Edit interval</p>
+                                                <p className="text-4xl lg:text-5xl font-black text-blackOlive dark:text-timberwolf text-center">{t.editInterval}</p>
                                           </div>
 
                                           {/* Color Picker Section */}
@@ -108,12 +110,12 @@ const EditIntervalForm: React.FC<EditIntervalFormProps> = ({ interval, onSave, o
                                                             ${isClickedCancel ? "scale-animation" : ""}`}
                                                 onClick={handleCancel}
                                           >
-                                                <p className="text-center text-blackOlive dark:text-eerieBlack text-4xl lg:text-5xl font-black">Cancel</p>
+                                                <p className="text-center text-blackOlive dark:text-eerieBlack text-4xl lg:text-5xl font-black">{t.cancel}</p>
                                           </div>
                                           <button type="submit" className={`order-9 col-span-6 lg:col-span-4 row-span-1 bg-jade rounded-3xl flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer
                                                 ${isClickedSave ? "scale-animation" : ""}`}>
                                                 <p className="text-4xl lg:text-5xl text-floralWhite font-black">
-                                                      Save
+                                                      {t.save}
                                                 </p>
                                           </button>
 

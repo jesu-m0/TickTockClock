@@ -1,7 +1,10 @@
 import React from 'react';
 import ThemeToggleButton from './ThemeToggleButton.tsx';
+import { useTranslation } from '../../i18n/useTranslation';
 
 const Header: React.FC = () => {
+    const { t } = useTranslation();
+
     return (
         <>
             {/* TickTockClock label - mobile: 4x1, desktop: 6x1 */}
@@ -15,7 +18,7 @@ const Header: React.FC = () => {
 
             {/* Interval timer label - mobile: 3x1, desktop: 5x1 */}
             <div className='col-span-3 lg:col-span-5 lg:col-start-7 lg:row-start-1 h-full p-4 rounded-3xl bg-floralWhite dark:bg-eerieBlack flex items-center justify-center'>
-                <h2 className='font-bold text-blackOlive dark:text-timberwolf rounded text-3xl lg:text-4xl 2xl:text-6xl text-center'>Interval timer</h2>
+                <h2 className='font-bold text-blackOlive dark:text-timberwolf rounded text-3xl lg:text-4xl 2xl:text-6xl text-center'>{t.intervalTimer}</h2>
             </div>
 
             {/* Theme toggle - 1x1 */}

@@ -1,3 +1,5 @@
+import { useTranslation } from "../../../i18n/useTranslation";
+
 interface IntervalTimeDisplayProps {
       duration: number;
       variant?: "create" | "edit"; // For different stripe colors
@@ -7,6 +9,7 @@ const IntervalTimeDisplay: React.FC<IntervalTimeDisplayProps> = ({
       duration,
       variant = "create"
 }) => {
+      const { t } = useTranslation();
       // Format time to MM:SS
       const formatTime = (seconds: number) => {
             const mins = String(Math.floor(seconds / 60)).padStart(2, "0");
@@ -25,10 +28,10 @@ const IntervalTimeDisplay: React.FC<IntervalTimeDisplayProps> = ({
                         </p>
                         <div className="flex px-8 w-full">
                               <p className="font-medium text-blackOlive text-lg text-center w-1/2">
-                                    min
+                                    {t.min}
                               </p>
                               <p className="font-medium text-blackOlive text-lg text-center w-1/2">
-                                    sec
+                                    {t.sec}
                               </p>
                         </div>
                   </div>
