@@ -180,10 +180,9 @@ const SimpleInfo: React.FC = () => {
       };
 
       return (
-            <div className='order-9 lg:order-6 lg:col-span-8 col-span-12 lg:row-span-5 row-span-8 flex flex-col lg:gap-5 gap-3'>
-
-                  {/* First section - Work and Rest */}
-                  <div className='flex-1 rounded-3xl content-center dark:bg-eerieBlack bg-floralWhite flex flex-col min-h-0'>
+            <>
+                  {/* Work/Rest duration setter - mobile: 4x5, desktop: 8x5 */}
+                  <div className='col-span-4 row-span-8 lg:col-span-8 lg:col-start-5 lg:row-start-3 lg:row-span-5 h-full rounded-3xl content-center dark:bg-eerieBlack bg-floralWhite flex flex-col min-h-0 overflow-hidden'>
                         <div className='h-full flex flex-col'>
 
                               {/* Work Section */}
@@ -280,32 +279,32 @@ const SimpleInfo: React.FC = () => {
                         </div>
                   </div>
 
-                  {/* Sets management */}
-                  <div className='h-[60px] rounded-3xl flex items-center lg:gap-5 gap-2 sm:gap-3'>
-                        <div className='dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full w-2/5 flex items-center justify-center'>
-                              <p className="dark:text-timberwolf text-blackOlive text-2xl lg:text-3xl font-black">Sets</p>
+                  {/* Sets setter - mobile: 4x2, desktop: 8x1 */}
+                  <div className='col-span-4 row-span-2 lg:col-span-8 lg:col-start-5 lg:row-start-8 lg:row-span-1 h-full rounded-3xl grid grid-cols-4 grid-rows-2 lg:flex items-center gap-3 lg:gap-5'>
+                        <div className='col-span-4 lg:w-2/5 dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full flex items-center justify-center'>
+                              <p className="dark:text-timberwolf text-blackOlive text-3xl lg:text-4xl font-black">Sets</p>
                         </div>
                         <div
-                              className={`dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full w-1/5 flex items-center justify-center
+                              className={`col-span-1 lg:w-1/5 dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full flex items-center justify-center
                                     hover:scale-105 transition-transform duration-200 cursor-pointer
                                     ${minusClicked ? 'scale-animation' : ''}`}
                               onClick={handleSetsDown}
                         >
-                              <p className="dark:text-timberwolf text-blackOlive text-2xl lg:text-3xl font-black">-</p>
+                              <p className="dark:text-timberwolf text-blackOlive text-3xl lg:text-5xl font-black">-</p>
                         </div>
-                        <div className='dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full w-1/5 flex items-center justify-center'>
-                              <p className="dark:text-timberwolf text-blackOlive text-2xl lg:text-3xl font-black">{simpleTimerInfo.sets}</p>
+                        <div className='col-span-2 lg:w-1/5 dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full flex items-center justify-center'>
+                              <p className="dark:text-timberwolf text-blackOlive text-3xl lg:text-5xl font-black">{simpleTimerInfo.sets}</p>
                         </div>
                         <div
-                              className={`dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full w-1/5 flex items-center justify-center
+                              className={`col-span-1 lg:w-1/5 dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full flex items-center justify-center
                                     hover:scale-105 transition-transform duration-200 cursor-pointer
                                     ${plusClicked ? 'scale-animation' : ''}`}
                               onClick={handleSetsUp}
                         >
-                              <p className="dark:text-timberwolf text-blackOlive text-2xl lg:text-3xl font-black">+</p>
+                              <p className="dark:text-timberwolf text-blackOlive text-3xl lg:text-5xl font-black">+</p>
                         </div>
                   </div>
-            </div>
+            </>
       );
 };
 

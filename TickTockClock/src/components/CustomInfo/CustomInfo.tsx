@@ -185,9 +185,9 @@ const CustomInfo: React.FC = () => {
 
       return (
             <>
-                  {/* Main drag and drop wrapper that handles drag end events */}
+                  {/* Interval pool - 8x5 */}
                   {clockStatus === ClockStatus.RUNNING || clockStatus === ClockStatus.PAUSED ? (
-                        <div id="intervalsContainer" onClick={errorDragDrop} className="order-9 lg:order-6 lg:col-span-8 col-span-12 lg:row-span-4 row-span-6 rounded-3xl bg-floralWhite dark:bg-eerieBlack px-4 py-6">
+                        <div id="intervalsContainer" onClick={errorDragDrop} className="col-span-4 row-span-6 lg:col-span-8 lg:col-start-5 lg:row-start-3 lg:row-span-5 h-full rounded-3xl bg-floralWhite dark:bg-eerieBlack px-4 py-6">
                               {/* Scrollable container for interval cards */}
                               <div className="overflow-y-auto flex flex-col gap-2 h-full pr-2">
                                     {customTimerInfo.intervals.map((interval, index) => (
@@ -203,7 +203,7 @@ const CustomInfo: React.FC = () => {
                               <Droppable droppableId="intervals">
                                     {(provided) => (
                                           <div
-                                                className="order-9 lg:order-6 lg:col-span-8 col-span-12 lg:row-span-4 row-span-6 rounded-3xl bg-floralWhite dark:bg-eerieBlack px-4 py-6"
+                                                className="col-span-4 row-span-6 lg:col-span-8 lg:col-start-5 lg:row-start-3 lg:row-span-5 h-full rounded-3xl bg-floralWhite dark:bg-eerieBlack px-4 py-6"
                                                 {...provided.droppableProps}
                                                 ref={provided.innerRef}
                                           >
@@ -243,53 +243,46 @@ const CustomInfo: React.FC = () => {
                   )}
 
 
-                  {/* Sets  */}
-                  <div className='order-10 lg:order-11 lg:col-span-8 col-span-12 row-span-1 h-[60px] rounded-3xl flex flex-row items-stretch lg:gap-5 gap-3'>
+                  {/* Sets setter - mobile: 4x3, desktop: 8x1 */}
+                  <div className='col-span-4 row-span-3 lg:col-span-8 lg:col-start-5 lg:row-start-8 lg:row-span-1 h-full rounded-3xl grid grid-cols-4 grid-rows-3 lg:flex items-stretch gap-3 lg:gap-5'>
 
-                        <div className='w-4/5 flex lg:gap-5 gap-3'>
+                        {/* Sets */}
+                        <div className='col-span-4 lg:w-1/5 dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full flex items-center justify-center'>
+                              <p className="dark:text-timberwolf text-blackOlive text-3xl lg:text-4xl font-black">Sets</p>
+                        </div>
 
-                              {/* Sets */}
-                              <div className='dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full w-1/4 flex items-center justify-center'>
-                                    <p className="dark:text-timberwolf text-blackOlive text-2xl lg:text-3xl font-black">Sets</p>
-                              </div>
-
-                              {/* Sets down */}
-                              <div id="setsDownCustom"
-                                    className={`dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full w-1/4 flex items-center justify-center
+                        {/* Sets down */}
+                        <div id="setsDownCustom"
+                              className={`col-span-1 lg:w-1/5 dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full flex items-center justify-center
                 hover:scale-105 transition-transform duration-200 cursor-pointer
                 ${minusClicked ? 'scale-animation' : ''}`}
-                                    onClick={handleSetsDown}
-                              >
-                                    <p className="dark:text-timberwolf text-blackOlive text-2xl lg:text-3xl font-black">-</p>
-                              </div>
+                              onClick={handleSetsDown}
+                        >
+                              <p className="dark:text-timberwolf text-blackOlive text-3xl lg:text-5xl font-black">-</p>
+                        </div>
 
-                              {/* Number of sets */}
-                              <div className='dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full w-1/4 flex items-center justify-center'>
-                                    <p className="dark:text-timberwolf text-blackOlive text-2xl lg:text-3xl font-black">{customTimerInfo.sets}</p>
-                              </div>
+                        {/* Number of sets */}
+                        <div className='col-span-2 lg:w-1/5 dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full flex items-center justify-center'>
+                              <p className="dark:text-timberwolf text-blackOlive text-3xl lg:text-5xl font-black">{customTimerInfo.sets}</p>
+                        </div>
 
-                              {/* Sets up */}
-                              <div id='setsUpCustom' className={`dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full w-1/4 flex items-center justify-center
+                        {/* Sets up */}
+                        <div id='setsUpCustom' className={`col-span-1 lg:w-1/5 dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full flex items-center justify-center
                 hover:scale-105 transition-transform duration-200 cursor-pointer
                 ${plusClicked ? 'scale-animation' : ''}`}
-                                    onClick={handleSetsUp}
-                              >
-                                    <p className="dark:text-timberwolf text-blackOlive text-2xl lg:text-3xl font-black">+</p>
-                              </div>
+                              onClick={handleSetsUp}
+                        >
+                              <p className="dark:text-timberwolf text-blackOlive text-3xl lg:text-5xl font-black">+</p>
                         </div>
 
-                        <div className='w-1/5'>
-                              {/* Add an interval */}
-                              <button id="add-button" className="bg-jade rounded-3xl h-full w-full flex items-center justify-center
+                        {/* Add an interval */}
+                        <button id="add-button" className="col-span-4 lg:w-1/5 bg-jade rounded-3xl h-full w-full flex items-center justify-center
                               hover:scale-105 transition-transform duration-200 cursor-pointer"
-                                    onClick={showForm}>
-
-                                    <p className="dark:text-eerieBlack text-blackOlive text-2xl lg:text-3xl font-black">
-                                          Add
-                                    </p>
-
-                              </button>
-                        </div>
+                              onClick={showForm}>
+                              <p className="dark:text-eerieBlack text-blackOlive text-2xl lg:text-3xl font-black">
+                                    Add
+                              </p>
+                        </button>
 
 
 

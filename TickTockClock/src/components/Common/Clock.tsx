@@ -368,8 +368,8 @@ const Clock: React.FC = () => {
 
       return (
             <>
-                  {/*Clock*/}
-                  <div className="flex-grow rounded-3xl content-center dark:bg-timberwolf bg-floralWhite flex flex-col">
+                  {/* Clock display - mobile: 4x4, desktop: 4x4 */}
+                  <div className="col-span-4 row-span-4 lg:col-start-1 lg:row-start-2 h-full rounded-3xl content-center dark:bg-timberwolf bg-floralWhite flex flex-col">
                         <div className="p-4 h-full flex flex-col justify-center items-center">
                               <p className="font-black text-blackOlive dark:text-eerieBlack text-8xl md:text-8xl xl:text-9xl text-center">
                                     {formatTime(time)}
@@ -410,9 +410,10 @@ const Clock: React.FC = () => {
                               ></div>
                         </div>
                   </div>
-                  {/*Sets progress bar*/}
+
+                  {/* Sets progress bar - 4x1 */}
                   <div
-                        className={`lg:h-[100px] h-[10vh] rounded-3xl relative overflow-hidden dark:bg-eerieBlack bg-floralWhite flex items-center justify-center`}
+                        className="col-span-4 lg:col-start-1 lg:row-start-6 h-full rounded-3xl relative overflow-hidden dark:bg-eerieBlack bg-floralWhite flex items-center justify-center"
                   >
                         {(clockStatus === ClockStatus.RUNNING || clockStatus === ClockStatus.PAUSED) && (
                               <>
@@ -453,7 +454,7 @@ const Clock: React.FC = () => {
 
                               </>
                         )}
-                        <p className="font-bold dark:text-timberwolf text-blackOlive text-4xl lg:text-5xl text-center relative z-10">
+                        <p className="font-bold dark:text-timberwolf text-blackOlive text-3xl lg:text-5xl text-center relative z-10">
                               {isSimpleMode ? simpleTimerInfo.remainingSets : customTimerInfo.remainingSets}
                         </p>
                   </div>

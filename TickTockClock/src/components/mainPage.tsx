@@ -166,34 +166,101 @@ const MainPage: React.FC = () => {
       }, [simpleTimerInfo.currentAnimation]);
 
       return (
-            <div className="pb-16">
+            <div className="pb-4 lg:pb-16">
                   <div className="container mx-auto p-5">
-                        <div className="grid grid-cols-12 lg:gap-5 gap-3" style={{ gridAutoRows: 'minmax(60px, auto)' }}>
-                              <Header></Header>
+                        <div className="grid grid-cols-4 lg:grid-cols-12 gap-3 lg:gap-5 [grid-auto-rows:60px] lg:[grid-auto-rows:80px]">
+                              {/* ===== HEADER ROW 1 ===== */}
+                              <Header />
 
-                              {/*Clock */}
-                              <div
-                                    className={`order-4 lg:order-4 lg:col-span-4 col-span-12 lg:row-span-4 row-span-4 rounded-3xl content-center flex flex-col lg:gap-5 gap-3
-                                    ${simpleTimerInfo.currentAnimation ===
-                                                AnimationType.ALREADY_RESET ||
-                                                simpleTimerInfo.currentAnimation ===
-                                                AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_NOT_00
-                                                ? "button-error-animation"
-                                                : ""
-                                          }`}
+                              {/* ===== CLOCK SECTION (rows 2-8, cols 1-4) ===== */}
+                              <Clock />
+
+                              {/* Reset button - 2x1 */}
+                              <div id="resetButton"
+                                    className={`col-span-2 lg:col-start-1 lg:row-start-7 h-full bg-saffron p-4 rounded-3xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer flex items-center justify-center
+                                    ${isClickedReset ? "scale-animation" : ""}
+                                    ${simpleTimerInfo.currentAnimation === AnimationType.ALREADY_RESET ? "button-error-animation" : ""}
+                                    ${simpleTimerInfo.currentAnimation === AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_NOT_00 ? "button-error-animation" : ""}`}
+                                    onClick={handleReset}
                               >
-                                    <Clock></Clock>
+                                    <p className="font-bold text-eerieBlack text-3xl lg:text-5xl text-center">
+                                          Reset
+                                    </p>
                               </div>
 
-                              {/*Mode selection*/}
-                              <div id="modeSelection" className="order-8 lg:order-5 lg:col-span-8 col-span-12 row-span-1 h-[60px] flex">
+                              {/* Start/Stop button - 2x1 */}
+                              <div
+                                    className={`col-span-2 lg:col-start-3 lg:row-start-7 h-full p-4 rounded-3xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer flex items-center justify-center
+                                    ${isPaused ? "dark:bg-timberwolf bg-blackOlive" : "bg-burntSienna"}
+                                    ${isClickedPause ? "scale-animation" : ""}
+                                    ${simpleTimerInfo.currentAnimation === AnimationType.EMPTY_LAPS_DURATION ? "button-error-animation" : ""}`}
+                                    onClick={handlePauseStart}
+                              >
+                                    <p className="font-bold dark:text-eerieBlack text-floralWhite text-3xl lg:text-5xl text-center">
+                                          {isPaused ? "Start" : "Stop"}
+                                    </p>
+                              </div>
+
+                              {/* Expand button - 4x1 */}
+                              <div className="col-span-4 lg:col-start-1 lg:row-start-8 h-full relative">
+                                    <button
+                                          id="expand-button"
+                                          className="h-full w-full bg-floralWhite dark:bg-eerieBlack p-4 rounded-3xl flex justify-center items-center hover:scale-105 transition-transform duration-200 cursor-pointer"
+                                          onClick={expand}
+                                    >
+                                          <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 448 512"
+                                                className={`w-8 h-8 lg:w-12 lg:h-12 fill-blackOlive dark:fill-timberwolf mr-4 transition-opacity duration-200
+                                                ${showExpandLetters ? "opacity-100" : "opacity-0"}`}
+                                          >
+                                                <path d="M32 32C14.3 32 0 46.3 0 64l0 96c0 17.7 14.3 32 32 32s32-14.3 32-32l0-64 64 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L32 32zM64 352c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 96c0 17.7 14.3 32 32 32l96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-64 0 0-64zM320 32c-17.7 0-32 14.3-32 32s14.3 32 32 32l64 0 0 64c0 17.7 14.3 32 32 32s32-14.3 32-32l0-96c0-17.7-14.3-32-32-32l-96 0zM448 352c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 64-64 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l96 0c17.7 0 32-14.3 32-32l0-96z" />
+                                          </svg>
+                                          <p className={`font-bold dark:text-timberwolf text-blackOlive text-3xl lg:text-5xl text-center transition-opacity duration-200
+                                                ${showExpandLetters ? "opacity-100" : "opacity-0"}`}
+                                          >
+                                                Expand
+                                          </p>
+                                    </button>
+
+                                    {/* Expanded content overlay */}
+                                    <div
+                                          className={`dark:bg-eerieBlack bg-floralWhite z-10 transition-all
+                                          ${isExpanded ? "rounded-none" : "rounded-3xl"}
+                                          ${openAnimation ? (isExpanded ? "duration-700" : "duration-100") : (divExist ? "duration-700" : "duration-100")}
+                                          ${showExpandLetters ? "hidden" : ""}`}
+                                          style={{
+                                                position: "fixed",
+                                                top: isExpanded ? 0 : buttonPosition.top,
+                                                left: isExpanded ? 0 : buttonPosition.left,
+                                                width: divExist ? (isExpanded ? "100vw" : `${buttonPosition.width}px`) : 0,
+                                                height: divExist ? (isExpanded ? "100vh" : `${buttonPosition.height}px`) : 0,
+                                                transform: divExist ? "none" : `translate(${buttonPosition.width / 2}px, ${buttonPosition.height / 2}px)`,
+                                          }}
+                                    >
+                                          <div className={`h-full w-full transition-opacity duration-200 ${showContent ? "opacity-100" : "opacity-0"}`}>
+                                                <ExpandedContent
+                                                      setIsExpanded={setIsExpanded}
+                                                      setShowContent={setShowContent}
+                                                      setShowExpandLetters={setShowExpandLetters}
+                                                      divExist={setDivExist}
+                                                      openAnimation={setOpenAnimation}
+                                                />
+                                          </div>
+                                    </div>
+                              </div>
+
+                              {/* ===== SETTINGS SECTION (rows 2-8, cols 5-12) ===== */}
+
+                              {/* Mode selection - 8x1 */}
+                              <div id="modeSelection" className="col-span-4 lg:col-span-8 lg:col-start-5 lg:row-start-2 h-full flex">
                                     {/*Simple btn*/}
                                     <div className="w-1/2 h-full rounded-3xl dark:bg-eerieBlack bg-floralWhite cursor-pointer flex flex-col overflow-hidden"
                                           onClick={changeToSimple}>
 
                                           {/*Title*/}
                                           <div className="px-4 flex-1 flex items-center justify-center">
-                                                <p className={`font-extrabold dark:text-timberwolf text-blackOlive text-xl lg:text-2xl text-center transition-colors duration-300`}>
+                                                <p className={`font-extrabold dark:text-timberwolf text-blackOlive text-3xl lg:text-4xl text-center transition-colors duration-300`}>
                                                       Simple
                                                 </p>
                                           </div>
@@ -213,7 +280,7 @@ const MainPage: React.FC = () => {
                                     >
                                           {/*Title*/}
                                           <div className="px-4 flex-1 flex justify-center items-center">
-                                                <p className={`font-extrabold dark:text-timberwolf text-blackOlive text-xl lg:text-2xl text-center transition-colors duration-300`}>
+                                                <p className={`font-extrabold dark:text-timberwolf text-blackOlive text-3xl lg:text-4xl text-center transition-colors duration-300`}>
                                                       Custom
                                                 </p>
                                           </div>
@@ -228,110 +295,8 @@ const MainPage: React.FC = () => {
                                     </div>
                               </div>
 
+                              {/* Work/Rest or Interval pool + Sets setter */}
                               {isSimpleMode ? <SimpleInfo /> : <CustomInfo />}
-
-                              {/*Reset*/}
-                              <div id="resetButton"
-                                    className={`order-5 lg:order-7 lg:col-span-2 col-span-6 row-span-1 bg-saffron p-4 rounded-3xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer
-          ${isClickedReset ? "scale-animation" : ""}
-          ${simpleTimerInfo.currentAnimation === AnimationType.ALREADY_RESET
-                                                ? "button-error-animation"
-                                                : ""
-                                          }
-          ${simpleTimerInfo.currentAnimation ===
-                                                AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_NOT_00
-                                                ? "button-error-animation"
-                                                : ""
-                                          }`}
-                                    onClick={handleReset}
-                              >
-                                    <p className="font-bold text-eerieBlack text-4xl md:text-4xl xl:text-6xl text-center">
-                                          Reset
-                                    </p>
-                              </div>
-
-                              {/*Start/stop*/}
-                              <div
-                                    className={`order-6 lg:order-8 lg:col-span-2 col-span-6 row-span-1 p-4 rounded-3xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer
-                                    ${isPaused
-                                                ? "dark:bg-timberwolf bg-blackOlive"
-                                                : "bg-burntSienna"
-                                          }
-                                    ${isClickedPause ? "scale-animation" : ""}
-                                    ${simpleTimerInfo.currentAnimation ===
-                                                AnimationType.EMPTY_LAPS_DURATION
-                                                ? "button-error-animation"
-                                                : ""
-                                          }`}
-                                    onClick={handlePauseStart}
-                              >
-                                    <p className="font-bold dark:text-eerieBlack text-floralWhite text-4xl md:text-4xl xl:text-6xl text-center">
-                                          {isPaused ? "Start" : "Stop"}
-                                    </p>
-                              </div>
-
-                              {/*Expand button*/}
-                              <div className="order-7 lg:order-9 lg:col-span-4 col-span-12 row-span-1 relative">
-                                    <button
-                                          id="expand-button"
-                                          className="h-full w-full bg-floralWhite dark:bg-eerieBlack p-4 rounded-3xl flex justify-center items-center hover:scale-105 transition-transform duration-200 cursor-pointer"
-                                          onClick={expand}
-                                    >
-                                          <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 448 512"
-                                                className={`w-8 h-8 lg:w-12 lg:h-12 fill-blackOlive dark:fill-timberwolf mr-4 
-                  transition-opacity duration-200
-                  ${showExpandLetters ? "opacity-100" : "opacity-0"}`}
-                                          >
-                                                <path d="M32 32C14.3 32 0 46.3 0 64l0 96c0 17.7 14.3 32 32 32s32-14.3 32-32l0-64 64 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L32 32zM64 352c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 96c0 17.7 14.3 32 32 32l96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-64 0 0-64zM320 32c-17.7 0-32 14.3-32 32s14.3 32 32 32l64 0 0 64c0 17.7 14.3 32 32 32s32-14.3 32-32l0-96c0-17.7-14.3-32-32-32l-96 0zM448 352c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 64-64 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l96 0c17.7 0 32-14.3 32-32l0-96z" />
-                                          </svg>
-                                          <p
-                                                className={`font-bold dark:text-timberwolf text-blackOlive text-4xl lg:text-5xl text-center transition-opacity duration-200
-                ${showExpandLetters ? "opacity-100" : "opacity-0"}`}
-                                          >
-                                                Expand
-                                          </p>
-                                    </button>
-
-                                    {/*Expanded content*/}
-                                    <div
-                                          className={`dark:bg-eerieBlack bg-floralWhite z-10 transition-all
-                  ${isExpanded ? "rounded-none" : "rounded-3xl"}
-                  ${openAnimation ?
-                                                      isExpanded ? "duration-700" : "duration-100"
-                                                      :
-                                                      divExist ? "duration-700" : "duration-100"}
-                  ${showExpandLetters ? "hidden" : ""}`}
-                                          style={{
-                                                position: "fixed",
-                                                top: isExpanded ? 0 : buttonPosition.top,
-                                                left: isExpanded ? 0 : buttonPosition.left,
-                                                width: divExist ?
-                                                      isExpanded ? "100vw" : `${buttonPosition.width}px`
-                                                      :
-                                                      0,
-                                                height: divExist ?
-                                                      isExpanded ? "100vh" : `${buttonPosition.height}px`
-                                                      :
-                                                      0,
-                                                transform: divExist ? "none" : `translate(${buttonPosition.width / 2}px, ${buttonPosition.height / 2}px)`,
-                                          }}
-                                    >
-                                          <div
-                                                className={`h-full w-full transition-opacity duration-200 ${showContent ? "opacity-100" : "opacity-0"
-                                                      }`}
-                                          >
-                                                <ExpandedContent
-                                                      setIsExpanded={setIsExpanded}
-                                                      setShowContent={setShowContent}
-                                                      setShowExpandLetters={setShowExpandLetters}
-                                                      divExist={setDivExist}
-                                                      openAnimation={setOpenAnimation}
-                                                />
-                                          </div>
-                                    </div>
-                              </div>
                         </div>
                   </div>
 
