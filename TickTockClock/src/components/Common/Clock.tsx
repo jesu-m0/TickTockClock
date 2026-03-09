@@ -404,15 +404,15 @@ const Clock: React.FC = () => {
                                     <div className="flex flex-col gap-2 text-sm">
                                           <div className="flex justify-between items-center gap-4">
                                                 <p className="pointer-events-auto">{t.playPause}</p>
-                                                <kbd className="bg-floralWhite/20 px-2 py-0.5 rounded-md flex items-center justify-center">
-                                                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-4">
-                                                            <path d="M4 10V12H20V10" />
+                                                <kbd className="bg-floralWhite/20 px-2 pt-0 pb-1 rounded-md flex items-center justify-center">
+                                                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-3">
+                                                            <path d="M4 8V12H20V8" />
                                                       </svg>
                                                 </kbd>
                                           </div>
                                           <div className="flex justify-between items-center gap-4">
                                                 <p className="pointer-events-auto">{t.reset}</p>
-                                                <kbd className="bg-floralWhite/20 px-2 py-0.5 rounded-md font-mono text-xs">R</kbd>
+                                                <kbd className="bg-floralWhite/20 px-2 py-0.5 rounded-md font-mono text-xs font-bold">R</kbd>
                                           </div>
                                     </div>
                               </div>
