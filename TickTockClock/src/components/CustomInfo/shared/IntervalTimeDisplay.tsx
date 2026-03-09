@@ -1,4 +1,5 @@
 import { useTranslation } from "../../../i18n/useTranslation";
+import TimeDigits from "../../Common/TimeDigits";
 
 interface IntervalTimeDisplayProps {
       duration: number;
@@ -23,9 +24,7 @@ const IntervalTimeDisplay: React.FC<IntervalTimeDisplayProps> = ({
       return (
             <div className="order-4 col-span-12 lg:col-span-4 row-span-3 lg:row-span-4 bg-floralWhite dark:bg-timberwolf rounded-3xl flex flex-col">
                   <div className="p-4 h-full flex flex-col justify-center items-center">
-                        <p className="font-black text-blackOlive text-8xl md:text-8xl xl:text-9xl text-center">
-                              {formatTime(duration)}
-                        </p>
+                        <TimeDigits value={formatTime(duration)} className="font-black text-blackOlive text-8xl md:text-8xl xl:text-9xl text-center" />
                         <div className="flex px-8 w-full">
                               <p className="font-medium text-blackOlive text-lg text-center w-1/2">
                                     {t.min}

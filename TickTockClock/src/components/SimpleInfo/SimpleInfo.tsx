@@ -3,6 +3,7 @@ import './SimpleInfo.css';
 import { AnimationType, ClockStatus } from '../../types';
 import { useClockStatus } from '../../context/ClockContext';
 import { useTranslation } from '../../i18n/useTranslation';
+import TimeDigits from '../Common/TimeDigits';
 
 export interface WorkDurationButton {
       id: string;
@@ -23,31 +24,31 @@ const SimpleInfo: React.FC = () => {
       const [buttonDoAnimation, setButtonDoAnimation] = useState<string>("");
 
       const [workUpButtons, setWorkUpButtons] = useState<WorkDurationButton[]>([
-            { id: 'workUp1', seconds: 1, label: '+1"', isClicked: false, size: 'xs' },
             { id: 'workUp5', seconds: 5, label: '+5"', isClicked: false, size: 's' },
             { id: 'workUp30', seconds: 30, label: '+30"', isClicked: false, size: 'm' },
-            { id: 'workUp300', seconds: 300, label: "+5'", isClicked: false, size: 'xl' },
+            { id: 'workUp300', seconds: 300, label: "+5'", isClicked: false, size: 'l' },
+            { id: 'workUp1800', seconds: 1800, label: "+30'", isClicked: false, size: 'xl' },
       ]);
 
       const [workDownButtons, setWorkDownButtons] = useState<WorkDurationButton[]>([
-            { id: 'workDown1', seconds: 1, label: '-1"', isClicked: false, size: 'xs' },
             { id: 'workDown5', seconds: 5, label: '-5"', isClicked: false, size: 's' },
             { id: 'workDown30', seconds: 30, label: '-30"', isClicked: false, size: 'm' },
-            { id: 'workDown300', seconds: 300, label: "-5'", isClicked: false, size: 'xl' },
+            { id: 'workDown300', seconds: 300, label: "-5'", isClicked: false, size: 'l' },
+            { id: 'workDown1800', seconds: 1800, label: "-30'", isClicked: false, size: 'xl' },
       ]);
 
       const [restUpButtons, setRestUpButtons] = useState<WorkDurationButton[]>([
-            { id: 'restUp1', seconds: 1, label: '+1"', isClicked: false, size: 'xs' },
             { id: 'restUp5', seconds: 5, label: '+5"', isClicked: false, size: 's' },
             { id: 'restUp30', seconds: 30, label: '+30"', isClicked: false, size: 'm' },
-            { id: 'restUp300', seconds: 300, label: "+5'", isClicked: false, size: 'xl' },
+            { id: 'restUp300', seconds: 300, label: "+5'", isClicked: false, size: 'l' },
+            { id: 'restUp1800', seconds: 1800, label: "+30'", isClicked: false, size: 'xl' },
       ]);
 
       const [restDownButtons, setRestDownButtons] = useState<WorkDurationButton[]>([
-            { id: 'restDown1', seconds: 1, label: '-1"', isClicked: false, size: 'xs' },
             { id: 'restDown5', seconds: 5, label: '-5"', isClicked: false, size: 's' },
             { id: 'restDown30', seconds: 30, label: '-30"', isClicked: false, size: 'm' },
-            { id: 'restDown300', seconds: 300, label: "-5'", isClicked: false, size: 'xl' },
+            { id: 'restDown300', seconds: 300, label: "-5'", isClicked: false, size: 'l' },
+            { id: 'restDown1800', seconds: 1800, label: "-30'", isClicked: false, size: 'xl' },
       ]);
 
       //Control the animation of + or - when clicked
@@ -195,9 +196,7 @@ const SimpleInfo: React.FC = () => {
                                           <p className="timer-phase-title">{t.workLap}</p>
                                           <div className={`lap-timer-display-container
                                                 ${simpleTimerInfo.currentAnimation === AnimationType.EMPTY_LAPS_DURATION && simpleTimerInfo.workLapDuration === 0 ? 'button-error-animation' : ''}`}>
-                                                <p className='lap-timer-digits'>
-                                                      {formatTime(simpleTimerInfo.workLapDuration)}
-                                                </p>
+                                                <TimeDigits value={formatTime(simpleTimerInfo.workLapDuration)} className='lap-timer-digits' />
                                           </div>
                                     </div>
 
@@ -241,9 +240,7 @@ const SimpleInfo: React.FC = () => {
                                           <p className="timer-phase-title">{t.restLap}</p>
                                           <div className={`lap-timer-display-container 
                                                 ${simpleTimerInfo.currentAnimation === AnimationType.EMPTY_LAPS_DURATION && simpleTimerInfo.restLapDuration === 0 ? 'button-error-animation' : ''}`}>
-                                                <p className='lap-timer-digits'>
-                                                      {formatTime(simpleTimerInfo.restLapDuration)}
-                                                </p>
+                                                <TimeDigits value={formatTime(simpleTimerInfo.restLapDuration)} className='lap-timer-digits' />
                                           </div>
                                     </div>
 

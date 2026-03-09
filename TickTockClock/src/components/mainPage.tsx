@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Header from "./Common/Header.tsx";
 import Clock from "./Common/Clock.tsx";
 import "./mainPage.css";
@@ -98,7 +98,7 @@ const MainPage: React.FC = () => {
       };
 
       //Start or stop
-      const handlePauseStart = () => {
+      const handlePauseStart = useCallback(() => {
             if (
                   isSimpleMode &&
                   (simpleTimerInfo.workLapDuration === 0 ||
@@ -113,14 +113,18 @@ const MainPage: React.FC = () => {
                   // Initialize audio context when starting (required for iOS)
                   if (isPaused) {
                         initializeAudioContext().catch(console.error);
+                        // Auto-expand when starting
+                        if (!isExpanded) {
+                              expand();
+                        }
                   }
                   setIsPaused(!isPaused);
                   setIsClickedPause(true);
                   setTimeout(() => setIsClickedPause(false), 300);
             }
-      };
+      }, [isSimpleMode, simpleTimerInfo, isPaused, isExpanded]);
 
-      const handleReset = () => {
+      const handleReset = useCallback(() => {
             if (clockStatus === ClockStatus.ZERO) {
                   setSimpleTimerInfo({
                         ...simpleTimerInfo,
@@ -133,7 +137,7 @@ const MainPage: React.FC = () => {
             setTimeout(() => setReset(false), 100);
             setIsClickedReset(true);
             setTimeout(() => setIsClickedReset(false), 300);
-      };
+      }, [clockStatus, simpleTimerInfo]);
 
       const expand = () => {
             setTimeout(() => {
@@ -155,6 +159,20 @@ const MainPage: React.FC = () => {
             }, 0); //0 Timeout to let react render the button before getting the position.
             setTimeout(() => setShowContent(true), 1000); // 200ms content appear animation
       };
+
+      useEffect(() => {
+            const handleKeyDown = (e: KeyboardEvent) => {
+                  if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+                  if (e.code === 'Space') {
+                        e.preventDefault();
+                        handlePauseStart();
+                  } else if (e.code === 'KeyR') {
+                        handleReset();
+                  }
+            };
+            window.addEventListener('keydown', handleKeyDown);
+            return () => window.removeEventListener('keydown', handleKeyDown);
+      }, [handlePauseStart, handleReset]);
 
       useEffect(() => {
             if (simpleTimerInfo.currentAnimation !== AnimationType.NONE) {
@@ -269,7 +287,7 @@ const MainPage: React.FC = () => {
                                           </div>
 
                                           {/*Bar*/}
-                                          <div className="w-full h-1.5">
+                                          <div className="w-full h-2.5">
                                                 <div className={`h-full w-full rounded-b-3xl transform duration-300
                                                       ${isSimpleMode ? "bg-jade" : "dark:bg-eerieBlack bg-floralWhite"}`}>
                                                 </div>
@@ -289,7 +307,7 @@ const MainPage: React.FC = () => {
                                           </div>
 
                                           {/*Bar*/}
-                                          <div className="w-full h-1.5">
+                                          <div className="w-full h-2.5">
                                                 <div className={`h-full w-full rounded-b-3xl transform duration-300
                                                                   ${isSimpleMode ? "dark:bg-eerieBlack bg-floralWhite" : "bg-jade"}`}>
 

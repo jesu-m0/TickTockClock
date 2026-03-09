@@ -59,6 +59,10 @@ export const translations = {
     whistle: 'Whistle',
     tone: 'Tone',
 
+    // Keyboard shortcuts
+    shortcuts: 'Shortcuts',
+    playPause: 'Play / Pause',
+
     // Settings - Advanced
     advanced: 'Advanced',
     clearCacheData: 'Clear Cache / Data',
@@ -125,6 +129,10 @@ export const translations = {
     whistle: 'Silbato',
     tone: 'Tono',
 
+    // Keyboard shortcuts
+    shortcuts: 'Atajos',
+    playPause: 'Play / Pausa',
+
     // Settings - Advanced
     advanced: 'Avanzado',
     clearCacheData: 'Borrar caché / datos',
@@ -190,6 +198,10 @@ export const translations = {
     boxingBell: 'Boxglocke',
     whistle: 'Pfeife',
     tone: 'Ton',
+
+    // Keyboard shortcuts
+    shortcuts: 'Tastenkürzel',
+    playPause: 'Play / Pause',
 
     // Settings - Advanced
     advanced: 'Erweitert',

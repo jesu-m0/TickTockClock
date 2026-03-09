@@ -1,9 +1,10 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import { AnimationType, ClockStatus, Colors } from "../../types";
 import { useClockStatus } from "../../context/ClockContext";
 import { useTheme } from "../../context/ThemeContext";
 import { playTimerFinishedSound, playWorkLapFinishedSound, playRestLapFinishedSound } from "../../utils/soundNotification";
 import { useTranslation } from "../../i18n/useTranslation";
+import TimeDigits from "./TimeDigits";
 
 const Clock: React.FC = () => {
       const { isDarkMode } = useTheme();
@@ -39,6 +40,8 @@ const Clock: React.FC = () => {
             isAlternate,
             setIsAlternate,
       } = useClockStatus();
+
+      const [showShortcuts, setShowShortcuts] = useState(false);
 
       const setReadyToRunningSimple = useCallback(() => {
             //Set parameters for the first lap. The workout gonna start NOW.
@@ -371,11 +374,52 @@ const Clock: React.FC = () => {
       return (
             <>
                   {/* Clock display - mobile: 4x4, desktop: 4x4 */}
-                  <div className="col-span-4 row-span-4 lg:col-start-1 lg:row-start-2 h-full rounded-3xl content-center dark:bg-timberwolf bg-floralWhite flex flex-col">
+                  <div className="col-span-4 row-span-4 lg:col-start-1 lg:row-start-2 h-full rounded-3xl content-center dark:bg-timberwolf bg-floralWhite flex flex-col relative">
+                        {/* Keyboard shortcuts button */}
+                        <button
+                              onClick={() => setShowShortcuts(!showShortcuts)}
+                              className="absolute top-4 left-4 z-10 w-10 h-10 lg:w-12 lg:h-12 flex items-center justify-center rounded-xl hover:scale-110 hover:bg-blackOlive/10 dark:hover:bg-eerieBlack/20 transition-all duration-200 cursor-pointer"
+                        >
+                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 lg:w-6 lg:h-6 text-blackOlive/30 dark:text-eerieBlack/40">
+                                    <rect x="2" y="4" width="20" height="16" rx="2" />
+                                    <path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M8 12h.01M12 12h.01M16 12h.01M8 16h8" />
+                              </svg>
+                        </button>
+
+                        {/* Shortcuts card */}
+                        {showShortcuts && (
+                              <div className="absolute top-14 left-4 lg:top-16 z-20 bg-blackOlive dark:bg-eerieBlack text-floralWhite dark:text-timberwolf rounded-2xl p-4 shadow-lg min-w-[180px]">
+                                    <div className="flex justify-between items-center mb-3">
+                                          <p className="font-bold text-sm lg:text-base">{t.shortcuts}</p>
+                                          <button
+                                                onClick={() => setShowShortcuts(false)}
+                                                className="w-6 h-6 flex items-center justify-center rounded-lg hover:bg-floralWhite/20 transition-colors duration-200 cursor-pointer"
+                                          >
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                                      <path d="M18 6 6 18" />
+                                                      <path d="m6 6 12 12" />
+                                                </svg>
+                                          </button>
+                                    </div>
+                                    <div className="flex flex-col gap-2 text-sm">
+                                          <div className="flex justify-between items-center gap-4">
+                                                <p className="pointer-events-auto">{t.playPause}</p>
+                                                <kbd className="bg-floralWhite/20 px-2 py-0.5 rounded-md flex items-center justify-center">
+                                                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-4">
+                                                            <path d="M4 10V12H20V10" />
+                                                      </svg>
+                                                </kbd>
+                                          </div>
+                                          <div className="flex justify-between items-center gap-4">
+                                                <p className="pointer-events-auto">{t.reset}</p>
+                                                <kbd className="bg-floralWhite/20 px-2 py-0.5 rounded-md font-mono text-xs">R</kbd>
+                                          </div>
+                                    </div>
+                              </div>
+                        )}
+
                         <div className="p-4 h-full flex flex-col justify-center items-center">
-                              <p className="font-black text-blackOlive dark:text-eerieBlack text-8xl md:text-8xl xl:text-9xl text-center">
-                                    {formatTime(time)}
-                              </p>
+                              <TimeDigits value={formatTime(time)} className="font-black text-blackOlive dark:text-eerieBlack text-8xl md:text-8xl xl:text-9xl text-center" />
                               <div className="flex px-8 w-full">
                                     <p className="font-medium text-blackOlive dark:text-eerieBlack text-lg text-center w-1/2">
                                           {t.min}
