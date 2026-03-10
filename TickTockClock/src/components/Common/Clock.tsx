@@ -419,7 +419,7 @@ const Clock: React.FC = () => {
                         )}
 
                         <div className="p-4 h-full flex flex-col justify-center items-center">
-                              <TimeDigits value={formatTime(time)} className="font-black text-blackOlive dark:text-eerieBlack text-8xl md:text-8xl xl:text-9xl text-center" />
+                              <TimeDigits value={formatTime(time)} className="font-black text-blackOlive dark:text-eerieBlack text-6xl md:text-8xl xl:text-9xl text-center" />
                               <div className="flex px-8 w-full">
                                     <p className="font-medium text-blackOlive dark:text-eerieBlack text-lg text-center w-1/2">
                                           {t.min}
