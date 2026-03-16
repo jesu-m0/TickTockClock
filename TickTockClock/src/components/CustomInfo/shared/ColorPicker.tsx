@@ -5,7 +5,7 @@ import { useTranslation } from "../../../i18n/useTranslation";
 interface ColorPickerProps {
       selectedColor: Colors;
       onColorChange: (color: Colors) => void;
-      variant?: "create" | "edit"; // For different background colors
+      variant?: "create" | "edit";
 }
 
 const ColorPicker: React.FC<ColorPickerProps> = ({
@@ -16,10 +16,9 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
       const { t } = useTranslation();
       const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
 
-      // Define background classes based on variant
       const bgClasses = variant === "create"
-            ? "bg-floralWhite dark:bg-blackOlive"
-            : "bg-floralWhite dark:bg-eerieBlack";
+            ? "bg-surface dark:bg-base"
+            : "bg-surface dark:bg-surfaceDark";
 
       return (
             <div
@@ -29,7 +28,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
                   {/* Selected Color Button */}
                   <div
                         style={{ backgroundColor: selectedColor }}
-                        className="w-8 h-8 lg:w-14 lg:h-14 rounded-full border-4 border-eerieBlack dark:border-floralWhite select-none"
+                        className="w-8 h-8 lg:w-14 lg:h-14 rounded-full border-4 border-surfaceDark dark:border-surface select-none"
                   ></div>
 
                   {/* Triangle SVG Indicator */}
@@ -41,7 +40,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
                         strokeWidth="2"
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        className={`w-6 h-6 lg:w-10 lg:h-10 text-blackOlive dark:text-timberwolf transition-transform duration-300 ease-in-out ${
+                        className={`w-6 h-6 lg:w-10 lg:h-10 text-base dark:text-muted transition-transform duration-300 ease-in-out ${
                               isColorPickerOpen ? "-rotate-180" : "rotate-0"
                         }`}
                   >
@@ -55,7 +54,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
                         }`}
                         style={{ width: "max-content" }}
                   >
-                        <h3 className="text-blackOlive dark:text-timberwolf mb-3 select-none text-center text-xl font-bold">
+                        <h3 className="text-base dark:text-muted mb-3 select-none text-center text-xl font-bold">
                               {t.intervalColor}
                         </h3>
                         <div className="grid grid-cols-4 gap-2">
@@ -70,7 +69,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
                                           }}
                                           style={{ backgroundColor: color }}
                                           className={`w-12 h-12 rounded-full select-none border-2 ${
-                                                selectedColor === color ? "border-floralWhite" : "border-transparent"
+                                                selectedColor === color ? "border-surface" : "border-transparent"
                                           }`}
                                     ></button>
                               ))}

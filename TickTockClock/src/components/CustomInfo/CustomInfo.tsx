@@ -29,14 +29,14 @@ const CustomInfo: React.FC = () => {
                         setsUpCustom.classList.add("button-error-animation");
                         setTimeout(() => {
                               setsUpCustom.classList.remove("button-error-animation");
-                        }, 300); // Remove the class after 300ms
+                        }, 300);
                   }
                   const resetButton = document.getElementById("resetButton");
                   if (resetButton) {
                         resetButton.classList.add("button-error-animation");
                         setTimeout(() => {
                               resetButton.classList.remove("button-error-animation");
-                        }, 300); // Remove the class after 300ms
+                        }, 300);
                   }
             } else {
                   setCustomTimerInfo({ ...customTimerInfo, sets: customTimerInfo.sets + 1 })
@@ -46,22 +46,20 @@ const CustomInfo: React.FC = () => {
       };
 
       const handleSetsDown = () => {
-
-
             if (clockStatus == ClockStatus.RUNNING || clockStatus == ClockStatus.PAUSED) {
                   const setsDownCustom = document.getElementById("setsDownCustom");
                   if (setsDownCustom) {
                         setsDownCustom.classList.add("button-error-animation");
                         setTimeout(() => {
                               setsDownCustom.classList.remove("button-error-animation");
-                        }, 300); // Remove the class after 300ms
+                        }, 300);
                   }
                   const resetButton = document.getElementById("resetButton");
                   if (resetButton) {
                         resetButton.classList.add("button-error-animation");
                         setTimeout(() => {
                               resetButton.classList.remove("button-error-animation");
-                        }, 300); // Remove the class after 300ms
+                        }, 300);
                   }
             } else {
                   if (customTimerInfo.sets > 1) {
@@ -73,26 +71,16 @@ const CustomInfo: React.FC = () => {
       };
 
       const onDragEnd = (result: DropResult) => {
-            // If there's no destination (dropped outside the area), do nothing
             if (!result.destination) return;
-
-            // Clone the intervals array
             const items = Array.from(customTimerInfo.intervals);
-
-            // Remove the item from the source index
             const [reorderedItem] = items.splice(result.source.index, 1);
-
-            // Insert the item at the destination index
             items.splice(result.destination.index, 0, reorderedItem);
-
-            // Update the state with the new order
             setCustomTimerInfo({
                   ...customTimerInfo,
                   intervals: items
             });
       };
 
-      // State variables for the animation logic
       const [isFormExpanded, setIsFormExpanded] = useState(false);
       const [showFormContent, setShowFormContent] = useState(false);
       const [showAddLetters, setShowAddLetters] = useState(true);
@@ -105,32 +93,26 @@ const CustomInfo: React.FC = () => {
             height: 0,
       });
 
-      // Function to trigger the animation and show the form
       const showForm = () => {
             if (clockStatus == ClockStatus.RUNNING || clockStatus == ClockStatus.PAUSED) {
-                  //Error animation
                   const addButton = document.getElementById("add-button");
                   if (addButton) {
                         addButton.classList.add("button-error-animation");
                         setTimeout(() => {
                               addButton.classList.remove("button-error-animation");
-                        }, 300); // Remove the class after 300ms
+                        }, 300);
                   }
                   const resetButton = document.getElementById("resetButton");
                   if (resetButton) {
                         resetButton.classList.add("button-error-animation");
                         setTimeout(() => {
                               resetButton.classList.remove("button-error-animation");
-                        }, 300); // Remove the class after 300ms
+                        }, 300);
                   }
             } else {
-                  // Use a zero-timeout so React renders the button before measuring its position.
                   setTimeout(() => {
-                        // Start by hiding the "Add" text
                         setShowAddLetters(false);
                         setOpenFormAnimation(true);
-
-                        // Get the button position and dimensions
                         const button = document.getElementById("add-button");
                         if (button) {
                               const rect = button.getBoundingClientRect();
@@ -140,14 +122,10 @@ const CustomInfo: React.FC = () => {
                                     width: rect.width,
                                     height: rect.height,
                               });
-
-                              // After a short delay, indicate that the container div should exist (matching the button's size)
                               setTimeout(() => setDivFormExist(true), 200);
-                              // Then trigger the expansion to full screen (or your target size)
                               setTimeout(() => setIsFormExpanded(true), 300);
                         }
                   }, 0);
-                  // Finally, once the container is expanded, reveal the form content
                   setTimeout(() => setShowFormContent(true), 1000);
             }
       };
@@ -174,14 +152,14 @@ const CustomInfo: React.FC = () => {
                   intervalsContainer.classList.add("button-error-animation");
                   setTimeout(() => {
                         intervalsContainer.classList.remove("button-error-animation");
-                  }, 300); // Remove the class after 300ms
+                  }, 300);
             }
             const resetButton = document.getElementById("resetButton");
             if (resetButton) {
                   resetButton.classList.add("button-error-animation");
                   setTimeout(() => {
                         resetButton.classList.remove("button-error-animation");
-                  }, 300); // Remove the class after 300ms
+                  }, 300);
             }
       }
 
@@ -189,8 +167,7 @@ const CustomInfo: React.FC = () => {
             <>
                   {/* Interval pool - 8x5 */}
                   {clockStatus === ClockStatus.RUNNING || clockStatus === ClockStatus.PAUSED ? (
-                        <div id="intervalsContainer" onClick={errorDragDrop} className="col-span-4 row-span-6 lg:col-span-8 lg:col-start-5 lg:row-start-3 lg:row-span-5 h-full rounded-3xl bg-floralWhite dark:bg-eerieBlack px-4 py-6">
-                              {/* Scrollable container for interval cards */}
+                        <div id="intervalsContainer" onClick={errorDragDrop} className="col-span-4 row-span-6 lg:col-span-8 lg:col-start-5 lg:row-start-3 lg:row-span-5 h-full rounded-3xl bg-surface dark:bg-surfaceDark px-4 py-6">
                               <div className="overflow-y-auto flex flex-col gap-2 h-full pr-2">
                                     {customTimerInfo.intervals.map((interval, index) => (
                                           <div key={index}>
@@ -201,23 +178,19 @@ const CustomInfo: React.FC = () => {
                         </div>
                   ) : (
                         <DragDropContext onDragEnd={onDragEnd}>
-                              {/* Droppable area where items can be dropped */}
                               <Droppable droppableId="intervals">
                                     {(provided) => (
                                           <div
-                                                className="col-span-4 row-span-6 lg:col-span-8 lg:col-start-5 lg:row-start-3 lg:row-span-5 h-full rounded-3xl bg-floralWhite dark:bg-eerieBlack px-4 py-6"
+                                                className="col-span-4 row-span-6 lg:col-span-8 lg:col-start-5 lg:row-start-3 lg:row-span-5 h-full rounded-3xl bg-surface dark:bg-surfaceDark px-4 py-6"
                                                 {...provided.droppableProps}
                                                 ref={provided.innerRef}
                                           >
-                                                {/* Scrollable container for interval cards */}
                                                 <div className="overflow-y-auto flex flex-col gap-2 h-full pr-2"
                                                       ref={(el) => {
-                                                            // Attach the scroll container to the Droppable
                                                             if (el) {
                                                                   provided.innerRef(el);
                                                             }
                                                       }}>
-                                                      {/* Map through intervals to create draggable items */}
                                                       {customTimerInfo.intervals.map((interval, index) => (
                                                             <Draggable
                                                                   key={index}
@@ -235,7 +208,6 @@ const CustomInfo: React.FC = () => {
                                                                   )}
                                                             </Draggable>
                                                       ))}
-                                                      {/* Placeholder maintains space during dragging */}
                                                       {provided.placeholder}
                                                 </div>
                                           </div>
@@ -244,54 +216,39 @@ const CustomInfo: React.FC = () => {
                         </DragDropContext>
                   )}
 
-
-                  {/* Sets setter - mobile: 4x3, desktop: 8x1 */}
+                  {/* Sets setter */}
                   <div className='col-span-4 row-span-3 lg:col-span-8 lg:col-start-5 lg:row-start-8 lg:row-span-1 h-full rounded-3xl grid grid-cols-4 grid-rows-3 lg:flex items-stretch gap-3 lg:gap-5'>
-
-                        {/* Sets */}
-                        <div className='col-span-4 lg:w-1/5 dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full flex items-center justify-center'>
-                              <p className="dark:text-timberwolf text-blackOlive text-3xl lg:text-4xl font-black">{t.sets}</p>
+                        <div className='col-span-4 lg:w-1/5 dark:bg-surfaceDark bg-surface rounded-3xl h-full flex items-center justify-center'>
+                              <p className="dark:text-muted text-base text-3xl lg:text-4xl font-black">{t.sets}</p>
                         </div>
-
-                        {/* Sets down */}
                         <div id="setsDownCustom"
-                              className={`col-span-1 lg:w-1/5 dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full flex items-center justify-center
+                              className={`col-span-1 lg:w-1/5 dark:bg-surfaceDark bg-surface rounded-3xl h-full flex items-center justify-center
                 hover:scale-105 transition-transform duration-200 cursor-pointer
                 ${minusClicked ? 'scale-animation' : ''}`}
                               onClick={handleSetsDown}
                         >
-                              <p className="dark:text-timberwolf text-blackOlive text-3xl lg:text-5xl font-black">-</p>
+                              <p className="dark:text-muted text-base text-3xl lg:text-5xl font-black">-</p>
                         </div>
-
-                        {/* Number of sets */}
-                        <div className='col-span-2 lg:w-1/5 dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full flex items-center justify-center'>
-                              <p className="dark:text-timberwolf text-blackOlive text-3xl lg:text-5xl font-black">{customTimerInfo.sets}</p>
+                        <div className='col-span-2 lg:w-1/5 dark:bg-surfaceDark bg-surface rounded-3xl h-full flex items-center justify-center'>
+                              <p className="dark:text-muted text-base text-3xl lg:text-5xl font-black">{customTimerInfo.sets}</p>
                         </div>
-
-                        {/* Sets up */}
-                        <div id='setsUpCustom' className={`col-span-1 lg:w-1/5 dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full flex items-center justify-center
+                        <div id='setsUpCustom' className={`col-span-1 lg:w-1/5 dark:bg-surfaceDark bg-surface rounded-3xl h-full flex items-center justify-center
                 hover:scale-105 transition-transform duration-200 cursor-pointer
                 ${plusClicked ? 'scale-animation' : ''}`}
                               onClick={handleSetsUp}
                         >
-                              <p className="dark:text-timberwolf text-blackOlive text-3xl lg:text-5xl font-black">+</p>
+                              <p className="dark:text-muted text-base text-3xl lg:text-5xl font-black">+</p>
                         </div>
-
-                        {/* Add an interval */}
-                        <button id="add-button" className="col-span-4 lg:w-1/5 bg-jade rounded-3xl h-full w-full flex items-center justify-center
+                        <button id="add-button" className="col-span-4 lg:w-1/5 bg-primary rounded-3xl h-full w-full flex items-center justify-center
                               hover:scale-105 transition-transform duration-200 cursor-pointer"
                               onClick={showForm}>
-                              <p className="dark:text-eerieBlack text-blackOlive text-2xl lg:text-3xl font-black">
+                              <p className="dark:text-surfaceDark text-base text-2xl lg:text-3xl font-black">
                                     {t.add}
                               </p>
                         </button>
 
-
-
-
-
-                        {/* The animated container that will display the CreateIntervalForm */}
-                        <div className={`bg-jade z-10 transition-all
+                        {/* Create interval form overlay */}
+                        <div className={`bg-primary z-10 transition-all
                                           ${isFormExpanded ? "rounded-none" : "rounded-3xl"}
                                           ${openFormAnimation ?
                                     (isFormExpanded ? "duration-700" : "duration-100")
@@ -312,9 +269,8 @@ const CustomInfo: React.FC = () => {
                                           0,
                                     transform: divFormExist ? "none" : `translate(${formButtonPosition.width / 2}px, ${formButtonPosition.height / 2}px)`,
                               }}>
-                              <div className={`h-full w-full transition-opacity duration-200 
+                              <div className={`h-full w-full transition-opacity duration-200
                                     ${showFormContent ? "opacity-100" : "opacity-0"}`} >
-
                                     <CreateIntervalForm
                                           setIsFormExpanded={setIsFormExpanded}
                                           setShowFormContent={setShowFormContent}
@@ -322,7 +278,6 @@ const CustomInfo: React.FC = () => {
                                           setDivFormExist={setDivFormExist}
                                           openFormAnimation={setOpenFormAnimation}
                                     />
-
                               </div>
                         </div>
                   </div>
@@ -330,4 +285,4 @@ const CustomInfo: React.FC = () => {
       );
 };
 
-export default CustomInfo; 
+export default CustomInfo;

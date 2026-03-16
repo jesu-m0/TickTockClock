@@ -27,15 +27,13 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
       const { customTimerInfo, setCustomTimerInfo } = useClockStatus();
       const { t } = useTranslation();
       const [id, setId] = useState(uuidv4());
-      const [name, setName] = useState(""); // Custom name for the interval
+      const [name, setName] = useState("");
       const [duration, setDuration] = useState(0);
       const [selectedColor, setSelectedColor] = useState(
             Object.values(Colors)[Math.floor(Math.random() * Object.values(Colors).length)]
-      ); // Random color by default
+      );
 
-      // Function to get the default name based on the selected color
       const getDefaultName = (color?: string) => {
-            // Use the provided color or fall back to the selectedColor state
             const targetColor = color || selectedColor;
             const colorKey = Object.keys(Colors).find((key) => Colors[key as keyof typeof Colors] === targetColor);
 
@@ -46,51 +44,37 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
             return colorKey ? addSpacesBeforeCapitals(colorKey) : t.intervalName;
       };
 
-      // Set the default name based on the randomly selected color on mount
       useEffect(() => {
             setName(getDefaultName());
-      }, []); // Run only once on mount
+      }, []);
 
-      // Function to close the form with animations
       const closeForm = () => {
-            openFormAnimation(false); // Trigger animation to close the form
-            setShowFormContent(false); // Hide content 200ms
-            setTimeout(() => setIsFormExpanded(false), 200); // Unexpand the form 700ms
-            setTimeout(() => setDivFormExist(false), 900); // Remove the div entirely 100ms
-            setTimeout(() => setShowAddLetters(true), 1000); // Show "Add" letters 200ms
+            openFormAnimation(false);
+            setShowFormContent(false);
+            setTimeout(() => setIsFormExpanded(false), 200);
+            setTimeout(() => setDivFormExist(false), 900);
+            setTimeout(() => setShowAddLetters(true), 1000);
       };
 
       const [isClickedCancel, setIsClickedCancel] = useState(false);
 
-      // Function to handle cancel logic
       const handleCancel = () => {
-            // Trigger the bounce animation
             setIsClickedCancel(true);
-
-            //updateId
             setId(uuidv4());
-
-            // Reset form fields to their default states
-            setDuration(0); // Clear the duration
+            setDuration(0);
             const randomColor = Object.values(Colors)[Math.floor(Math.random() * Object.values(Colors).length)];
             setSelectedColor(randomColor);
             setName(getDefaultName(randomColor));
-
-            // Close the modal using the same logic as the cross button
             closeForm();
-
-            // Reset the animation state after the animation completes
-            setTimeout(() => setIsClickedCancel(false), 200); // Match the animation duration
+            setTimeout(() => setIsClickedCancel(false), 200);
       };
 
       const [isClickedAdd, setIsClickedAdd] = useState(false);
 
-      // Function to handle the "Add" button click
       const handleAdd = (e: React.FormEvent) => {
-            e.preventDefault(); //prevent reload
-            // Validate that both the name and duration are provided
+            e.preventDefault();
             if (!name.trim() || duration <= 0) {
-                  return; // TODO: add error control animation
+                  return;
             }
 
             setIsClickedAdd(true);
@@ -98,28 +82,23 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
                   setIsClickedAdd(false)
             }, 300)
 
-            // Create the new interval object
             const newInterval = {
                   id: id,
-                  name: name.trim(), // Use the current name
+                  name: name.trim(),
                   duration: duration,
-                  color: selectedColor, // Use the currently selected color
+                  color: selectedColor,
             };
 
-            // Update the customTimerInfo state with the new interval
             setCustomTimerInfo({
                   ...customTimerInfo,
                   intervals: [...customTimerInfo.intervals, newInterval],
             });
 
-            // Reset form fields to their default states
-            setId(uuidv4()); // new Id
-            setDuration(0); // Clear the duration
+            setId(uuidv4());
+            setDuration(0);
             const randomColor = Object.values(Colors)[Math.floor(Math.random() * Object.values(Colors).length)];
             setSelectedColor(randomColor);
             setName(getDefaultName(randomColor));
-
-            // Close the modal using the same logic as the cancel or cross button
             closeForm();
       };
 
@@ -131,7 +110,7 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
-                                    className="text-floralWhite dark:text-blackOlive h-12 w-12 mt-4 ml-4"
+                                    className="text-surface dark:text-base h-12 w-12 mt-4 ml-4"
                               >
                                     <path d="M18 6 6 18" />
                                     <path d="m6 6 12 12" />
@@ -141,8 +120,8 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
                               <form onSubmit={handleAdd}>
                                     <div className="grid grid-cols-12 lg:gap-5 gap-3 lg:auto-rows-[100px] auto-rows-[10vh]">
                                           {/* Title */}
-                                          <div className="order-1 col-span-12 row-span-1 rounded-3xl content-center bg-floralWhite dark:bg-blackOlive">
-                                                <p className="text-3xl lg:text-5xl font-black text-blackOlive dark:text-timberwolf text-center">{t.createInterval}</p>
+                                          <div className="order-1 col-span-12 row-span-1 rounded-3xl content-center bg-surface dark:bg-base">
+                                                <p className="text-3xl lg:text-5xl font-black text-base dark:text-muted text-center">{t.createInterval}</p>
                                           </div>
 
                                           {/* Color Picker Section */}
@@ -159,7 +138,7 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
                                                 variant="create"
                                           />
 
-                                          {/* Iterval show card */}
+                                          {/* Interval show card */}
                                           <IntervalTimeDisplay
                                                 duration={duration}
                                                 variant="create"
@@ -173,15 +152,15 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
 
                                           {/* Cancel and add */}
                                           <div
-                                                className={`order-8 col-span-6 lg:col-span-4 row-span-1 bg-burntSienna rounded-3xl flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer 
+                                                className={`order-8 col-span-6 lg:col-span-4 row-span-1 bg-secondary rounded-3xl flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer
                                                             ${isClickedCancel ? "scale-animation" : ""}`}
                                                 onClick={handleCancel}
                                           >
-                                                <p className="text-center text-floralWhite dark:text-timberwolf text-4xl lg:text-5xl font-black">{t.cancel}</p>
+                                                <p className="text-center text-surface dark:text-muted text-4xl lg:text-5xl font-black">{t.cancel}</p>
                                           </div>
-                                          <button type="submit" className={`order-9 col-span-6 lg:col-span-4 row-span-1 bg-floralWhite dark:bg-timberwolf rounded-3xl flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer
+                                          <button type="submit" className={`order-9 col-span-6 lg:col-span-4 row-span-1 bg-surface dark:bg-muted rounded-3xl flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer
                                                 ${isClickedAdd ? "scale-animation" : ""}`}>
-                                                <p className=" text-4xl lg:text-5xl text-blackOlive font-black">
+                                                <p className=" text-4xl lg:text-5xl text-base font-black">
                                                       {t.add}
                                                 </p>
                                           </button>
@@ -189,22 +168,13 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
                               </form>
                         </div>
                   </div>
-                  {/* CSS for the bounce animation */}
                   <style>
                         {`
         @keyframes clickScale {
-          0% {
-            transform: scale(1);
-          }
-          50% {
-            transform: scale(0.95);
-          }
-          75% {
-            transform: scale(1.05);
-          }
-          100% {
-            transform: scale(1);
-          }
+          0% { transform: scale(1); }
+          50% { transform: scale(0.95); }
+          75% { transform: scale(1.05); }
+          100% { transform: scale(1); }
         }
         .scale-animation {
           animation: clickScale 300ms ease-out;
@@ -216,5 +186,3 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
 };
 
 export default CreateIntervalForm;
-
-

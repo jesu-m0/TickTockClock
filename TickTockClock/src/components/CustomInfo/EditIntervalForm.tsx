@@ -7,27 +7,24 @@ import DurationPicker from "./shared/DurationPicker";
 import { useTranslation } from "../../i18n/useTranslation";
 
 interface EditIntervalFormProps {
-      interval: Interval; // The interval to edit
-      onSave: (updatedInterval: Interval) => void; // Callback to save changes
-      onClose: () => void; // Callback to close the form
+      interval: Interval;
+      onSave: (updatedInterval: Interval) => void;
+      onClose: () => void;
 }
 
 const EditIntervalForm: React.FC<EditIntervalFormProps> = ({ interval, onSave, onClose }) => {
       const { t } = useTranslation();
-      const [name, setName] = useState(interval.name); // Name of the interval
-      const [duration, setDuration] = useState(interval.duration); // Duration of the interval
-      const [selectedColor, setSelectedColor] = useState(interval.color); // Selected color
+      const [name, setName] = useState(interval.name);
+      const [duration, setDuration] = useState(interval.duration);
+      const [selectedColor, setSelectedColor] = useState(interval.color);
 
       const [isClickedCancel, setIsClickedCancel] = useState(false);
       const [isClickedSave, setIsClickedSave] = useState(false);
 
-      // Function to handle saving the updated interval
       const handleSave = (e: React.FormEvent) => {
-            e.preventDefault(); //prevent reload
-
-            // Validate that both the name and duration are provided
+            e.preventDefault();
             if (!name.trim() || duration <= 0) {
-                  return; // TODO: add error control animation
+                  return;
             }
 
             setIsClickedSave(true)
@@ -35,17 +32,15 @@ const EditIntervalForm: React.FC<EditIntervalFormProps> = ({ interval, onSave, o
                   setIsClickedSave(false)
             }, 300)
 
-
-            // Create the new updated interval
             const updatedInterval = {
                   id: interval.id,
-                  name: name.trim(), // Use the current name
+                  name: name.trim(),
                   duration: duration,
-                  color: selectedColor, // Use the currently selected color
+                  color: selectedColor,
             };
 
-            onSave(updatedInterval); // Pass the updated interval to the parent
-            onClose(); // Close the form
+            onSave(updatedInterval);
+            onClose();
       };
 
       const handleCancel = () => {
@@ -64,7 +59,7 @@ const EditIntervalForm: React.FC<EditIntervalFormProps> = ({ interval, onSave, o
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
-                                    className="text-blackOlive dark:text-timberwolf h-12 w-12 mt-4 ml-4"
+                                    className="text-base dark:text-muted h-12 w-12 mt-4 ml-4"
                               >
                                     <path d="M18 6 6 18" />
                                     <path d="m6 6 12 12" />
@@ -75,8 +70,8 @@ const EditIntervalForm: React.FC<EditIntervalFormProps> = ({ interval, onSave, o
                               <form onSubmit={handleSave}>
                                     <div className="grid grid-cols-12 lg:gap-5 gap-3 lg:auto-rows-[100px] auto-rows-[10vh]">
                                           {/* Title */}
-                                          <div className="order-1 col-span-12 row-span-1 rounded-3xl content-center bg-floralWhite dark:bg-eerieBlack">
-                                                <p className="text-4xl lg:text-5xl font-black text-blackOlive dark:text-timberwolf text-center">{t.editInterval}</p>
+                                          <div className="order-1 col-span-12 row-span-1 rounded-3xl content-center bg-surface dark:bg-surfaceDark">
+                                                <p className="text-4xl lg:text-5xl font-black text-base dark:text-muted text-center">{t.editInterval}</p>
                                           </div>
 
                                           {/* Color Picker Section */}
@@ -93,7 +88,7 @@ const EditIntervalForm: React.FC<EditIntervalFormProps> = ({ interval, onSave, o
                                                 variant="edit"
                                           />
 
-                                          {/* Iterval show card */}
+                                          {/* Interval show card */}
                                           <IntervalTimeDisplay
                                                 duration={duration}
                                                 variant="edit"
@@ -106,15 +101,15 @@ const EditIntervalForm: React.FC<EditIntervalFormProps> = ({ interval, onSave, o
                                           />
 
                                           {/* Cancel and Save */}
-                                          <div className={`order-8 col-span-6 lg:col-span-4 row-span-1 bg-burntSienna rounded-3xl flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer 
+                                          <div className={`order-8 col-span-6 lg:col-span-4 row-span-1 bg-secondary rounded-3xl flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer
                                                             ${isClickedCancel ? "scale-animation" : ""}`}
                                                 onClick={handleCancel}
                                           >
-                                                <p className="text-center text-blackOlive dark:text-eerieBlack text-4xl lg:text-5xl font-black">{t.cancel}</p>
+                                                <p className="text-center text-base dark:text-surfaceDark text-4xl lg:text-5xl font-black">{t.cancel}</p>
                                           </div>
-                                          <button type="submit" className={`order-9 col-span-6 lg:col-span-4 row-span-1 bg-jade rounded-3xl flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer
+                                          <button type="submit" className={`order-9 col-span-6 lg:col-span-4 row-span-1 bg-primary rounded-3xl flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer
                                                 ${isClickedSave ? "scale-animation" : ""}`}>
-                                                <p className="text-4xl lg:text-5xl text-floralWhite font-black">
+                                                <p className="text-4xl lg:text-5xl text-surface font-black">
                                                       {t.save}
                                                 </p>
                                           </button>
@@ -124,22 +119,13 @@ const EditIntervalForm: React.FC<EditIntervalFormProps> = ({ interval, onSave, o
                         </div>
 
                   </div>
-                  {/* CSS for the scale animation */}
                   <style>
                         {`
         @keyframes clickScale {
-          0% {
-            transform: scale(1);
-          }
-          50% {
-            transform: scale(0.95);
-          }
-          75% {
-            transform: scale(1.05);
-          }
-          100% {
-            transform: scale(1);
-          }
+          0% { transform: scale(1); }
+          50% { transform: scale(0.95); }
+          75% { transform: scale(1.05); }
+          100% { transform: scale(1); }
         }
         .scale-animation {
           animation: clickScale 300ms ease-out;

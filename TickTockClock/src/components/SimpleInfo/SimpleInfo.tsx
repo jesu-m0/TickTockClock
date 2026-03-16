@@ -185,11 +185,11 @@ const SimpleInfo: React.FC = () => {
       return (
             <>
                   {/* Work/Rest duration setter - mobile: 4x5, desktop: 8x5 */}
-                  <div className='col-span-4 row-span-8 lg:col-span-8 lg:col-start-5 lg:row-start-3 lg:row-span-5 h-full rounded-3xl content-center dark:bg-eerieBlack bg-floralWhite flex flex-col min-h-0 overflow-hidden'>
+                  <div className='col-span-4 row-span-8 lg:col-span-8 lg:col-start-5 lg:row-start-3 lg:row-span-5 h-full rounded-3xl content-center dark:bg-surfaceDark bg-surface flex flex-col min-h-0 overflow-hidden'>
                         <div className='h-full flex flex-col'>
 
                               {/* Work Section */}
-                              <div className='flex-1 items-center flex lg:flex-row flex-col justify-evenly bg-burntSienna rounded-t-3xl'>
+                              <div className='flex-1 items-center flex lg:flex-row flex-col justify-evenly bg-secondary rounded-t-3xl'>
 
                                     {/* Work Timer Display */}
                                     <div className='time-controls-layout'>
@@ -234,11 +234,11 @@ const SimpleInfo: React.FC = () => {
 
 
                               {/* Rest Section */}
-                              <div className='flex-1 items-center flex lg:flex-row flex-col justify-evenly rounded-b-3xl bg-jade'>
+                              <div className='flex-1 items-center flex lg:flex-row flex-col justify-evenly rounded-b-3xl bg-primary'>
                                     {/* Rest Timer Display */}
                                     <div className='time-controls-layout'>
                                           <p className="timer-phase-title">{t.restLap}</p>
-                                          <div className={`lap-timer-display-container 
+                                          <div className={`lap-timer-display-container
                                                 ${simpleTimerInfo.currentAnimation === AnimationType.EMPTY_LAPS_DURATION && simpleTimerInfo.restLapDuration === 0 ? 'button-error-animation' : ''}`}>
                                                 <TimeDigits value={formatTime(simpleTimerInfo.restLapDuration)} className='lap-timer-digits' />
                                           </div>
@@ -280,31 +280,31 @@ const SimpleInfo: React.FC = () => {
 
                   {/* Sets setter - mobile: 4x2, desktop: 8x1 */}
                   <div className='col-span-4 row-span-2 lg:col-span-8 lg:col-start-5 lg:row-start-8 lg:row-span-1 h-full rounded-3xl grid grid-cols-4 grid-rows-2 lg:flex items-center gap-3 lg:gap-5'>
-                        <div className='col-span-4 lg:w-2/5 dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full flex items-center justify-center'>
-                              <p className="dark:text-timberwolf text-blackOlive text-3xl lg:text-4xl font-black">{t.sets}</p>
+                        <div className='col-span-4 lg:w-2/5 dark:bg-surfaceDark bg-surface rounded-3xl h-full flex items-center justify-center'>
+                              <p className="dark:text-muted text-base text-3xl lg:text-4xl font-black">{t.sets}</p>
                         </div>
                         <div
-                              className={`col-span-1 lg:w-1/5 dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full flex items-center justify-center
+                              className={`col-span-1 lg:w-1/5 dark:bg-surfaceDark bg-surface rounded-3xl h-full flex items-center justify-center
                                     hover:scale-105 transition-transform duration-200 cursor-pointer
                                     ${minusClicked ? 'scale-animation' : ''}`}
                               onClick={handleSetsDown}
                         >
-                              <p className="dark:text-timberwolf text-blackOlive text-3xl lg:text-5xl font-black">-</p>
+                              <p className="dark:text-muted text-base text-3xl lg:text-5xl font-black">-</p>
                         </div>
-                        <div className='col-span-2 lg:w-1/5 dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full flex items-center justify-center'>
-                              <p className="dark:text-timberwolf text-blackOlive text-3xl lg:text-5xl font-black">{simpleTimerInfo.sets}</p>
+                        <div className='col-span-2 lg:w-1/5 dark:bg-surfaceDark bg-surface rounded-3xl h-full flex items-center justify-center'>
+                              <p className="dark:text-muted text-base text-3xl lg:text-5xl font-black">{simpleTimerInfo.sets}</p>
                         </div>
                         <div
-                              className={`col-span-1 lg:w-1/5 dark:bg-eerieBlack bg-floralWhite rounded-3xl h-full flex items-center justify-center
+                              className={`col-span-1 lg:w-1/5 dark:bg-surfaceDark bg-surface rounded-3xl h-full flex items-center justify-center
                                     hover:scale-105 transition-transform duration-200 cursor-pointer
                                     ${plusClicked ? 'scale-animation' : ''}`}
                               onClick={handleSetsUp}
                         >
-                              <p className="dark:text-timberwolf text-blackOlive text-3xl lg:text-5xl font-black">+</p>
+                              <p className="dark:text-muted text-base text-3xl lg:text-5xl font-black">+</p>
                         </div>
                   </div>
             </>
       );
 };
 
-export default SimpleInfo; 
+export default SimpleInfo;

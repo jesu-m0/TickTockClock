@@ -4,10 +4,11 @@ import { useClockStatus } from "../../context/ClockContext";
 import { useTheme } from "../../context/ThemeContext";
 import { playTimerFinishedSound, playWorkLapFinishedSound, playRestLapFinishedSound } from "../../utils/soundNotification";
 import { useTranslation } from "../../i18n/useTranslation";
+import { generateFaviconUrl } from "../../utils/favicon";
 import TimeDigits from "./TimeDigits";
 
 const Clock: React.FC = () => {
-      const { isDarkMode } = useTheme();
+      const { isDarkMode, colorTheme } = useTheme();
       const { t } = useTranslation();
       const {
             // Clock status
@@ -130,21 +131,15 @@ const Clock: React.FC = () => {
       }, [reset, setTime]);
 
 
-      // Change favicon
+      // Change favicon dynamically based on theme, dark mode, and alternate state
       useEffect(() => {
             const favicon = document.getElementById(
                   "favicon"
             ) as HTMLLinkElement | null;
-            if (favicon && !isDarkMode) {
-                  favicon.href = isAlternate
-                        ? "/favico/light/TickTockClockFavicoLight1.png"
-                        : "/favico/light/TickTockClockFavicoLight2.png";
-            } else if (favicon && isDarkMode) {
-                  favicon.href = isAlternate
-                        ? "/favico/dark/TickTockClockFavicoDark1.png"
-                        : "/favico/dark/TickTockClockFavicoDark2.png";
+            if (favicon) {
+                  favicon.href = generateFaviconUrl(colorTheme, isDarkMode, isAlternate);
             }
-      }, [isAlternate, isDarkMode]);
+      }, [isAlternate, isDarkMode, colorTheme]);
 
       // Format time to MM:SS
       const formatTime = (seconds: number) => {
@@ -374,13 +369,13 @@ const Clock: React.FC = () => {
       return (
             <>
                   {/* Clock display - mobile: 4x4, desktop: 4x4 */}
-                  <div className="col-span-4 row-span-4 lg:col-start-1 lg:row-start-2 h-full rounded-3xl content-center dark:bg-timberwolf bg-floralWhite flex flex-col relative">
+                  <div className="col-span-4 row-span-4 lg:col-start-1 lg:row-start-2 h-full rounded-3xl content-center dark:bg-muted bg-surface flex flex-col relative">
                         {/* Keyboard shortcuts button */}
                         <button
                               onClick={() => setShowShortcuts(!showShortcuts)}
-                              className="absolute top-4 left-4 z-10 w-10 h-10 lg:w-12 lg:h-12 flex items-center justify-center rounded-xl hover:scale-110 hover:bg-blackOlive/10 dark:hover:bg-eerieBlack/20 transition-all duration-200 cursor-pointer"
+                              className="absolute top-4 left-4 z-10 w-10 h-10 lg:w-12 lg:h-12 flex items-center justify-center rounded-xl hover:scale-110 hover:bg-base/10 dark:hover:bg-surfaceDark/20 transition-all duration-200 cursor-pointer"
                         >
-                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 lg:w-6 lg:h-6 text-blackOlive/30 dark:text-eerieBlack/40">
+                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 lg:w-6 lg:h-6 text-base/30 dark:text-surfaceDark/40">
                                     <rect x="2" y="4" width="20" height="16" rx="2" />
                                     <path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M8 12h.01M12 12h.01M16 12h.01M8 16h8" />
                               </svg>
@@ -388,12 +383,12 @@ const Clock: React.FC = () => {
 
                         {/* Shortcuts card */}
                         {showShortcuts && (
-                              <div className="absolute top-14 left-4 lg:top-16 z-20 bg-blackOlive dark:bg-eerieBlack text-floralWhite dark:text-timberwolf rounded-2xl p-4 shadow-lg min-w-[180px]">
+                              <div className="absolute top-14 left-4 lg:top-16 z-20 bg-base dark:bg-surfaceDark text-surface dark:text-muted rounded-2xl p-4 shadow-lg min-w-[180px]">
                                     <div className="flex justify-between items-center mb-3">
                                           <p className="font-bold text-sm lg:text-base">{t.shortcuts}</p>
                                           <button
                                                 onClick={() => setShowShortcuts(false)}
-                                                className="w-6 h-6 flex items-center justify-center rounded-lg hover:bg-floralWhite/20 transition-colors duration-200 cursor-pointer"
+                                                className="w-6 h-6 flex items-center justify-center rounded-lg hover:bg-surface/20 transition-colors duration-200 cursor-pointer"
                                           >
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                                                       <path d="M18 6 6 18" />
@@ -404,7 +399,7 @@ const Clock: React.FC = () => {
                                     <div className="flex flex-col gap-2 text-sm">
                                           <div className="flex justify-between items-center gap-4">
                                                 <p className="pointer-events-auto">{t.playPause}</p>
-                                                <kbd className="bg-floralWhite/20 px-2 pt-0 pb-1 rounded-md flex items-center justify-center">
+                                                <kbd className="bg-surface/20 px-2 pt-0 pb-1 rounded-md flex items-center justify-center">
                                                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-3">
                                                             <path d="M4 8V12H20V8" />
                                                       </svg>
@@ -412,46 +407,46 @@ const Clock: React.FC = () => {
                                           </div>
                                           <div className="flex justify-between items-center gap-4">
                                                 <p className="pointer-events-auto">{t.reset}</p>
-                                                <kbd className="bg-floralWhite/20 px-2 py-0.5 rounded-md font-mono text-xs font-bold">R</kbd>
+                                                <kbd className="bg-surface/20 px-2 py-0.5 rounded-md font-mono text-xs font-bold">R</kbd>
                                           </div>
                                     </div>
                               </div>
                         )}
 
                         <div className="p-4 h-full flex flex-col justify-center items-center">
-                              <TimeDigits value={formatTime(time)} className="font-black text-blackOlive dark:text-eerieBlack text-6xl md:text-8xl xl:text-9xl text-center" />
+                              <TimeDigits value={formatTime(time)} className="font-black text-base dark:text-surfaceDark text-6xl md:text-8xl xl:text-9xl text-center" />
                               <div className="flex px-8 w-full">
-                                    <p className="font-medium text-blackOlive dark:text-eerieBlack text-lg text-center w-1/2">
+                                    <p className="font-medium text-base dark:text-surfaceDark text-lg text-center w-1/2">
                                           {t.min}
                                     </p>
-                                    <p className="font-medium text-blackOlive dark:text-eerieBlack text-lg text-center w-1/2">
+                                    <p className="font-medium text-base dark:text-surfaceDark text-lg text-center w-1/2">
                                           {t.sec}
                                     </p>
                               </div>
                         </div>
                         <div className="w-full flex flex-row">
                               <div
-                                    className={`h-6 flex-1 rounded-bl-3xl ${isAlternate ? "bg-burntSienna" : "bg-jade"
+                                    className={`h-6 flex-1 rounded-bl-3xl ${isAlternate ? "bg-secondary" : "bg-primary"
                                           }`}
                               ></div>
                               <div
-                                    className={`h-6 flex-1 ${isAlternate ? "bg-jade" : "bg-burntSienna"
+                                    className={`h-6 flex-1 ${isAlternate ? "bg-primary" : "bg-secondary"
                                           }`}
                               ></div>
                               <div
-                                    className={`h-6 flex-1 ${isAlternate ? "bg-burntSienna" : "bg-jade"
+                                    className={`h-6 flex-1 ${isAlternate ? "bg-secondary" : "bg-primary"
                                           }`}
                               ></div>
                               <div
-                                    className={`h-6 flex-1 ${isAlternate ? "bg-jade" : "bg-burntSienna"
+                                    className={`h-6 flex-1 ${isAlternate ? "bg-primary" : "bg-secondary"
                                           }`}
                               ></div>
                               <div
-                                    className={`h-6 flex-1 ${isAlternate ? "bg-burntSienna" : "bg-jade"
+                                    className={`h-6 flex-1 ${isAlternate ? "bg-secondary" : "bg-primary"
                                           }`}
                               ></div>
                               <div
-                                    className={`h-6 flex-1 rounded-br-3xl ${isAlternate ? "bg-jade" : "bg-burntSienna"
+                                    className={`h-6 flex-1 rounded-br-3xl ${isAlternate ? "bg-primary" : "bg-secondary"
                                           }`}
                               ></div>
                         </div>
@@ -459,7 +454,7 @@ const Clock: React.FC = () => {
 
                   {/* Sets progress bar - 4x1 */}
                   <div
-                        className="col-span-4 lg:col-start-1 lg:row-start-6 h-full rounded-3xl relative overflow-hidden dark:bg-eerieBlack bg-floralWhite flex items-center justify-center"
+                        className="col-span-4 lg:col-start-1 lg:row-start-6 h-full rounded-3xl relative overflow-hidden dark:bg-surfaceDark bg-surface flex items-center justify-center"
                   >
                         {(clockStatus === ClockStatus.RUNNING || clockStatus === ClockStatus.PAUSED) && (
                               <>
@@ -468,8 +463,8 @@ const Clock: React.FC = () => {
                                           <div
                                                 className={`absolute left-0 top-0 h-full transition-all duration-1000
                                         ${simpleTimerInfo.isWorkLap
-                                                            ? "bg-burntSienna"
-                                                            : "bg-jade"
+                                                            ? "bg-secondary"
+                                                            : "bg-primary"
                                                       }`}
                                                 style={{
                                                       width: `${(time /
@@ -500,7 +495,7 @@ const Clock: React.FC = () => {
 
                               </>
                         )}
-                        <p className="font-bold dark:text-timberwolf text-blackOlive text-3xl lg:text-5xl text-center relative z-10">
+                        <p className="font-bold dark:text-muted text-base text-3xl lg:text-5xl text-center relative z-10">
                               {isSimpleMode ? simpleTimerInfo.remainingSets : customTimerInfo.remainingSets}
                         </p>
                   </div>

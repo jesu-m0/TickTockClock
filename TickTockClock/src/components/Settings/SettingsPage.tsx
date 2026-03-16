@@ -4,7 +4,7 @@ import ThemeToggleButton from '../Common/ThemeToggleButton';
 import { useTranslation } from '../../i18n/useTranslation';
 
 const BackArrowIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className="w-6 h-6 lg:w-8 lg:h-8 fill-blackOlive dark:fill-timberwolf">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" className="w-6 h-6 lg:w-8 lg:h-8 fill-base dark:fill-muted">
     <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" />
   </svg>
 );
@@ -13,6 +13,11 @@ const navIcons = {
   general: (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" className="w-4 h-4 lg:w-5 lg:h-5 fill-current">
       <path d="M352 256c0 22.2-1.2 43.6-3.3 64l-185.3 0c-2.2-20.4-3.3-41.8-3.3-64s1.2-43.6 3.3-64l185.3 0c2.2 20.4 3.3 41.8 3.3 64zm28.8-64l123.1 0c5.3 20.5 8.1 41.9 8.1 64s-2.8 43.5-8.1 64l-123.1 0c2.1-20.6 3.2-42 3.2-64s-1.1-43.4-3.2-64zm112.6-32l-116.7 0c-10-63.9-29.8-117.4-55.3-151.6c78.3 20.7 142 77.5 171.9 151.6zm-149.1 0l-176.6 0c6.1-36.4 15.5-68.6 27-94.7c10.5-23.6 22.2-40.7 33.5-51.5C239.4 3.2 248.7 0 256 0s16.6 3.2 27.8 13.8c11.3 10.8 23 27.9 33.5 51.5c11.6 26 20.9 58.2 27 94.7zm-209 0L18.6 160C48.6 85.9 112.2 29.1 190.6 8.4C165.1 42.6 145.3 96.1 135.3 160zM8.1 192l123.1 0c-2.1 20.6-3.2 42-3.2 64s1.1 43.4 3.2 64L8.1 320C2.8 299.5 0 278.1 0 256s2.8-43.5 8.1-64zM194.7 446.6c-11.6-26-20.9-58.2-27-94.6l176.6 0c-6.1 36.4-15.5 68.6-27 94.6c-10.5 23.6-22.2 40.7-33.5 51.5C272.6 508.8 263.3 512 256 512s-16.6-3.2-27.8-13.8c-11.3-10.8-23-27.9-33.5-51.5zM135.3 352c10 63.9 29.8 117.4 55.3 151.6C112.2 482.9 48.6 426.1 18.6 352l116.7 0zm358.1 0c-30 74.1-93.6 130.9-171.9 151.6c25.5-34.2 45.2-87.7 55.3-151.6l116.7 0z" />
+    </svg>
+  ),
+  appearance: (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" className="w-4 h-4 lg:w-5 lg:h-5 fill-current">
+      <path d="M512 256c0 .9 0 1.8 0 2.7c-.4 36.5-33.6 61.3-70.1 61.3L344 320c-26.5 0-48 21.5-48 48c0 3.4 .4 6.7 1 9.9c2.1 10.2 6.5 20 10.8 29.9c6.1 13.8 12.1 27.5 12.1 42c0 31.8-21.6 60.7-53.4 62c-3.5 .1-7 .2-10.6 .2C114.6 512 0 397.4 0 256S114.6 0 256 0S512 114.6 512 256zM128 288a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm0-96a32 32 0 1 0 0-64 32 32 0 1 0 0 64zM288 96a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm96 96a32 32 0 1 0 0-64 32 32 0 1 0 0 64z" />
     </svg>
   ),
   audio: (
@@ -33,6 +38,7 @@ const SettingsPage: React.FC = () => {
 
   const navItems = [
     { to: '/settings/general', label: t.general, icon: navIcons.general },
+    { to: '/settings/appearance', label: t.appearance, icon: navIcons.appearance },
     { to: '/settings/audio', label: t.audio, icon: navIcons.audio },
     { to: '/settings/advanced', label: t.advanced, icon: navIcons.advanced },
   ];
@@ -41,30 +47,28 @@ const SettingsPage: React.FC = () => {
     <div className="pb-4 lg:pb-16">
       <div className="container mx-auto p-5">
         {/* ===== HEADER (bento grid with fixed rows) ===== */}
-        {/* Mobile: row 1 = TickTockClock (4 cols), row 2 = back + settings + toggle */}
-        {/* Desktop: single row of 12 cols */}
         <div className="grid grid-cols-4 lg:grid-cols-12 gap-3 lg:gap-5 [grid-auto-rows:60px] lg:[grid-auto-rows:80px]">
 
           {/* TickTockClock label - mobile: 4x1 (fills row 1), desktop: 5x1 */}
-          <div className="col-span-4 lg:col-span-5 lg:col-start-2 lg:row-start-1 h-full p-4 rounded-3xl bg-floralWhite dark:bg-eerieBlack flex items-center justify-center">
-            <h1 className="font-extrabold text-timberwolf text-4xl md:text-5xl xl:text-6xl text-center">
-              <span className="text-burntSienna">Tick</span>
-              <span className="text-burntSienna">Tock</span>
-              <span className="text-jade">Clock</span>
+          <div className="col-span-4 lg:col-span-5 lg:col-start-2 lg:row-start-1 h-full p-4 rounded-3xl bg-surface dark:bg-surfaceDark flex items-center justify-center">
+            <h1 className="font-extrabold text-muted text-4xl md:text-5xl xl:text-6xl text-center">
+              <span className="text-secondary">Tick</span>
+              <span className="text-secondary">Tock</span>
+              <span className="text-primary">Clock</span>
             </h1>
           </div>
 
           {/* Back arrow - 1x1, flows to row 2 on mobile */}
           <div
-            className="col-span-1 lg:col-start-1 lg:row-start-1 h-full rounded-3xl bg-floralWhite dark:bg-eerieBlack flex items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-200"
+            className="col-span-1 lg:col-start-1 lg:row-start-1 h-full rounded-3xl bg-surface dark:bg-surfaceDark flex items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-200"
             onClick={() => navigate('/')}
           >
             <BackArrowIcon />
           </div>
 
           {/* Settings label - mobile: 2x1 (row 2), desktop: 5x1 */}
-          <div className="col-span-2 lg:col-span-5 lg:col-start-7 lg:row-start-1 h-full p-4 rounded-3xl bg-floralWhite dark:bg-eerieBlack flex items-center justify-center">
-            <h2 className="font-bold text-blackOlive dark:text-timberwolf text-2xl lg:text-4xl 2xl:text-6xl text-center">{t.settings}</h2>
+          <div className="col-span-2 lg:col-span-5 lg:col-start-7 lg:row-start-1 h-full p-4 rounded-3xl bg-surface dark:bg-surfaceDark flex items-center justify-center">
+            <h2 className="font-bold text-base dark:text-muted text-2xl lg:text-4xl 2xl:text-6xl text-center">{t.settings}</h2>
           </div>
 
           {/* Theme toggle - 1x1 */}
@@ -72,7 +76,7 @@ const SettingsPage: React.FC = () => {
         </div>
 
         {/* ===== MOBILE TAB BAR ===== */}
-        <div className="lg:hidden mt-3 rounded-3xl bg-floralWhite dark:bg-eerieBlack p-2 flex gap-1">
+        <div className="lg:hidden mt-3 rounded-3xl bg-surface dark:bg-surfaceDark p-2 flex gap-1">
           {navItems.map((item) => (
             <NavLink
               key={item.to}
@@ -80,8 +84,8 @@ const SettingsPage: React.FC = () => {
               className={({ isActive }) =>
                 `flex-1 flex items-center justify-center gap-2 rounded-xl px-3 py-2.5 font-semibold text-sm transition-colors duration-200
                 ${isActive
-                  ? 'bg-jade/15 text-jade'
-                  : 'text-blackOlive dark:text-timberwolf'
+                  ? 'bg-primary/15 text-primary'
+                  : 'text-base dark:text-muted'
                 }`
               }
             >
@@ -95,7 +99,7 @@ const SettingsPage: React.FC = () => {
         <div className="flex gap-3 lg:gap-5 mt-3 lg:mt-5">
 
           {/* Sidebar - desktop only */}
-          <div className="hidden lg:flex shrink-0 w-56 rounded-3xl bg-floralWhite dark:bg-eerieBlack p-3 flex-col gap-1 self-start">
+          <div className="hidden lg:flex shrink-0 w-56 rounded-3xl bg-surface dark:bg-surfaceDark p-3 flex-col gap-1 self-start">
             {navItems.map((item) => (
               <NavLink
                 key={item.to}
@@ -103,8 +107,8 @@ const SettingsPage: React.FC = () => {
                 className={({ isActive }) =>
                   `flex items-center gap-3 rounded-xl px-4 py-3 font-semibold text-base transition-colors duration-200 cursor-pointer
                   ${isActive
-                    ? 'bg-jade/15 text-jade'
-                    : 'text-blackOlive dark:text-timberwolf hover:bg-blackOlive/5 dark:hover:bg-blackOlive/50'
+                    ? 'bg-primary/15 text-primary'
+                    : 'text-base dark:text-muted hover:bg-base/5 dark:hover:bg-base/50'
                   }`
                 }
               >
@@ -114,8 +118,8 @@ const SettingsPage: React.FC = () => {
             ))}
 
             {/* Auto-save notice */}
-            <div className="mt-3 pt-3 border-t border-blackOlive/10 dark:border-timberwolf/10">
-              <p className="text-blackOlive/40 dark:text-timberwolf/30 text-xs text-center">
+            <div className="mt-3 pt-3 border-t border-base/10 dark:border-muted/10">
+              <p className="text-base/40 dark:text-muted/30 text-xs text-center">
                 {t.settingsSavedAutomatically}
               </p>
             </div>
@@ -130,7 +134,7 @@ const SettingsPage: React.FC = () => {
 
         {/* Auto-save notice - mobile only */}
         <div className="lg:hidden mt-3">
-          <p className="text-blackOlive/40 dark:text-timberwolf/30 text-xs text-center">
+          <p className="text-base/40 dark:text-muted/30 text-xs text-center">
             {t.settingsSavedAutomatically}
           </p>
         </div>

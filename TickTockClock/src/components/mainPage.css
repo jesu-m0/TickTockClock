@@ -58,65 +58,45 @@
 .customDashed {
   background-image: repeating-linear-gradient(
       0deg,
-      #ccc5b9,
-      #ccc5b9 13px,
+      rgb(var(--color-muted)),
+      rgb(var(--color-muted)) 13px,
       transparent 13px,
       transparent 24px,
-      #ccc5b9 24px
+      rgb(var(--color-muted)) 24px
     ),
     repeating-linear-gradient(
       90deg,
-      #ccc5b9,
-      #ccc5b9 13px,
+      rgb(var(--color-muted)),
+      rgb(var(--color-muted)) 13px,
       transparent 13px,
       transparent 24px,
-      #ccc5b9 24px
+      rgb(var(--color-muted)) 24px
     ),
     repeating-linear-gradient(
       180deg,
-      #ccc5b9,
-      #ccc5b9 13px,
+      rgb(var(--color-muted)),
+      rgb(var(--color-muted)) 13px,
       transparent 13px,
       transparent 24px,
-      #ccc5b9 24px
+      rgb(var(--color-muted)) 24px
     ),
     repeating-linear-gradient(
       270deg,
-      #ccc5b9,
-      #ccc5b9 13px,
+      rgb(var(--color-muted)),
+      rgb(var(--color-muted)) 13px,
       transparent 13px,
       transparent 24px,
-      #ccc5b9 24px
+      rgb(var(--color-muted)) 24px
     );
   background-size: 3px 100%, 100% 3px, 3px 100%, 100% 3px;
   background-position: 0 0, 0 0, 100% 0, 0 100%;
   background-repeat: no-repeat;
 }
 
-.modeSelected {
-  border: 1px solid var(--saffron);
-  color: var(--floralWhite);
-  border-radius: 0.75rem;
-  padding: 0.75rem 0;
-  margin: 0 5rem;
-}
-
-.modeUnselected {
-  color: var(--timberwolf);
-  border-radius: 0.75rem;
-  padding: 0.75rem 0;
-  margin: 0 5rem;
-}
-
-.modeUnselected:hover {
-  color: var(--floralWhite);
-  background-color: var(--blackOlive);
-}
-
 .expandedDivBeginningTransition {
-  @apply bg-eerieBlack opacity-100 z-10 transform transition-all duration-700 ease-in-out;
+  @apply bg-surfaceDark opacity-100 z-10 transform transition-all duration-700 ease-in-out;
 }
 
 .expandedDivEndingTransition {
-  @apply bg-eerieBlack opacity-100 z-10 transform-none transition-all duration-700 ease-in-out;
+  @apply bg-surfaceDark opacity-100 z-10 transform-none transition-all duration-700 ease-in-out;
 }

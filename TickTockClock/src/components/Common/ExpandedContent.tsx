@@ -41,10 +41,6 @@ const ExpandedContent: React.FC<ExpandedContentProps> = ({
             // Timer state
             time,
 
-            // Pause state
-            //isPaused,
-            //setIsPaused,
-
             // Simple mode
             isSimpleMode,
 
@@ -60,13 +56,13 @@ const ExpandedContent: React.FC<ExpandedContentProps> = ({
 
       return (
             <>
-                  <div className="h-full w-full dark:bg-eerieBlack bg-timberwolf">
+                  <div className="h-full w-full dark:bg-surfaceDark bg-muted">
                         <button onClick={unexpand}>
                               <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
-                                    className="dark:text-timberwolf text-blackOlive h-12 w-12 mt-4 ml-4"
+                                    className="dark:text-muted text-base h-12 w-12 mt-4 ml-4"
                               >
                                     <path d="M18 6 6 18" />
                                     <path d="m6 6 12 12" />
@@ -75,57 +71,57 @@ const ExpandedContent: React.FC<ExpandedContentProps> = ({
 
                         <div className="flex flex-col justify-center">
                               {/*Clock*/}
-                              <div className="mx-auto dark:bg-timberwolf bg-floralWhite h-[50vh] lg:h-[60vh] lg:w-[60vw] w-[85vw] rounded-3xl mt-[5vh] flex flex-col items-center justify-center">
+                              <div className="mx-auto dark:bg-muted bg-surface h-[50vh] lg:h-[60vh] lg:w-[60vw] w-[85vw] rounded-3xl mt-[5vh] flex flex-col items-center justify-center">
                                     <div className="h-full flex flex-col justify-center items-center">
-                                          <TimeDigits value={formatTime(time)} className="text-blackOlive 2xl:text-[18rem] xl:text-[16rem] lg:text-[14rem] md:text-[12rem] text-8xl font-black" />
+                                          <TimeDigits value={formatTime(time)} className="text-base 2xl:text-[18rem] xl:text-[16rem] lg:text-[14rem] md:text-[12rem] text-8xl font-black" />
                                           <div className="flex px-8 w-full">
-                                                <p className="font-medium text-blackOlive dark:text-eerieBlack text-lg text-center w-1/2">
+                                                <p className="font-medium text-base dark:text-surfaceDark text-lg text-center w-1/2">
                                                       {t.min}
                                                 </p>
-                                                <p className="font-medium text-blackOlive dark:text-eerieBlack text-lg text-center w-1/2">
+                                                <p className="font-medium text-base dark:text-surfaceDark text-lg text-center w-1/2">
                                                       {t.sec}
                                                 </p>
                                           </div>
                                     </div>
                                     <div className="w-full flex flex-row">
                                           <div
-                                                className={`h-6 flex-1 rounded-bl-3xl ${isAlternate ? "bg-burntSienna" : "bg-jade"
+                                                className={`h-6 flex-1 rounded-bl-3xl ${isAlternate ? "bg-secondary" : "bg-primary"
                                                       }`}
                                           ></div>
                                           <div
-                                                className={`h-6 flex-1 ${isAlternate ? "bg-jade" : "bg-burntSienna"
+                                                className={`h-6 flex-1 ${isAlternate ? "bg-primary" : "bg-secondary"
                                                       }`}
                                           ></div>
                                           <div
-                                                className={`h-6 flex-1 ${isAlternate ? "bg-burntSienna" : "bg-jade"
+                                                className={`h-6 flex-1 ${isAlternate ? "bg-secondary" : "bg-primary"
                                                       }`}
                                           ></div>
                                           <div
-                                                className={`h-6 flex-1 ${isAlternate ? "bg-jade" : "bg-burntSienna"
+                                                className={`h-6 flex-1 ${isAlternate ? "bg-primary" : "bg-secondary"
                                                       }`}
                                           ></div>
                                           <div
-                                                className={`h-6 flex-1 ${isAlternate ? "bg-burntSienna" : "bg-jade"
+                                                className={`h-6 flex-1 ${isAlternate ? "bg-secondary" : "bg-primary"
                                                       }`}
                                           ></div>
                                           <div
-                                                className={`h-6 flex-1 ${isAlternate ? "bg-jade" : "bg-burntSienna"
+                                                className={`h-6 flex-1 ${isAlternate ? "bg-primary" : "bg-secondary"
                                                       }`}
                                           ></div>
                                           <div
-                                                className={`h-6 flex-1 ${isAlternate ? "bg-burntSienna" : "bg-jade"
+                                                className={`h-6 flex-1 ${isAlternate ? "bg-secondary" : "bg-primary"
                                                       }`}
                                           ></div>
                                           <div
-                                                className={`h-6 flex-1 ${isAlternate ? "bg-jade" : "bg-burntSienna"
+                                                className={`h-6 flex-1 ${isAlternate ? "bg-primary" : "bg-secondary"
                                                       }`}
                                           ></div>
                                           <div
-                                                className={`h-6 flex-1 ${isAlternate ? "bg-burntSienna" : "bg-jade"
+                                                className={`h-6 flex-1 ${isAlternate ? "bg-secondary" : "bg-primary"
                                                       }`}
                                           ></div>
                                           <div
-                                                className={`h-6 flex-1 rounded-br-3xl ${isAlternate ? "bg-jade" : "bg-burntSienna"
+                                                className={`h-6 flex-1 rounded-br-3xl ${isAlternate ? "bg-primary" : "bg-secondary"
                                                       }`}
                                           ></div>
                                     </div>
@@ -133,7 +129,7 @@ const ExpandedContent: React.FC<ExpandedContentProps> = ({
 
                               {/*Sets progress bar*/}
                               <div
-                                    className={`lg:h-[11vh] h-[10vh] lg:w-[60vw] w-[85vw] mx-auto mt-[5vh] rounded-3xl relative overflow-hidden dark:bg-timberwolf bg-floralWhite flex items-center justify-center`}
+                                    className={`lg:h-[11vh] h-[10vh] lg:w-[60vw] w-[85vw] mx-auto mt-[5vh] rounded-3xl relative overflow-hidden dark:bg-muted bg-surface flex items-center justify-center`}
                               >
                                     {(clockStatus === ClockStatus.RUNNING || clockStatus === ClockStatus.PAUSED) && (
                                           <>
@@ -142,8 +138,8 @@ const ExpandedContent: React.FC<ExpandedContentProps> = ({
                                                       <div
                                                             className={`absolute left-0 top-0 h-full transition-all duration-1000
                                         ${simpleTimerInfo.isWorkLap
-                                                                        ? "bg-burntSienna"
-                                                                        : "bg-jade"
+                                                                        ? "bg-secondary"
+                                                                        : "bg-primary"
                                                                   }`}
                                                             style={{
                                                                   width: `${(time /
@@ -174,7 +170,7 @@ const ExpandedContent: React.FC<ExpandedContentProps> = ({
 
                                           </>
                                     )}
-                                    <p className="font-bold dark:text-blackOlive text-blackOlive text-4xl lg:text-5xl text-center relative z-10">
+                                    <p className="font-bold dark:text-base text-base text-4xl lg:text-5xl text-center relative z-10">
                                           {isSimpleMode ? simpleTimerInfo.remainingSets : customTimerInfo.sets}
                                     </p>
                               </div>

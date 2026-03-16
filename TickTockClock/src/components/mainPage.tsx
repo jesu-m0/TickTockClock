@@ -198,13 +198,13 @@ const MainPage: React.FC = () => {
 
                               {/* Reset button - 2x1 */}
                               <div id="resetButton"
-                                    className={`col-span-2 lg:col-start-1 lg:row-start-7 h-full bg-saffron p-4 rounded-3xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer flex items-center justify-center
+                                    className={`col-span-2 lg:col-start-1 lg:row-start-7 h-full bg-tertiary p-4 rounded-3xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer flex items-center justify-center
                                     ${isClickedReset ? "scale-animation" : ""}
                                     ${simpleTimerInfo.currentAnimation === AnimationType.ALREADY_RESET ? "button-error-animation" : ""}
                                     ${simpleTimerInfo.currentAnimation === AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_NOT_00 ? "button-error-animation" : ""}`}
                                     onClick={handleReset}
                               >
-                                    <p className="font-bold text-eerieBlack text-3xl lg:text-5xl text-center">
+                                    <p className="font-bold text-surfaceDark text-3xl lg:text-5xl text-center">
                                           {t.reset}
                                     </p>
                               </div>
@@ -212,12 +212,12 @@ const MainPage: React.FC = () => {
                               {/* Start/Stop button - 2x1 */}
                               <div
                                     className={`col-span-2 lg:col-start-3 lg:row-start-7 h-full p-4 rounded-3xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer flex items-center justify-center
-                                    ${isPaused ? "dark:bg-timberwolf bg-blackOlive" : "bg-burntSienna"}
+                                    ${isPaused ? "dark:bg-muted bg-base" : "bg-secondary"}
                                     ${isClickedPause ? "scale-animation" : ""}
                                     ${simpleTimerInfo.currentAnimation === AnimationType.EMPTY_LAPS_DURATION ? "button-error-animation" : ""}`}
                                     onClick={handlePauseStart}
                               >
-                                    <p className="font-bold dark:text-eerieBlack text-floralWhite text-3xl lg:text-5xl text-center">
+                                    <p className="font-bold dark:text-surfaceDark text-surface text-3xl lg:text-5xl text-center">
                                           {isPaused ? t.start : t.stop}
                                     </p>
                               </div>
@@ -226,18 +226,18 @@ const MainPage: React.FC = () => {
                               <div className="col-span-4 lg:col-start-1 lg:row-start-8 h-full relative">
                                     <button
                                           id="expand-button"
-                                          className="h-full w-full bg-floralWhite dark:bg-eerieBlack p-4 rounded-3xl flex justify-center items-center hover:scale-105 transition-transform duration-200 cursor-pointer"
+                                          className="h-full w-full bg-surface dark:bg-surfaceDark p-4 rounded-3xl flex justify-center items-center hover:scale-105 transition-transform duration-200 cursor-pointer"
                                           onClick={expand}
                                     >
                                           <svg
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 viewBox="0 0 448 512"
-                                                className={`w-8 h-8 lg:w-12 lg:h-12 fill-blackOlive dark:fill-timberwolf mr-4 transition-opacity duration-200
+                                                className={`w-8 h-8 lg:w-12 lg:h-12 fill-base dark:fill-muted mr-4 transition-opacity duration-200
                                                 ${showExpandLetters ? "opacity-100" : "opacity-0"}`}
                                           >
                                                 <path d="M32 32C14.3 32 0 46.3 0 64l0 96c0 17.7 14.3 32 32 32s32-14.3 32-32l0-64 64 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L32 32zM64 352c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 96c0 17.7 14.3 32 32 32l96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-64 0 0-64zM320 32c-17.7 0-32 14.3-32 32s14.3 32 32 32l64 0 0 64c0 17.7 14.3 32 32 32s32-14.3 32-32l0-96c0-17.7-14.3-32-32-32l-96 0zM448 352c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 64-64 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l96 0c17.7 0 32-14.3 32-32l0-96z" />
                                           </svg>
-                                          <p className={`font-bold dark:text-timberwolf text-blackOlive text-3xl lg:text-5xl text-center transition-opacity duration-200
+                                          <p className={`font-bold dark:text-muted text-base text-3xl lg:text-5xl text-center transition-opacity duration-200
                                                 ${showExpandLetters ? "opacity-100" : "opacity-0"}`}
                                           >
                                                 {t.expand}
@@ -246,7 +246,7 @@ const MainPage: React.FC = () => {
 
                                     {/* Expanded content overlay */}
                                     <div
-                                          className={`dark:bg-eerieBlack bg-floralWhite z-10 transition-all
+                                          className={`dark:bg-surfaceDark bg-surface z-10 transition-all
                                           ${isExpanded ? "rounded-none" : "rounded-3xl"}
                                           ${openAnimation ? (isExpanded ? "duration-700" : "duration-100") : (divExist ? "duration-700" : "duration-100")}
                                           ${showExpandLetters ? "hidden" : ""}`}
@@ -276,12 +276,12 @@ const MainPage: React.FC = () => {
                               {/* Mode selection - 8x1 */}
                               <div id="modeSelection" className="col-span-4 lg:col-span-8 lg:col-start-5 lg:row-start-2 h-full flex">
                                     {/*Simple btn*/}
-                                    <div className="w-1/2 h-full rounded-3xl dark:bg-eerieBlack bg-floralWhite cursor-pointer flex flex-col overflow-hidden"
+                                    <div className="w-1/2 h-full rounded-3xl dark:bg-surfaceDark bg-surface cursor-pointer flex flex-col overflow-hidden"
                                           onClick={changeToSimple}>
 
                                           {/*Title*/}
                                           <div className="px-4 flex-1 flex items-center justify-center">
-                                                <p className={`font-extrabold dark:text-timberwolf text-blackOlive text-3xl lg:text-4xl text-center transition-colors duration-300`}>
+                                                <p className={`font-extrabold dark:text-muted text-base text-3xl lg:text-4xl text-center transition-colors duration-300`}>
                                                       {t.simple}
                                                 </p>
                                           </div>
@@ -289,19 +289,19 @@ const MainPage: React.FC = () => {
                                           {/*Bar*/}
                                           <div className="w-full h-2.5">
                                                 <div className={`h-full w-full rounded-b-3xl transform duration-300
-                                                      ${isSimpleMode ? "bg-jade" : "dark:bg-eerieBlack bg-floralWhite"}`}>
+                                                      ${isSimpleMode ? "bg-primary" : "dark:bg-surfaceDark bg-surface"}`}>
                                                 </div>
                                           </div>
                                     </div>
 
                                     {/*Custom btn*/}
                                     <div
-                                          className="w-1/2 h-full rounded-3xl dark:bg-eerieBlack bg-floralWhite cursor-pointer flex flex-col overflow-hidden"
+                                          className="w-1/2 h-full rounded-3xl dark:bg-surfaceDark bg-surface cursor-pointer flex flex-col overflow-hidden"
                                           onClick={changeToCustom}
                                     >
                                           {/*Title*/}
                                           <div className="px-4 flex-1 flex justify-center items-center">
-                                                <p className={`font-extrabold dark:text-timberwolf text-blackOlive text-3xl lg:text-4xl text-center transition-colors duration-300`}>
+                                                <p className={`font-extrabold dark:text-muted text-base text-3xl lg:text-4xl text-center transition-colors duration-300`}>
                                                       {t.custom}
                                                 </p>
                                           </div>
@@ -309,7 +309,7 @@ const MainPage: React.FC = () => {
                                           {/*Bar*/}
                                           <div className="w-full h-2.5">
                                                 <div className={`h-full w-full rounded-b-3xl transform duration-300
-                                                                  ${isSimpleMode ? "dark:bg-eerieBlack bg-floralWhite" : "bg-jade"}`}>
+                                                                  ${isSimpleMode ? "dark:bg-surfaceDark bg-surface" : "bg-primary"}`}>
 
                                                 </div>
                                           </div>
@@ -323,11 +323,11 @@ const MainPage: React.FC = () => {
 
                   {/*Signature*/}
                   <footer className="container mx-auto px-5 pb-5">
-                        <p className="text-blackOlive dark:text-timberwolf text-xs md:text-sm text-center pointer-events-auto">
+                        <p className="text-base dark:text-muted text-xs md:text-sm text-center pointer-events-auto">
                               {t.madeWith}{" "}
                               <a
                                     href="https://jmoreno.dev"
-                                    className="underline hover:cursor-pointer hover:text-jade dark:hover:text-jade transition-colors duration-300"
+                                    className="underline hover:cursor-pointer hover:text-primary dark:hover:text-primary transition-colors duration-300"
                                     target="_blank"
                                     rel="noopener noreferrer"
                               >

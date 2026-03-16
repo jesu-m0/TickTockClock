@@ -3,7 +3,7 @@ import { useTranslation } from "../../../i18n/useTranslation";
 interface IntervalNameInputProps {
       name: string;
       onNameChange: (name: string) => void;
-      variant?: "create" | "edit"; // For different background colors
+      variant?: "create" | "edit";
 }
 
 const IntervalNameInput: React.FC<IntervalNameInputProps> = ({
@@ -12,10 +12,9 @@ const IntervalNameInput: React.FC<IntervalNameInputProps> = ({
       variant = "create"
 }) => {
       const { t } = useTranslation();
-      // Define background classes based on variant
       const bgClasses = variant === "create"
-            ? "bg-floralWhite dark:bg-blackOlive"
-            : "bg-floralWhite dark:bg-eerieBlack";
+            ? "bg-surface dark:bg-base"
+            : "bg-surface dark:bg-surfaceDark";
 
       return (
             <div className={`order-3 col-span-9 lg:col-span-6 row-span-1 rounded-3xl ${bgClasses} pt-4 px-8 pb-6 relative`}>
@@ -26,10 +25,10 @@ const IntervalNameInput: React.FC<IntervalNameInputProps> = ({
                               value={name}
                               onChange={(e) => onNameChange(e.target.value.slice(0, 17))}
                               placeholder={t.intervalName}
-                              className={`w-full ${bgClasses} text-blackOlive dark:text-timberwolf text-xl lg:text-3xl font-bold placeholder:text-blackOlive/70 dark:placeholder:text-timberwolf/70 focus:outline-none mb-1 leading-relaxed`}
+                              className={`w-full ${bgClasses} text-base dark:text-muted text-xl lg:text-3xl font-bold placeholder:text-base/70 dark:placeholder:text-muted/70 focus:outline-none mb-1 leading-relaxed`}
                         />
-                        {/* Timberwolf Line */}
-                        <div className="w-full h-[2px] bg-blackOlive dark:bg-timberwolf"></div>
+                        {/* Line */}
+                        <div className="w-full h-[2px] bg-base dark:bg-muted"></div>
                   </div>
             </div>
       );

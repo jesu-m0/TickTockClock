@@ -8,12 +8,12 @@ interface SettingsCardProps {
   className?: string;
 }
 
-const SettingsCard: React.FC<SettingsCardProps> = ({ title, icon, iconColor = 'text-jade', children, className = '' }) => {
+const SettingsCard: React.FC<SettingsCardProps> = ({ title, icon, iconColor = 'text-primary', children, className = '' }) => {
   return (
-    <div className={`rounded-3xl p-5 lg:p-6 bg-floralWhite dark:bg-eerieBlack ${className}`}>
+    <div className={`rounded-3xl p-5 lg:p-6 bg-surface dark:bg-surfaceDark ${className}`}>
       <div className="flex items-center gap-3 mb-4">
         <span className={iconColor}>{icon}</span>
-        <h3 className="font-extrabold text-blackOlive dark:text-timberwolf text-lg lg:text-xl tracking-wider uppercase">
+        <h3 className="font-extrabold text-base dark:text-muted text-lg lg:text-xl tracking-wider uppercase">
           {title}
         </h3>
       </div>

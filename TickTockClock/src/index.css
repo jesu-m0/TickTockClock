@@ -2,9 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --color-jade: #44AF69;
-  --color-timberwolf: #CCC5B9;
+/* ===== Color Theme Definitions ===== */
+/* Colors stored as R G B for Tailwind alpha support */
+
+/* Default theme: Earth tones */
+/* https://coolors.co/403d39-252422-e76f51-ccc5b9-fffcf2-e9c46a-44af69 */
+[data-color-theme="default"] {
+  --color-primary: 68 175 105;         /* jade #44AF69 */
+  --color-primary-light: 92 201 127;   /* jadeLight #5CC97F */
+  --color-secondary: 231 111 81;       /* burntSienna #E76F51 */
+  --color-tertiary: 233 196 106;       /* saffron #E9C46A */
+  --color-surface: 255 252 242;        /* floralWhite #FFFCF2 */
+  --color-surface-dark: 37 36 34;      /* eerieBlack #252422 */
+  --color-base: 64 61 57;             /* blackOlive #403D39 */
+  --color-muted: 204 197 185;         /* timberwolf #CCC5B9 */
+}
+
+/* Tropical Sunrise theme */
+/* https://coolors.co/palette/ff9f1c-ffbf69-ffffff-cbf3f0-2ec4b6 */
+[data-color-theme="tropical"] {
+  --color-primary: 46 196 182;         /* teal #2EC4B6 */
+  --color-primary-light: 61 213 199;   /* lighter teal #3DD5C7 */
+  --color-secondary: 255 159 28;       /* orange #FF9F1C */
+  --color-tertiary: 255 191 105;       /* light orange #FFBF69 */
+  --color-surface: 255 255 255;        /* white #FFFFFF */
+  --color-surface-dark: 21 55 54;      /* dark teal #153736 */
+  --color-base: 13 43 42;             /* very dark teal #0D2B2A */
+  --color-muted: 203 243 240;         /* light mint #CBF3F0 */
 }
 
 /* Move this to index.css for global effect */
@@ -28,7 +52,7 @@ a, div {
 }
 
 ::-webkit-scrollbar-thumb {
-      background: theme('colors.burntSienna'); /* Using the Tailwind color variable */
+      background: rgb(var(--color-secondary)); /* Using the theme color variable */
       border-radius: 9999px; /* Rounded thumb */
 }
 

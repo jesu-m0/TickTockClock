@@ -5,6 +5,7 @@ import SettingsPage from './components/Settings/SettingsPage';
 import GeneralSection from './components/Settings/GeneralSection';
 import AudioSection from './components/Settings/AudioSection';
 import AdvancedSection from './components/Settings/AdvancedSection';
+import AppearanceSection from './components/Settings/AppearanceSection';
 import { ClockProvider } from './context/ClockContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { SettingsProvider } from './context/SettingsContext';
@@ -21,6 +22,7 @@ function App() {
               <Route path="/settings" element={<SettingsPage />}>
                 <Route index element={<Navigate to="general" replace />} />
                 <Route path="general" element={<GeneralSection />} />
+                <Route path="appearance" element={<AppearanceSection />} />
                 <Route path="audio" element={<AudioSection />} />
                 <Route path="advanced" element={<AdvancedSection />} />
               </Route>

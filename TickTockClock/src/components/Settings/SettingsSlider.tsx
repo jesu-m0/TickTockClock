@@ -14,10 +14,10 @@ const SettingsSlider: React.FC<SettingsSliderProps> = ({ label, value, onChange,
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between">
-        <p className="font-bold text-blackOlive dark:text-timberwolf text-sm lg:text-base">
+        <p className="font-bold text-base dark:text-muted text-sm lg:text-base">
           {label}
         </p>
-        <span className="font-bold text-jade text-sm lg:text-base">
+        <span className="font-bold text-primary text-sm lg:text-base">
           {value}%
         </span>
       </div>
@@ -28,20 +28,20 @@ const SettingsSlider: React.FC<SettingsSliderProps> = ({ label, value, onChange,
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
         style={{
-          background: `linear-gradient(to right, var(--color-jade) ${percent}%, color-mix(in srgb, var(--color-timberwolf) 20%, transparent) ${percent}%)`,
+          background: `linear-gradient(to right, rgb(var(--color-primary)) ${percent}%, color-mix(in srgb, rgb(var(--color-muted)) 20%, transparent) ${percent}%)`,
         }}
         className="w-full h-2 rounded-full appearance-none cursor-pointer
           [&::-webkit-slider-thumb]:appearance-none
           [&::-webkit-slider-thumb]:h-4
           [&::-webkit-slider-thumb]:w-4
           [&::-webkit-slider-thumb]:rounded-full
-          [&::-webkit-slider-thumb]:bg-jade
+          [&::-webkit-slider-thumb]:bg-primary
           [&::-webkit-slider-thumb]:shadow-md
           [&::-webkit-slider-thumb]:cursor-pointer
           [&::-moz-range-thumb]:h-4
           [&::-moz-range-thumb]:w-4
           [&::-moz-range-thumb]:rounded-full
-          [&::-moz-range-thumb]:bg-jade
+          [&::-moz-range-thumb]:bg-primary
           [&::-moz-range-thumb]:border-none
           [&::-moz-range-thumb]:shadow-md
           [&::-moz-range-thumb]:cursor-pointer

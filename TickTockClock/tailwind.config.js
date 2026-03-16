@@ -8,15 +8,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        // link to the patlette https://coolors.co/403d39-252422-e76f51-ccc5b9-fffcf2-e9c46a-44af69
-        blackOlive: '#403D39',
-        eerieBlack: '#252422',
-        burntSienna: '#E76F51',
-        timberwolf: '#CCC5B9',
-        floralWhite: '#FFFCF2',
-        saffron: '#E9C46A',
-        jade: '#44Af69',
-        jadeLight: '#5CC97F'
+        primary: 'rgb(var(--color-primary) / <alpha-value>)',
+        primaryLight: 'rgb(var(--color-primary-light) / <alpha-value>)',
+        secondary: 'rgb(var(--color-secondary) / <alpha-value>)',
+        tertiary: 'rgb(var(--color-tertiary) / <alpha-value>)',
+        surface: 'rgb(var(--color-surface) / <alpha-value>)',
+        surfaceDark: 'rgb(var(--color-surface-dark) / <alpha-value>)',
+        base: 'rgb(var(--color-base) / <alpha-value>)',
+        muted: 'rgb(var(--color-muted) / <alpha-value>)',
       },
       gridTemplateRows: {
             'max-100': 'minmax(0, 100px)', // Custom utility
@@ -27,4 +26,3 @@ export default {
     require('@tailwindcss/aspect-ratio')
   ],
 }
-

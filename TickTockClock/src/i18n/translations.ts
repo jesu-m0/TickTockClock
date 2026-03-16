@@ -59,6 +59,12 @@ export const translations = {
     whistle: 'Whistle',
     tone: 'Tone',
 
+    // Settings - Appearance
+    appearance: 'Appearance',
+    colorTheme: 'Color Theme',
+    themeDefault: 'Default',
+    themeTropical: 'Tropical Sunrise',
+
     // Keyboard shortcuts
     shortcuts: 'Shortcuts',
     playPause: 'Play / Pause',
@@ -129,6 +135,12 @@ export const translations = {
     whistle: 'Silbato',
     tone: 'Tono',
 
+    // Settings - Appearance
+    appearance: 'Apariencia',
+    colorTheme: 'Tema de color',
+    themeDefault: 'Por defecto',
+    themeTropical: 'Amanecer Tropical',
+
     // Keyboard shortcuts
     shortcuts: 'Atajos',
     playPause: 'Play / Pausa',
@@ -198,6 +210,12 @@ export const translations = {
     boxingBell: 'Boxglocke',
     whistle: 'Pfeife',
     tone: 'Ton',
+
+    // Settings - Appearance
+    appearance: 'Aussehen',
+    colorTheme: 'Farbthema',
+    themeDefault: 'Standard',
+    themeTropical: 'Tropischer Sonnenaufgang',
 
     // Keyboard shortcuts
     shortcuts: 'Tastenkürzel',
