@@ -5,6 +5,8 @@ import { useTranslation } from '../../i18n/useTranslation';
 const themes: { id: ColorTheme; colors: string[] }[] = [
   { id: 'default', colors: ['#44AF69', '#E76F51', '#E9C46A', '#CCC5B9'] },
   { id: 'tropical', colors: ['#2EC4B6', '#FF9F1C', '#FFBF69', '#CBF3F0'] },
+  { id: 'coral', colors: ['#4ECDC4', '#FF6B6B', '#FFE66D', '#1A535C'] },
+  { id: 'midnightRose', colors: ['#6B9AC4', '#8B1E3F', '#F7B2B7', '#033F63'] },
 ];
 
 const AppearanceSection: React.FC = () => {
@@ -14,6 +16,8 @@ const AppearanceSection: React.FC = () => {
   const themeLabels: Record<ColorTheme, string> = {
     default: t.themeDefault,
     tropical: t.themeTropical,
+    coral: t.themeCoral,
+    midnightRose: t.themeMidnightRose,
   };
 
   return (
@@ -36,7 +40,7 @@ const AppearanceSection: React.FC = () => {
               className={`rounded-2xl p-4 flex flex-col items-center gap-3 transition-all duration-200 cursor-pointer border-2 ${
                 colorTheme === theme.id
                   ? 'border-primary bg-primary/10'
-                  : 'border-transparent bg-base/5 dark:bg-muted/5 hover:bg-base/10 dark:hover:bg-muted/10'
+                  : 'border-transparent bg-baseClr/5 dark:bg-muted/5 hover:bg-baseClr/10 dark:hover:bg-muted/10'
               }`}
             >
               <div className="flex gap-1.5">
@@ -49,7 +53,7 @@ const AppearanceSection: React.FC = () => {
                 ))}
               </div>
               <span className={`font-bold text-sm lg:text-base ${
-                colorTheme === theme.id ? 'text-primary' : 'text-base dark:text-muted'
+                colorTheme === theme.id ? 'text-primary' : 'text-baseClr dark:text-muted'
               }`}>
                 {themeLabels[theme.id]}
               </span>

@@ -52,7 +52,7 @@ const GeneralSection: React.FC = () => {
   return (
     <SettingsCard title={t.general} icon={<GlobeIcon />}>
       <div className="flex flex-col gap-2">
-        <p className="font-bold text-base dark:text-muted text-sm lg:text-base">
+        <p className="font-bold text-baseClr dark:text-muted text-sm lg:text-base">
           {t.appLanguage}
         </p>
         <div className="flex flex-wrap gap-2">
@@ -63,7 +63,7 @@ const GeneralSection: React.FC = () => {
               className={`flex items-center gap-2 px-4 py-2 rounded-xl font-semibold text-sm lg:text-base transition-colors duration-200 cursor-pointer
                 ${settings.language === lang.value
                   ? 'bg-primary text-surface'
-                  : 'bg-base/5 dark:bg-muted/10 text-base dark:text-muted hover:bg-base/10 dark:hover:bg-muted/20'
+                  : 'bg-baseClr/5 dark:bg-muted/10 text-baseClr dark:text-muted hover:bg-baseClr/10 dark:hover:bg-muted/20'
                 }`}
             >
               {lang.flag} {lang.label}

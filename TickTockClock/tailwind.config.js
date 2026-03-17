@@ -14,7 +14,7 @@ export default {
         tertiary: 'rgb(var(--color-tertiary) / <alpha-value>)',
         surface: 'rgb(var(--color-surface) / <alpha-value>)',
         surfaceDark: 'rgb(var(--color-surface-dark) / <alpha-value>)',
-        base: 'rgb(var(--color-base) / <alpha-value>)',
+        baseClr: 'rgb(var(--color-base) / <alpha-value>)',
         muted: 'rgb(var(--color-muted) / <alpha-value>)',
       },
       gridTemplateRows: {

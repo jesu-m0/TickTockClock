@@ -1,5 +1,5 @@
 .time-button {
-  @apply h-20 lg:h-24 text-2xl lg:text-3xl dark:bg-surfaceDark bg-base dark:text-muted text-surface rounded-md font-bold cursor-pointer
+  @apply h-20 lg:h-24 text-2xl lg:text-3xl dark:bg-surfaceDark bg-baseClr dark:text-muted text-surface rounded-md font-bold cursor-pointer
   hover:scale-105 transition-transform duration-200 flex justify-center items-center;
 }
 
@@ -84,7 +84,7 @@
 }
 
 .lap-timer-digits {
-  @apply lg:text-7xl text-3xl font-black dark:text-surfaceDark text-base w-full text-center;
+  @apply lg:text-7xl text-3xl font-black dark:text-surfaceDark text-baseClr w-full text-center;
 }
 
 .timer-lap-buttons-layout {

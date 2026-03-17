@@ -13,7 +13,7 @@ const IntervalNameInput: React.FC<IntervalNameInputProps> = ({
 }) => {
       const { t } = useTranslation();
       const bgClasses = variant === "create"
-            ? "bg-surface dark:bg-base"
+            ? "bg-surface dark:bg-baseClr"
             : "bg-surface dark:bg-surfaceDark";
 
       return (
@@ -25,10 +25,10 @@ const IntervalNameInput: React.FC<IntervalNameInputProps> = ({
                               value={name}
                               onChange={(e) => onNameChange(e.target.value.slice(0, 17))}
                               placeholder={t.intervalName}
-                              className={`w-full ${bgClasses} text-base dark:text-muted text-xl lg:text-3xl font-bold placeholder:text-base/70 dark:placeholder:text-muted/70 focus:outline-none mb-1 leading-relaxed`}
+                              className={`w-full ${bgClasses} text-baseClr dark:text-muted text-xl lg:text-3xl font-bold placeholder:text-baseClr/70 dark:placeholder:text-muted/70 focus:outline-none mb-1 leading-relaxed`}
                         />
                         {/* Line */}
-                        <div className="w-full h-[2px] bg-base dark:bg-muted"></div>
+                        <div className="w-full h-[2px] bg-baseClr dark:bg-muted"></div>
                   </div>
             </div>
       );

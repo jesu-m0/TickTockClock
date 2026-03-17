@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-export type ColorTheme = 'default' | 'tropical';
+export type ColorTheme = 'default' | 'tropical' | 'coral' | 'midnightRose';
 
 interface ThemeContextType {
     isDarkMode: boolean;

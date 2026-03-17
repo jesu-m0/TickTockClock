@@ -13,7 +13,7 @@ const SettingsCard: React.FC<SettingsCardProps> = ({ title, icon, iconColor = 't
     <div className={`rounded-3xl p-5 lg:p-6 bg-surface dark:bg-surfaceDark ${className}`}>
       <div className="flex items-center gap-3 mb-4">
         <span className={iconColor}>{icon}</span>
-        <h3 className="font-extrabold text-base dark:text-muted text-lg lg:text-xl tracking-wider uppercase">
+        <h3 className="font-extrabold text-baseClr dark:text-muted text-lg lg:text-xl tracking-wider uppercase">
           {title}
         </h3>
       </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import SettingsCard from './SettingsCard';
 import { useSettings } from '../../context/SettingsContext';
 import { useTranslation } from '../../i18n/useTranslation';
+import { version } from '../../../package.json';
 
 const GearIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" className="w-5 h-5 lg:w-6 lg:h-6 fill-primary">
@@ -33,8 +34,8 @@ const AdvancedSection: React.FC = () => {
         </span>
       </button>
 
-      <p className="text-base/40 dark:text-muted/30 text-xs text-right italic">
-        {t.version} 1.1.0
+      <p className="text-baseClr/40 dark:text-muted/30 text-xs text-right italic">
+        {t.version} {version}
       </p>
     </SettingsCard>
   );

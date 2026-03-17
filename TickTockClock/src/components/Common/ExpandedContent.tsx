@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useClockStatus } from "../../context/ClockContext";
 import { ClockStatus, Colors } from "../../types";
@@ -62,7 +63,7 @@ const ExpandedContent: React.FC<ExpandedContentProps> = ({
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
-                                    className="dark:text-muted text-base h-12 w-12 mt-4 ml-4"
+                                    className="dark:text-muted text-baseClr h-12 w-12 mt-4 ml-4"
                               >
                                     <path d="M18 6 6 18" />
                                     <path d="m6 6 12 12" />
@@ -72,13 +73,13 @@ const ExpandedContent: React.FC<ExpandedContentProps> = ({
                         <div className="flex flex-col justify-center">
                               {/*Clock*/}
                               <div className="mx-auto dark:bg-muted bg-surface h-[50vh] lg:h-[60vh] lg:w-[60vw] w-[85vw] rounded-3xl mt-[5vh] flex flex-col items-center justify-center">
-                                    <div className="h-full flex flex-col justify-center items-center">
-                                          <TimeDigits value={formatTime(time)} className="text-base 2xl:text-[18rem] xl:text-[16rem] lg:text-[14rem] md:text-[12rem] text-8xl font-black" />
-                                          <div className="flex px-8 w-full">
-                                                <p className="font-medium text-base dark:text-surfaceDark text-lg text-center w-1/2">
+                                    <div className="flex-1 flex flex-col justify-center items-center">
+                                          <TimeDigits value={formatTime(time)} className="text-baseClr 2xl:text-[18rem] xl:text-[16rem] lg:text-[14rem] md:text-[12rem] text-8xl font-black leading-none" />
+                                          <div className="flex px-8 w-full mt-2 md:mt-3 lg:mt-4">
+                                                <p className="font-medium text-lg md:text-xl lg:text-2xl xl:text-3xl dark:text-surfaceDark text-baseClr text-center w-1/2">
                                                       {t.min}
                                                 </p>
-                                                <p className="font-medium text-base dark:text-surfaceDark text-lg text-center w-1/2">
+                                                <p className="font-medium text-lg md:text-xl lg:text-2xl xl:text-3xl dark:text-surfaceDark text-baseClr text-center w-1/2">
                                                       {t.sec}
                                                 </p>
                                           </div>
@@ -170,8 +171,7 @@ const ExpandedContent: React.FC<ExpandedContentProps> = ({
 
                                           </>
                                     )}
-                                    <p className="font-bold dark:text-base text-base text-4xl lg:text-5xl text-center relative z-10">
-                                          {isSimpleMode ? simpleTimerInfo.remainingSets : customTimerInfo.sets}
+                                    <p className="font-bold dark:text-baseClr text-baseClr text-5xl md:text-6xl lg:text-8xl xl:text-9xl 2xl:text-[10rem] text-center relative z-10">                                          {isSimpleMode ? simpleTimerInfo.remainingSets : customTimerInfo.sets}
                                     </p>
                               </div>
                         </div>

@@ -14,7 +14,7 @@ const SettingsSlider: React.FC<SettingsSliderProps> = ({ label, value, onChange,
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between">
-        <p className="font-bold text-base dark:text-muted text-sm lg:text-base">
+        <p className="font-bold text-baseClr dark:text-muted text-sm lg:text-base">
           {label}
         </p>
         <span className="font-bold text-primary text-sm lg:text-base">

@@ -64,6 +64,8 @@ export const translations = {
     colorTheme: 'Color Theme',
     themeDefault: 'Default',
     themeTropical: 'Tropical Sunrise',
+    themeCoral: 'Oceanic Cactus',
+    themeMidnightRose: 'Midnight Rose',
 
     // Keyboard shortcuts
     shortcuts: 'Shortcuts',
@@ -140,6 +142,8 @@ export const translations = {
     colorTheme: 'Tema de color',
     themeDefault: 'Por defecto',
     themeTropical: 'Amanecer Tropical',
+    themeCoral: 'Cactus Oceánico',
+    themeMidnightRose: 'Rosa de Medianoche',
 
     // Keyboard shortcuts
     shortcuts: 'Atajos',
@@ -216,6 +220,8 @@ export const translations = {
     colorTheme: 'Farbthema',
     themeDefault: 'Standard',
     themeTropical: 'Tropischer Sonnenaufgang',
+    themeCoral: 'Ozeanischer Kaktus',
+    themeMidnightRose: 'Mitternachtsrose',
 
     // Keyboard shortcuts
     shortcuts: 'Tastenkürzel',

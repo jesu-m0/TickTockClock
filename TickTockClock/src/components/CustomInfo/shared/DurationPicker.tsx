@@ -25,30 +25,30 @@ const DurationPicker: React.FC<DurationPickerProps> = ({
                         <div
                               id="intervalUp5s"
                               onClick={() => handleIntervalDuration(5, "intervalUp5s")}
-                              className="bg-surface dark:bg-base rounded-tl-3xl rounded-md h-full flex-1 flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer"
+                              className="bg-surface dark:bg-baseClr rounded-tl-3xl rounded-md h-full flex-1 flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer"
                         >
-                              <p className="text-base dark:text-muted font-black text-lg lg:text-2xl xl:text-3xl">+5''</p>
+                              <p className="text-baseClr dark:text-muted font-black text-lg lg:text-2xl xl:text-3xl">+5''</p>
                         </div>
                         <div
                               id="intervalUp30s"
                               onClick={() => handleIntervalDuration(30, "intervalUp30s")}
-                              className="bg-surface dark:bg-base rounded-md h-full flex-[1.3] flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer"
+                              className="bg-surface dark:bg-baseClr rounded-md h-full flex-[1.3] flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer"
                         >
-                              <p className="text-base dark:text-muted font-black text-lg lg:text-2xl xl:text-3xl">+30''</p>
+                              <p className="text-baseClr dark:text-muted font-black text-lg lg:text-2xl xl:text-3xl">+30''</p>
                         </div>
                         <div
                               id="intervalUp5m"
                               onClick={() => handleIntervalDuration(300, "intervalUp5m")}
-                              className="bg-surface dark:bg-base rounded-md h-full flex-[1.5] flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer"
+                              className="bg-surface dark:bg-baseClr rounded-md h-full flex-[1.5] flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer"
                         >
-                              <p className="text-base dark:text-muted font-black text-lg lg:text-2xl xl:text-3xl">+5'</p>
+                              <p className="text-baseClr dark:text-muted font-black text-lg lg:text-2xl xl:text-3xl">+5'</p>
                         </div>
                         <div
                               id="intervalUp30m"
                               onClick={() => handleIntervalDuration(1800, "intervalUp30m")}
-                              className="bg-surface dark:bg-base rounded-tr-3xl rounded-md h-full flex-[1.8] flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer"
+                              className="bg-surface dark:bg-baseClr rounded-tr-3xl rounded-md h-full flex-[1.8] flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer"
                         >
-                              <p className="text-base dark:text-muted font-black text-lg lg:text-2xl xl:text-3xl">+30'</p>
+                              <p className="text-baseClr dark:text-muted font-black text-lg lg:text-2xl xl:text-3xl">+30'</p>
                         </div>
                   </div>
                   <div className="w-full h-1 bg-primary"></div>
@@ -56,30 +56,30 @@ const DurationPicker: React.FC<DurationPickerProps> = ({
                         <div
                               id="intervalDown5s"
                               onClick={() => handleIntervalDuration(-5, "intervalDown5s")}
-                              className="bg-surface dark:bg-base rounded-bl-3xl rounded-md h-full flex-1 flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer"
+                              className="bg-surface dark:bg-baseClr rounded-bl-3xl rounded-md h-full flex-1 flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer"
                         >
-                              <p className="text-base dark:text-muted font-black text-lg lg:text-2xl xl:text-3xl">-5''</p>
+                              <p className="text-baseClr dark:text-muted font-black text-lg lg:text-2xl xl:text-3xl">-5''</p>
                         </div>
                         <div
                               id="intervalDown30s"
                               onClick={() => handleIntervalDuration(-30, "intervalDown30s")}
-                              className="bg-surface dark:bg-base rounded-md h-full flex-[1.3] flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer"
+                              className="bg-surface dark:bg-baseClr rounded-md h-full flex-[1.3] flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer"
                         >
-                              <p className="text-base dark:text-muted font-black text-lg lg:text-2xl xl:text-3xl">-30''</p>
+                              <p className="text-baseClr dark:text-muted font-black text-lg lg:text-2xl xl:text-3xl">-30''</p>
                         </div>
                         <div
                               id="intervalDown5m"
                               onClick={() => handleIntervalDuration(-300, "intervalDown5m")}
-                              className="bg-surface dark:bg-base rounded-md h-full flex-[1.5] flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer"
+                              className="bg-surface dark:bg-baseClr rounded-md h-full flex-[1.5] flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer"
                         >
-                              <p className="text-base dark:text-muted font-black text-lg lg:text-2xl xl:text-3xl">-5'</p>
+                              <p className="text-baseClr dark:text-muted font-black text-lg lg:text-2xl xl:text-3xl">-5'</p>
                         </div>
                         <div
                               id="intervalDown30m"
                               onClick={() => handleIntervalDuration(-1800, "intervalDown30m")}
-                              className="bg-surface dark:bg-base rounded-br-3xl rounded-md h-full flex-[1.8] flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer"
+                              className="bg-surface dark:bg-baseClr rounded-br-3xl rounded-md h-full flex-[1.8] flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer"
                         >
-                              <p className="text-base dark:text-muted font-black text-lg lg:text-2xl xl:text-3xl">-30'</p>
+                              <p className="text-baseClr dark:text-muted font-black text-lg lg:text-2xl xl:text-3xl">-30'</p>
                         </div>
                   </div>
             </div>

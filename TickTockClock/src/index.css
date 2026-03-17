@@ -31,6 +31,32 @@
   --color-muted: 203 243 240;         /* light mint #CBF3F0 */
 }
 
+/* Coral Reef theme */
+/* https://coolors.co/palette/1a535c-4ecdc4-f7fff7-ff6b6b-ffe66d */
+[data-color-theme="coral"] {
+  --color-primary: 78 205 196;          /* teal #4ECDC4 */
+  --color-primary-light: 100 215 207;   /* lighter teal #64D7CF */
+  --color-secondary: 255 107 107;       /* coral #FF6B6B */
+  --color-tertiary: 255 230 109;        /* yellow #FFE66D */
+  --color-surface: 247 255 247;         /* mintCream #F7FFF7 */
+  --color-surface-dark: 26 83 92;       /* midnightGreen #1A535C */
+  --color-base: 18 56 62;              /* darkTeal #12383E */
+  --color-muted: 183 232 228;          /* lightTeal #B7E8E4 */
+}
+
+/* Midnight Rose theme */
+/* https://coolors.co/palette/f7b2b7-033f63-fdf5bf-6b9ac4-8b1e3f */
+[data-color-theme="midnightRose"] {
+  --color-primary: 107 154 196;         /* steelBlue #6B9AC4 */
+  --color-primary-light: 133 174 208;   /* lightSteelBlue #85AED0 */
+  --color-secondary: 139 30 63;         /* burgundy #8B1E3F */
+  --color-tertiary: 247 178 183;        /* rosePink #F7B2B7 */
+  --color-surface: 253 245 191;         /* cream #FDF5BF */
+  --color-surface-dark: 3 63 99;        /* darkNavy #033F63 */
+  --color-base: 2 42 68;               /* deepNavy #022A44 */
+  --color-muted: 184 205 224;          /* lightBlueGray #B8CDE0 */
+}
+
 /* Move this to index.css for global effect */
 p, h1, h2 {
     user-select: none;

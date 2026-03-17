@@ -17,7 +17,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
       const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
 
       const bgClasses = variant === "create"
-            ? "bg-surface dark:bg-base"
+            ? "bg-surface dark:bg-baseClr"
             : "bg-surface dark:bg-surfaceDark";
 
       return (
@@ -40,7 +40,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
                         strokeWidth="2"
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        className={`w-6 h-6 lg:w-10 lg:h-10 text-base dark:text-muted transition-transform duration-300 ease-in-out ${
+                        className={`w-6 h-6 lg:w-10 lg:h-10 text-baseClr dark:text-muted transition-transform duration-300 ease-in-out ${
                               isColorPickerOpen ? "-rotate-180" : "rotate-0"
                         }`}
                   >
@@ -54,7 +54,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
                         }`}
                         style={{ width: "max-content" }}
                   >
-                        <h3 className="text-base dark:text-muted mb-3 select-none text-center text-xl font-bold">
+                        <h3 className="text-baseClr dark:text-muted mb-3 select-none text-center text-xl font-bold">
                               {t.intervalColor}
                         </h3>
                         <div className="grid grid-cols-4 gap-2">

@@ -30,7 +30,7 @@ const Header: React.FC = () => {
 
             {/* Interval timer label - mobile: 3x1, desktop: 5x1 */}
             <div className='col-span-3 lg:col-span-5 lg:col-start-7 lg:row-start-1 h-full p-4 rounded-3xl bg-surface dark:bg-surfaceDark flex items-center justify-center'>
-                <h2 className='font-bold text-base dark:text-muted rounded text-2xl lg:text-4xl 2xl:text-6xl text-center'>{t.intervalTimer}</h2>
+                <h2 className='font-bold text-baseClr dark:text-muted rounded text-2xl lg:text-4xl 2xl:text-6xl text-center'>{t.intervalTimer}</h2>
             </div>
 
             {/* Theme toggle - 1x1 */}

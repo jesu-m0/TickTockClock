@@ -68,7 +68,7 @@ const SettingsPage: React.FC = () => {
 
           {/* Settings label - mobile: 2x1 (row 2), desktop: 5x1 */}
           <div className="col-span-2 lg:col-span-5 lg:col-start-7 lg:row-start-1 h-full p-4 rounded-3xl bg-surface dark:bg-surfaceDark flex items-center justify-center">
-            <h2 className="font-bold text-base dark:text-muted text-2xl lg:text-4xl 2xl:text-6xl text-center">{t.settings}</h2>
+            <h2 className="font-bold text-baseClr dark:text-muted text-2xl lg:text-4xl 2xl:text-6xl text-center">{t.settings}</h2>
           </div>
 
           {/* Theme toggle - 1x1 */}
@@ -85,7 +85,7 @@ const SettingsPage: React.FC = () => {
                 `flex-1 flex items-center justify-center gap-2 rounded-xl px-3 py-2.5 font-semibold text-sm transition-colors duration-200
                 ${isActive
                   ? 'bg-primary/15 text-primary'
-                  : 'text-base dark:text-muted'
+                  : 'text-baseClr dark:text-muted'
                 }`
               }
             >
@@ -108,7 +108,7 @@ const SettingsPage: React.FC = () => {
                   `flex items-center gap-3 rounded-xl px-4 py-3 font-semibold text-base transition-colors duration-200 cursor-pointer
                   ${isActive
                     ? 'bg-primary/15 text-primary'
-                    : 'text-base dark:text-muted hover:bg-base/5 dark:hover:bg-base/50'
+                    : 'text-baseClr dark:text-muted hover:bg-baseClr/5 dark:hover:bg-baseClr/50'
                   }`
                 }
               >
@@ -118,8 +118,8 @@ const SettingsPage: React.FC = () => {
             ))}
 
             {/* Auto-save notice */}
-            <div className="mt-3 pt-3 border-t border-base/10 dark:border-muted/10">
-              <p className="text-base/40 dark:text-muted/30 text-xs text-center">
+            <div className="mt-3 pt-3 border-t border-baseClr/10 dark:border-muted/10">
+              <p className="text-baseClr/40 dark:text-muted/30 text-xs text-center">
                 {t.settingsSavedAutomatically}
               </p>
             </div>
@@ -134,7 +134,7 @@ const SettingsPage: React.FC = () => {
 
         {/* Auto-save notice - mobile only */}
         <div className="lg:hidden mt-3">
-          <p className="text-base/40 dark:text-muted/30 text-xs text-center">
+          <p className="text-baseClr/40 dark:text-muted/30 text-xs text-center">
             {t.settingsSavedAutomatically}
           </p>
         </div>

@@ -219,7 +219,7 @@ const CustomInfo: React.FC = () => {
                   {/* Sets setter */}
                   <div className='col-span-4 row-span-3 lg:col-span-8 lg:col-start-5 lg:row-start-8 lg:row-span-1 h-full rounded-3xl grid grid-cols-4 grid-rows-3 lg:flex items-stretch gap-3 lg:gap-5'>
                         <div className='col-span-4 lg:w-1/5 dark:bg-surfaceDark bg-surface rounded-3xl h-full flex items-center justify-center'>
-                              <p className="dark:text-muted text-base text-3xl lg:text-4xl font-black">{t.sets}</p>
+                              <p className="dark:text-muted text-baseClr text-3xl lg:text-4xl font-black">{t.sets}</p>
                         </div>
                         <div id="setsDownCustom"
                               className={`col-span-1 lg:w-1/5 dark:bg-surfaceDark bg-surface rounded-3xl h-full flex items-center justify-center
@@ -227,22 +227,22 @@ const CustomInfo: React.FC = () => {
                 ${minusClicked ? 'scale-animation' : ''}`}
                               onClick={handleSetsDown}
                         >
-                              <p className="dark:text-muted text-base text-3xl lg:text-5xl font-black">-</p>
+                              <p className="dark:text-muted text-baseClr text-3xl lg:text-5xl font-black">-</p>
                         </div>
                         <div className='col-span-2 lg:w-1/5 dark:bg-surfaceDark bg-surface rounded-3xl h-full flex items-center justify-center'>
-                              <p className="dark:text-muted text-base text-3xl lg:text-5xl font-black">{customTimerInfo.sets}</p>
+                              <p className="dark:text-muted text-baseClr text-3xl lg:text-5xl font-black">{customTimerInfo.sets}</p>
                         </div>
                         <div id='setsUpCustom' className={`col-span-1 lg:w-1/5 dark:bg-surfaceDark bg-surface rounded-3xl h-full flex items-center justify-center
                 hover:scale-105 transition-transform duration-200 cursor-pointer
                 ${plusClicked ? 'scale-animation' : ''}`}
                               onClick={handleSetsUp}
                         >
-                              <p className="dark:text-muted text-base text-3xl lg:text-5xl font-black">+</p>
+                              <p className="dark:text-muted text-baseClr text-3xl lg:text-5xl font-black">+</p>
                         </div>
                         <button id="add-button" className="col-span-4 lg:w-1/5 bg-primary rounded-3xl h-full w-full flex items-center justify-center
                               hover:scale-105 transition-transform duration-200 cursor-pointer"
                               onClick={showForm}>
-                              <p className="dark:text-surfaceDark text-base text-2xl lg:text-3xl font-black">
+                              <p className="dark:text-surfaceDark text-baseClr text-2xl lg:text-3xl font-black">
                                     {t.add}
                               </p>
                         </button>

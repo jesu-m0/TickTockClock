@@ -110,7 +110,7 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
-                                    className="text-surface dark:text-base h-12 w-12 mt-4 ml-4"
+                                    className="text-surface dark:text-baseClr h-12 w-12 mt-4 ml-4"
                               >
                                     <path d="M18 6 6 18" />
                                     <path d="m6 6 12 12" />
@@ -120,8 +120,8 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
                               <form onSubmit={handleAdd}>
                                     <div className="grid grid-cols-12 lg:gap-5 gap-3 lg:auto-rows-[100px] auto-rows-[10vh]">
                                           {/* Title */}
-                                          <div className="order-1 col-span-12 row-span-1 rounded-3xl content-center bg-surface dark:bg-base">
-                                                <p className="text-3xl lg:text-5xl font-black text-base dark:text-muted text-center">{t.createInterval}</p>
+                                          <div className="order-1 col-span-12 row-span-1 rounded-3xl content-center bg-surface dark:bg-baseClr">
+                                                <p className="text-3xl lg:text-5xl font-black text-baseClr dark:text-muted text-center">{t.createInterval}</p>
                                           </div>
 
                                           {/* Color Picker Section */}
@@ -160,7 +160,7 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
                                           </div>
                                           <button type="submit" className={`order-9 col-span-6 lg:col-span-4 row-span-1 bg-surface dark:bg-muted rounded-3xl flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer
                                                 ${isClickedAdd ? "scale-animation" : ""}`}>
-                                                <p className=" text-4xl lg:text-5xl text-base font-black">
+                                                <p className=" text-4xl lg:text-5xl text-baseClr font-black">
                                                       {t.add}
                                                 </p>
                                           </button>

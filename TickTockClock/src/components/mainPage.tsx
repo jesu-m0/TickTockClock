@@ -212,7 +212,7 @@ const MainPage: React.FC = () => {
                               {/* Start/Stop button - 2x1 */}
                               <div
                                     className={`col-span-2 lg:col-start-3 lg:row-start-7 h-full p-4 rounded-3xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer flex items-center justify-center
-                                    ${isPaused ? "dark:bg-muted bg-base" : "bg-secondary"}
+                                    ${isPaused ? "dark:bg-muted bg-baseClr" : "bg-secondary"}
                                     ${isClickedPause ? "scale-animation" : ""}
                                     ${simpleTimerInfo.currentAnimation === AnimationType.EMPTY_LAPS_DURATION ? "button-error-animation" : ""}`}
                                     onClick={handlePauseStart}
@@ -237,7 +237,7 @@ const MainPage: React.FC = () => {
                                           >
                                                 <path d="M32 32C14.3 32 0 46.3 0 64l0 96c0 17.7 14.3 32 32 32s32-14.3 32-32l0-64 64 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L32 32zM64 352c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 96c0 17.7 14.3 32 32 32l96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-64 0 0-64zM320 32c-17.7 0-32 14.3-32 32s14.3 32 32 32l64 0 0 64c0 17.7 14.3 32 32 32s32-14.3 32-32l0-96c0-17.7-14.3-32-32-32l-96 0zM448 352c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 64-64 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l96 0c17.7 0 32-14.3 32-32l0-96z" />
                                           </svg>
-                                          <p className={`font-bold dark:text-muted text-base text-3xl lg:text-5xl text-center transition-opacity duration-200
+                                          <p className={`font-bold dark:text-muted text-baseClr text-3xl lg:text-5xl text-center transition-opacity duration-200
                                                 ${showExpandLetters ? "opacity-100" : "opacity-0"}`}
                                           >
                                                 {t.expand}
@@ -281,7 +281,7 @@ const MainPage: React.FC = () => {
 
                                           {/*Title*/}
                                           <div className="px-4 flex-1 flex items-center justify-center">
-                                                <p className={`font-extrabold dark:text-muted text-base text-3xl lg:text-4xl text-center transition-colors duration-300`}>
+                                                <p className={`font-extrabold dark:text-muted text-baseClr text-3xl lg:text-4xl text-center transition-colors duration-300`}>
                                                       {t.simple}
                                                 </p>
                                           </div>
@@ -301,7 +301,7 @@ const MainPage: React.FC = () => {
                                     >
                                           {/*Title*/}
                                           <div className="px-4 flex-1 flex justify-center items-center">
-                                                <p className={`font-extrabold dark:text-muted text-base text-3xl lg:text-4xl text-center transition-colors duration-300`}>
+                                                <p className={`font-extrabold dark:text-muted text-baseClr text-3xl lg:text-4xl text-center transition-colors duration-300`}>
                                                       {t.custom}
                                                 </p>
                                           </div>
@@ -323,7 +323,7 @@ const MainPage: React.FC = () => {
 
                   {/*Signature*/}
                   <footer className="container mx-auto px-5 pb-5">
-                        <p className="text-base dark:text-muted text-xs md:text-sm text-center pointer-events-auto">
+                        <p className="text-baseClr dark:text-muted text-xs md:text-sm text-center pointer-events-auto">
                               {t.madeWith}{" "}
                               <a
                                     href="https://jmoreno.dev"

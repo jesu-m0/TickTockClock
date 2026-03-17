@@ -83,7 +83,7 @@ const IntervalCard = ({ interval, onDelete, onUpdate }: IntervalCardProps) => {
       return (
             <>
                   {/* Interval Card */}
-                  <div id={interval.id.toString()} className="bg-muted dark:bg-base rounded-xl p-2 flex flex-row gap-2">
+                  <div id={interval.id.toString()} className="bg-muted dark:bg-baseClr rounded-xl p-2 flex flex-row gap-2">
                         {/* Drag Handle */}
                         <div className={`flex items-center cursor-grab transition-opacity duration-200 ${showCardContent ? 'opacity-100' : 'opacity-0'}`}>
                               <svg width="24" height="24" viewBox="0 0 24 24" className="fill-base dark:fill-muted" xmlns="http://www.w3.org/2000/svg">
@@ -105,14 +105,14 @@ const IntervalCard = ({ interval, onDelete, onUpdate }: IntervalCardProps) => {
 
                                     {/* Interval Name */}
                                     <div className={`flex items-center transition-opacity duration-200 ${showCardContent ? 'opacity-100' : 'opacity-0'}`}>
-                                          <p className="font-extrabold dark:font-bold dark:text-muted text-base text-xl lg:text-2xl">{interval.name}</p>
+                                          <p className="font-extrabold dark:font-bold dark:text-muted text-baseClr text-xl lg:text-2xl">{interval.name}</p>
                                     </div>
                               </div>
 
                               <div className="flex gap-2 justify-between items-center">
                                     {/* Time */}
                                     <div className={`flex items-center bg-surface dark:bg-muted rounded-xl lg:rounded-2xl px-2 py-1 lg:px-4 lg:py-2 transition-opacity duration-200 ${showCardContent ? 'opacity-100' : 'opacity-0'}`}>
-                                          <p className="text-base dark:text-surfaceDark text-xl lg:text-2xl font-extrabold lg:font-extrabold">
+                                          <p className="text-baseClr dark:text-surfaceDark text-xl lg:text-2xl font-extrabold lg:font-extrabold">
                                                 {Math.floor(interval.duration / 60).toString().padStart(2, "0")}:
                                                 {(interval.duration % 60).toString().padStart(2, "0")}
                                           </p>
@@ -136,7 +136,7 @@ const IntervalCard = ({ interval, onDelete, onUpdate }: IntervalCardProps) => {
                                           </button>
 
                                           {/* Edit interval form */}
-                                          <div className={`dark:bg-base bg-muted z-10 transition-all
+                                          <div className={`dark:bg-baseClr bg-muted z-10 transition-all
                                                             ${isEditFormExpanded ? "rounded-none" : "rounded-3xl"}
                                                             ${openEditFormAnimation ?
                                                                   (isEditFormExpanded ? "duration-700" : "duration-100")
@@ -188,15 +188,15 @@ const IntervalCard = ({ interval, onDelete, onUpdate }: IntervalCardProps) => {
                   {/* Delete Confirmation Modal */}
                   {isDeleteModalOpen && (
                         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-lg">
-                              <div className="m-3 bg-surface dark:bg-base p-10 rounded-2xl shadow-lg max-w-md w-full">
-                                    <h2 className="text-base dark:text-muted text-4xl lg:text-5xl font-black mb-4">{t.areYouSure}</h2>
-                                    <p className="text-base/70 dark:text-muted/70 mb-6 text-xl font-bold dark:font-semibold">
+                              <div className="m-3 bg-surface dark:bg-baseClr p-10 rounded-2xl shadow-lg max-w-md w-full">
+                                    <h2 className="text-baseClr dark:text-muted text-4xl lg:text-5xl font-black mb-4">{t.areYouSure}</h2>
+                                    <p className="text-baseClr/70 dark:text-muted/70 mb-6 text-xl font-bold dark:font-semibold">
                                           {tf('deleteConfirmation', { name: interval.name })}
                                     </p>
                                     <div className="flex justify-evenly gap-4">
                                           <button
                                                 onClick={handleCloseModal}
-                                                className="px-8 py-4 bg-base dark:bg-muted text-surface dark:text-base rounded-2xl hover:bg-surfaceDark dark:hover:bg-surface transition-colors text-2xl font-bold"
+                                                className="px-8 py-4 bg-baseClr dark:bg-muted text-surface dark:text-baseClr rounded-2xl hover:bg-surfaceDark dark:hover:bg-surface transition-colors text-2xl font-bold"
                                           >
                                                 {t.cancel}
                                           </button>

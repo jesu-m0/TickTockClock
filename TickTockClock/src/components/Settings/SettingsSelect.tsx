@@ -31,7 +31,7 @@ const SettingsSelect: React.FC<SettingsSelectProps> = ({ label, value, options, 
 
   return (
     <div className="flex flex-col gap-2">
-      <p className="font-bold text-base dark:text-muted text-sm lg:text-base">
+      <p className="font-bold text-baseClr dark:text-muted text-sm lg:text-base">
         {label}
       </p>
       <div className="flex gap-2">
@@ -41,11 +41,11 @@ const SettingsSelect: React.FC<SettingsSelectProps> = ({ label, value, options, 
             type="button"
             onClick={() => setIsOpen(!isOpen)}
             className="w-full flex items-center justify-between rounded-xl px-4 py-2.5
-              bg-base/10 dark:bg-base
-              text-base dark:text-muted
+              bg-baseClr/10 dark:bg-baseClr
+              text-baseClr dark:text-muted
               font-semibold text-sm lg:text-base
               cursor-pointer transition-colors duration-200
-              hover:bg-base/15 dark:hover:bg-base/80"
+              hover:bg-baseClr/15 dark:hover:bg-baseClr/80"
           >
             <span>{selectedLabel}</span>
             <svg
@@ -61,8 +61,8 @@ const SettingsSelect: React.FC<SettingsSelectProps> = ({ label, value, options, 
           {/* Options list */}
           {isOpen && (
             <div className="absolute z-20 mt-1 w-full rounded-xl overflow-hidden shadow-lg
-              bg-surface dark:bg-base
-              border border-base/10 dark:border-muted/10">
+              bg-surface dark:bg-baseClr
+              border border-baseClr/10 dark:border-muted/10">
               {options.map((opt) => (
                 <button
                   key={opt.value}
@@ -76,7 +76,7 @@ const SettingsSelect: React.FC<SettingsSelectProps> = ({ label, value, options, 
                     cursor-pointer transition-colors duration-150
                     ${opt.value === value
                       ? 'bg-primary/20 text-primary'
-                      : 'text-base dark:text-muted hover:bg-base/5 dark:hover:bg-surfaceDark/50'
+                      : 'text-baseClr dark:text-muted hover:bg-baseClr/5 dark:hover:bg-surfaceDark/50'
                     }`}
                 >
                   {opt.label}
@@ -91,7 +91,7 @@ const SettingsSelect: React.FC<SettingsSelectProps> = ({ label, value, options, 
           <button
             type="button"
             onClick={() => onPreview(value)}
-            className="shrink-0 w-10 h-10 rounded-xl bg-base/10 dark:bg-base
+            className="shrink-0 w-10 h-10 rounded-xl bg-baseClr/10 dark:bg-baseClr
               flex items-center justify-center cursor-pointer
               hover:scale-105 transition-transform duration-200"
           >

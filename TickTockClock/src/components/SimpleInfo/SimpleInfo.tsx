@@ -281,7 +281,7 @@ const SimpleInfo: React.FC = () => {
                   {/* Sets setter - mobile: 4x2, desktop: 8x1 */}
                   <div className='col-span-4 row-span-2 lg:col-span-8 lg:col-start-5 lg:row-start-8 lg:row-span-1 h-full rounded-3xl grid grid-cols-4 grid-rows-2 lg:flex items-center gap-3 lg:gap-5'>
                         <div className='col-span-4 lg:w-2/5 dark:bg-surfaceDark bg-surface rounded-3xl h-full flex items-center justify-center'>
-                              <p className="dark:text-muted text-base text-3xl lg:text-4xl font-black">{t.sets}</p>
+                              <p className="dark:text-muted text-baseClr text-3xl lg:text-4xl font-black">{t.sets}</p>
                         </div>
                         <div
                               className={`col-span-1 lg:w-1/5 dark:bg-surfaceDark bg-surface rounded-3xl h-full flex items-center justify-center
@@ -289,10 +289,10 @@ const SimpleInfo: React.FC = () => {
                                     ${minusClicked ? 'scale-animation' : ''}`}
                               onClick={handleSetsDown}
                         >
-                              <p className="dark:text-muted text-base text-3xl lg:text-5xl font-black">-</p>
+                              <p className="dark:text-muted text-baseClr text-3xl lg:text-5xl font-black">-</p>
                         </div>
                         <div className='col-span-2 lg:w-1/5 dark:bg-surfaceDark bg-surface rounded-3xl h-full flex items-center justify-center'>
-                              <p className="dark:text-muted text-base text-3xl lg:text-5xl font-black">{simpleTimerInfo.sets}</p>
+                              <p className="dark:text-muted text-baseClr text-3xl lg:text-5xl font-black">{simpleTimerInfo.sets}</p>
                         </div>
                         <div
                               className={`col-span-1 lg:w-1/5 dark:bg-surfaceDark bg-surface rounded-3xl h-full flex items-center justify-center
@@ -300,7 +300,7 @@ const SimpleInfo: React.FC = () => {
                                     ${plusClicked ? 'scale-animation' : ''}`}
                               onClick={handleSetsUp}
                         >
-                              <p className="dark:text-muted text-base text-3xl lg:text-5xl font-black">+</p>
+                              <p className="dark:text-muted text-baseClr text-3xl lg:text-5xl font-black">+</p>
                         </div>
                   </div>
             </>

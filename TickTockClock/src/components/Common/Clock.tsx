@@ -373,9 +373,9 @@ const Clock: React.FC = () => {
                         {/* Keyboard shortcuts button */}
                         <button
                               onClick={() => setShowShortcuts(!showShortcuts)}
-                              className="absolute top-4 left-4 z-10 w-10 h-10 lg:w-12 lg:h-12 flex items-center justify-center rounded-xl hover:scale-110 hover:bg-base/10 dark:hover:bg-surfaceDark/20 transition-all duration-200 cursor-pointer"
+                              className="absolute top-4 left-4 z-10 w-10 h-10 lg:w-12 lg:h-12 flex items-center justify-center rounded-xl hover:scale-110 hover:bg-baseClr/10 dark:hover:bg-surfaceDark/20 transition-all duration-200 cursor-pointer"
                         >
-                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 lg:w-6 lg:h-6 text-base/30 dark:text-surfaceDark/40">
+                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 lg:w-6 lg:h-6 text-baseClr/30 dark:text-surfaceDark/40">
                                     <rect x="2" y="4" width="20" height="16" rx="2" />
                                     <path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M8 12h.01M12 12h.01M16 12h.01M8 16h8" />
                               </svg>
@@ -383,7 +383,7 @@ const Clock: React.FC = () => {
 
                         {/* Shortcuts card */}
                         {showShortcuts && (
-                              <div className="absolute top-14 left-4 lg:top-16 z-20 bg-base dark:bg-surfaceDark text-surface dark:text-muted rounded-2xl p-4 shadow-lg min-w-[180px]">
+                              <div className="absolute top-14 left-4 lg:top-16 z-20 bg-baseClr dark:bg-surfaceDark text-surface dark:text-muted rounded-2xl p-4 shadow-lg min-w-[180px]">
                                     <div className="flex justify-between items-center mb-3">
                                           <p className="font-bold text-sm lg:text-base">{t.shortcuts}</p>
                                           <button
@@ -414,12 +414,12 @@ const Clock: React.FC = () => {
                         )}
 
                         <div className="p-4 h-full flex flex-col justify-center items-center">
-                              <TimeDigits value={formatTime(time)} className="font-black text-base dark:text-surfaceDark text-6xl md:text-8xl xl:text-9xl text-center" />
+                              <TimeDigits value={formatTime(time)} className="font-black text-baseClr dark:text-surfaceDark text-6xl md:text-8xl xl:text-9xl text-center" />
                               <div className="flex px-8 w-full">
-                                    <p className="font-medium text-base dark:text-surfaceDark text-lg text-center w-1/2">
+                                    <p className="font-medium text-baseClr dark:text-surfaceDark text-lg text-center w-1/2">
                                           {t.min}
                                     </p>
-                                    <p className="font-medium text-base dark:text-surfaceDark text-lg text-center w-1/2">
+                                    <p className="font-medium text-baseClr dark:text-surfaceDark text-lg text-center w-1/2">
                                           {t.sec}
                                     </p>
                               </div>
@@ -495,7 +495,7 @@ const Clock: React.FC = () => {
 
                               </>
                         )}
-                        <p className="font-bold dark:text-muted text-base text-3xl lg:text-5xl text-center relative z-10">
+                        <p className="font-bold dark:text-muted text-baseClr text-3xl lg:text-5xl text-center relative z-10">
                               {isSimpleMode ? simpleTimerInfo.remainingSets : customTimerInfo.remainingSets}
                         </p>
                   </div>

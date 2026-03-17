@@ -14,6 +14,18 @@ const themeColors: Record<ColorTheme, { primary: string; secondary: string; surf
     surface: '#FFFFFF',
     surfaceDark: '#153736',
   },
+  coral: {
+    primary: '#4ECDC4',
+    secondary: '#FF6B6B',
+    surface: '#F7FFF7',
+    surfaceDark: '#1A535C',
+  },
+  midnightRose: {
+    primary: '#6B9AC4',
+    secondary: '#8B1E3F',
+    surface: '#FDF5BF',
+    surfaceDark: '#033F63',
+  },
 };
 
 /**
