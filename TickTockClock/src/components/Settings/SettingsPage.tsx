@@ -76,13 +76,13 @@ const SettingsPage: React.FC = () => {
         </div>
 
         {/* ===== MOBILE TAB BAR ===== */}
-        <div className="lg:hidden mt-3 rounded-3xl bg-surface dark:bg-surfaceDark p-2 flex gap-1 overflow-x-auto snap-x snap-mandatory scrollbar-hide">
+        <div className="lg:hidden mt-3 rounded-3xl bg-surface dark:bg-surfaceDark p-2 flex gap-1">
           {navItems.map((item) => (
             <NavLink
               key={item.to}
               to={item.to}
               className={({ isActive }) =>
-                `shrink-0 flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 font-semibold text-sm transition-colors duration-200 snap-start
+                `flex-1 flex items-center justify-center gap-2 rounded-xl px-3 py-2.5 font-semibold text-sm transition-colors duration-200
                 ${isActive
                   ? 'bg-primary/15 text-primary'
                   : 'text-baseClr dark:text-muted'
@@ -96,10 +96,10 @@ const SettingsPage: React.FC = () => {
         </div>
 
         {/* ===== SIDEBAR + CONTENT ===== */}
-        <div className="flex gap-3 lg:gap-5 mt-3 lg:mt-5">
+        <div className="grid grid-cols-4 lg:grid-cols-12 gap-3 lg:gap-5 mt-3 lg:mt-5">
 
           {/* Sidebar - desktop only */}
-          <div className="hidden lg:flex shrink-0 w-56 rounded-3xl bg-surface dark:bg-surfaceDark p-3 flex-col gap-1 self-start">
+          <div className="hidden lg:flex lg:col-span-3 rounded-3xl bg-surface dark:bg-surfaceDark p-3 flex-col gap-1 self-start">
             {navItems.map((item) => (
               <NavLink
                 key={item.to}
@@ -126,7 +126,7 @@ const SettingsPage: React.FC = () => {
           </div>
 
           {/* Content */}
-          <div className="flex-1 min-w-0">
+          <div className="col-span-4 lg:col-span-9 min-w-0">
             <Outlet />
           </div>
 

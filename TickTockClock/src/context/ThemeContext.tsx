@@ -7,6 +7,7 @@ interface ThemeContextType {
     setDarkMode: (isDark: boolean) => void;
     colorTheme: ColorTheme;
     setColorTheme: (theme: ColorTheme) => void;
+    resetTheme: () => void;
 }
 
 const THEME_STORAGE_KEY = 'ticktockclock_theme';
@@ -58,8 +59,13 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         document.documentElement.setAttribute('data-color-theme', colorTheme);
     }, [colorTheme]);
 
+    const resetTheme = () => {
+        setDarkMode(true);
+        setColorTheme('default');
+    };
+
     return (
-        <ThemeContext.Provider value={{ isDarkMode, setDarkMode, colorTheme, setColorTheme }}>
+        <ThemeContext.Provider value={{ isDarkMode, setDarkMode, colorTheme, setColorTheme, resetTheme }}>
             {children}
         </ThemeContext.Provider>
     );

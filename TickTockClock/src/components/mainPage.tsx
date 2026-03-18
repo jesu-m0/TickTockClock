@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import Header from "./Common/Header.tsx";
 import Clock from "./Common/Clock.tsx";
 import "./mainPage.css";
@@ -9,6 +9,7 @@ import { useClockStatus } from "../context/ClockContext";
 import ExpandedContent from "./Common/ExpandedContent.tsx";
 import { initializeAudioContext } from "../utils/soundNotification";
 import { useTranslation } from "../i18n/useTranslation";
+import { useErrorAnimation } from "../hooks/useErrorAnimation";
 
 const MainPage: React.FC = () => {
       const { t } = useTranslation();
@@ -26,6 +27,13 @@ const MainPage: React.FC = () => {
             width: 0,
             height: 0,
       });
+
+      // Error animations (replaces direct DOM manipulation)
+      const [resetButtonError, triggerResetButtonError] = useErrorAnimation();
+      const [modeSelectionError, triggerModeSelectionError] = useErrorAnimation();
+
+      // Ref for expand button position
+      const expandButtonRef = useRef<HTMLButtonElement>(null);
 
       //Change mode
 
@@ -59,20 +67,8 @@ const MainPage: React.FC = () => {
             if (clockStatus !== ClockStatus.PAUSED && clockStatus !== ClockStatus.RUNNING) {
                   setIsSimpleMode(true);
             } else {
-                  const resetButton = document.getElementById("resetButton");
-                  if (resetButton) {
-                        resetButton.classList.add("button-error-animation");
-                        setTimeout(() => {
-                              resetButton.classList.remove("button-error-animation");
-                        }, 300); // Remove the class after 300ms
-                  }
-                  const modeSelection = document.getElementById("modeSelection");
-                  if (modeSelection) {
-                        modeSelection.classList.add("button-error-animation");
-                        setTimeout(() => {
-                              modeSelection.classList.remove("button-error-animation");
-                        }, 300)
-                  }
+                  triggerResetButtonError();
+                  triggerModeSelectionError();
             }
       };
 
@@ -80,20 +76,8 @@ const MainPage: React.FC = () => {
             if (clockStatus !== ClockStatus.PAUSED && clockStatus !== ClockStatus.RUNNING) {
                   setIsSimpleMode(false);
             } else {
-                  const resetButton = document.getElementById("resetButton");
-                  if (resetButton) {
-                        resetButton.classList.add("button-error-animation");
-                        setTimeout(() => {
-                              resetButton.classList.remove("button-error-animation");
-                        }, 300); // Remove the class after 300ms
-                  }
-                  const modeSelection = document.getElementById("modeSelection");
-                  if (modeSelection) {
-                        modeSelection.classList.add("button-error-animation");
-                        setTimeout(() => {
-                              modeSelection.classList.remove("button-error-animation");
-                        }, 300)
-                  }
+                  triggerResetButtonError();
+                  triggerModeSelectionError();
             }
       };
 
@@ -143,7 +127,7 @@ const MainPage: React.FC = () => {
             setTimeout(() => {
                   setShowExpandLetters(false); // 200ms "Expand" disappear animation
                   setOpenAnimation(true);
-                  const button = document.getElementById("expand-button");
+                  const button = expandButtonRef.current;
 
                   if (button) {
                         const rect = button.getBoundingClientRect();
@@ -197,9 +181,10 @@ const MainPage: React.FC = () => {
                               <Clock />
 
                               {/* Reset button - 2x1 */}
-                              <div id="resetButton"
+                              <div
                                     className={`col-span-2 lg:col-start-1 lg:row-start-7 h-full bg-tertiary p-4 rounded-3xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer flex items-center justify-center
                                     ${isClickedReset ? "scale-animation" : ""}
+                                    ${resetButtonError ? "button-error-animation" : ""}
                                     ${simpleTimerInfo.currentAnimation === AnimationType.ALREADY_RESET ? "button-error-animation" : ""}
                                     ${simpleTimerInfo.currentAnimation === AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_NOT_00 ? "button-error-animation" : ""}`}
                                     onClick={handleReset}
@@ -225,7 +210,7 @@ const MainPage: React.FC = () => {
                               {/* Expand button - 4x1 */}
                               <div className="col-span-4 lg:col-start-1 lg:row-start-8 h-full relative">
                                     <button
-                                          id="expand-button"
+                                          ref={expandButtonRef}
                                           className="h-full w-full bg-surface dark:bg-surfaceDark p-4 rounded-3xl flex justify-center items-center hover:scale-105 transition-transform duration-200 cursor-pointer"
                                           onClick={expand}
                                     >
@@ -274,7 +259,7 @@ const MainPage: React.FC = () => {
                               {/* ===== SETTINGS SECTION (rows 2-8, cols 5-12) ===== */}
 
                               {/* Mode selection - 8x1 */}
-                              <div id="modeSelection" className="col-span-4 lg:col-span-8 lg:col-start-5 lg:row-start-2 h-full flex">
+                              <div className={`col-span-4 lg:col-span-8 lg:col-start-5 lg:row-start-2 h-full flex ${modeSelectionError ? "button-error-animation" : ""}`}>
                                     {/*Simple btn*/}
                                     <div className="w-1/2 h-full rounded-3xl dark:bg-surfaceDark bg-surface cursor-pointer flex flex-col overflow-hidden"
                                           onClick={changeToSimple}>
@@ -317,7 +302,7 @@ const MainPage: React.FC = () => {
                               </div>
 
                               {/* Work/Rest or Interval pool + Sets setter */}
-                              {isSimpleMode ? <SimpleInfo /> : <CustomInfo />}
+                              {isSimpleMode ? <SimpleInfo /> : <CustomInfo onResetButtonError={triggerResetButtonError} />}
                         </div>
                   </div>
 

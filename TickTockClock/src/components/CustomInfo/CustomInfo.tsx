@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import './CustomInfo.css';
 import { useClockStatus } from '../../context/ClockContext';
 import IntervalCard from './IntervalCard';
@@ -8,8 +8,13 @@ import { UUIDTypes } from 'uuid';
 import { Interval } from '../../types/CustomTimerInfo';
 import { ClockStatus } from '../../types';
 import { useTranslation } from '../../i18n/useTranslation';
+import { useErrorAnimation } from '../../hooks/useErrorAnimation';
 
-const CustomInfo: React.FC = () => {
+interface CustomInfoProps {
+      onResetButtonError: () => void;
+}
+
+const CustomInfo: React.FC<CustomInfoProps> = ({ onResetButtonError }) => {
       const { t } = useTranslation();
 
       const {
@@ -22,22 +27,19 @@ const CustomInfo: React.FC = () => {
       const [plusClicked, setPlusClicked] = useState(false);
       const [minusClicked, setMinusClicked] = useState(false);
 
+      // Error animations (replaces direct DOM manipulation)
+      const [setsUpError, triggerSetsUpError] = useErrorAnimation();
+      const [setsDownError, triggerSetsDownError] = useErrorAnimation();
+      const [addButtonError, triggerAddButtonError] = useErrorAnimation();
+      const [intervalsContainerError, triggerIntervalsContainerError] = useErrorAnimation();
+
+      // Ref for add button position (expand animation)
+      const addButtonRef = useRef<HTMLButtonElement>(null);
+
       const handleSetsUp = () => {
             if (clockStatus == ClockStatus.RUNNING || clockStatus == ClockStatus.PAUSED) {
-                  const setsUpCustom = document.getElementById("setsUpCustom");
-                  if (setsUpCustom) {
-                        setsUpCustom.classList.add("button-error-animation");
-                        setTimeout(() => {
-                              setsUpCustom.classList.remove("button-error-animation");
-                        }, 300);
-                  }
-                  const resetButton = document.getElementById("resetButton");
-                  if (resetButton) {
-                        resetButton.classList.add("button-error-animation");
-                        setTimeout(() => {
-                              resetButton.classList.remove("button-error-animation");
-                        }, 300);
-                  }
+                  triggerSetsUpError();
+                  onResetButtonError();
             } else {
                   setCustomTimerInfo({ ...customTimerInfo, sets: customTimerInfo.sets + 1 })
                   setPlusClicked(true);
@@ -47,20 +49,8 @@ const CustomInfo: React.FC = () => {
 
       const handleSetsDown = () => {
             if (clockStatus == ClockStatus.RUNNING || clockStatus == ClockStatus.PAUSED) {
-                  const setsDownCustom = document.getElementById("setsDownCustom");
-                  if (setsDownCustom) {
-                        setsDownCustom.classList.add("button-error-animation");
-                        setTimeout(() => {
-                              setsDownCustom.classList.remove("button-error-animation");
-                        }, 300);
-                  }
-                  const resetButton = document.getElementById("resetButton");
-                  if (resetButton) {
-                        resetButton.classList.add("button-error-animation");
-                        setTimeout(() => {
-                              resetButton.classList.remove("button-error-animation");
-                        }, 300);
-                  }
+                  triggerSetsDownError();
+                  onResetButtonError();
             } else {
                   if (customTimerInfo.sets > 1) {
                         setCustomTimerInfo({ ...customTimerInfo, sets: customTimerInfo.sets - 1 });
@@ -95,25 +85,13 @@ const CustomInfo: React.FC = () => {
 
       const showForm = () => {
             if (clockStatus == ClockStatus.RUNNING || clockStatus == ClockStatus.PAUSED) {
-                  const addButton = document.getElementById("add-button");
-                  if (addButton) {
-                        addButton.classList.add("button-error-animation");
-                        setTimeout(() => {
-                              addButton.classList.remove("button-error-animation");
-                        }, 300);
-                  }
-                  const resetButton = document.getElementById("resetButton");
-                  if (resetButton) {
-                        resetButton.classList.add("button-error-animation");
-                        setTimeout(() => {
-                              resetButton.classList.remove("button-error-animation");
-                        }, 300);
-                  }
+                  triggerAddButtonError();
+                  onResetButtonError();
             } else {
                   setTimeout(() => {
                         setShowAddLetters(false);
                         setOpenFormAnimation(true);
-                        const button = document.getElementById("add-button");
+                        const button = addButtonRef.current;
                         if (button) {
                               const rect = button.getBoundingClientRect();
                               setFormButtonPosition({
@@ -147,27 +125,15 @@ const CustomInfo: React.FC = () => {
       };
 
       const errorDragDrop = () => {
-            const intervalsContainer = document.getElementById("intervalsContainer");
-            if (intervalsContainer) {
-                  intervalsContainer.classList.add("button-error-animation");
-                  setTimeout(() => {
-                        intervalsContainer.classList.remove("button-error-animation");
-                  }, 300);
-            }
-            const resetButton = document.getElementById("resetButton");
-            if (resetButton) {
-                  resetButton.classList.add("button-error-animation");
-                  setTimeout(() => {
-                        resetButton.classList.remove("button-error-animation");
-                  }, 300);
-            }
+            triggerIntervalsContainerError();
+            onResetButtonError();
       }
 
       return (
             <>
                   {/* Interval pool - 8x5 */}
                   {clockStatus === ClockStatus.RUNNING || clockStatus === ClockStatus.PAUSED ? (
-                        <div id="intervalsContainer" onClick={errorDragDrop} className="col-span-4 row-span-6 lg:col-span-8 lg:col-start-5 lg:row-start-3 lg:row-span-5 h-full rounded-3xl bg-surface dark:bg-surfaceDark px-4 py-6">
+                        <div onClick={errorDragDrop} className={`col-span-4 row-span-6 lg:col-span-8 lg:col-start-5 lg:row-start-3 lg:row-span-5 h-full rounded-3xl bg-surface dark:bg-surfaceDark px-4 py-6 ${intervalsContainerError ? "button-error-animation" : ""}`}>
                               <div className="overflow-y-auto flex flex-col gap-2 h-full pr-2">
                                     {customTimerInfo.intervals.map((interval, index) => (
                                           <div key={index}>
@@ -221,10 +187,11 @@ const CustomInfo: React.FC = () => {
                         <div className='col-span-4 lg:w-1/5 dark:bg-surfaceDark bg-surface rounded-3xl h-full flex items-center justify-center'>
                               <p className="dark:text-muted text-baseClr text-3xl lg:text-4xl font-black">{t.sets}</p>
                         </div>
-                        <div id="setsDownCustom"
+                        <div
                               className={`col-span-1 lg:w-1/5 dark:bg-surfaceDark bg-surface rounded-3xl h-full flex items-center justify-center
                 hover:scale-105 transition-transform duration-200 cursor-pointer
-                ${minusClicked ? 'scale-animation' : ''}`}
+                ${minusClicked ? 'scale-animation' : ''}
+                ${setsDownError ? 'button-error-animation' : ''}`}
                               onClick={handleSetsDown}
                         >
                               <p className="dark:text-muted text-baseClr text-3xl lg:text-5xl font-black">-</p>
@@ -232,15 +199,16 @@ const CustomInfo: React.FC = () => {
                         <div className='col-span-2 lg:w-1/5 dark:bg-surfaceDark bg-surface rounded-3xl h-full flex items-center justify-center'>
                               <p className="dark:text-muted text-baseClr text-3xl lg:text-5xl font-black">{customTimerInfo.sets}</p>
                         </div>
-                        <div id='setsUpCustom' className={`col-span-1 lg:w-1/5 dark:bg-surfaceDark bg-surface rounded-3xl h-full flex items-center justify-center
+                        <div className={`col-span-1 lg:w-1/5 dark:bg-surfaceDark bg-surface rounded-3xl h-full flex items-center justify-center
                 hover:scale-105 transition-transform duration-200 cursor-pointer
-                ${plusClicked ? 'scale-animation' : ''}`}
+                ${plusClicked ? 'scale-animation' : ''}
+                ${setsUpError ? 'button-error-animation' : ''}`}
                               onClick={handleSetsUp}
                         >
                               <p className="dark:text-muted text-baseClr text-3xl lg:text-5xl font-black">+</p>
                         </div>
-                        <button id="add-button" className="col-span-4 lg:w-1/5 bg-primary rounded-3xl h-full w-full flex items-center justify-center
-                              hover:scale-105 transition-transform duration-200 cursor-pointer"
+                        <button ref={addButtonRef} className={`col-span-4 lg:w-1/5 bg-primary rounded-3xl h-full w-full flex items-center justify-center
+                              hover:scale-105 transition-transform duration-200 cursor-pointer ${addButtonError ? "button-error-animation" : ""}`}
                               onClick={showForm}>
                               <p className="dark:text-surfaceDark text-baseClr text-2xl lg:text-3xl font-black">
                                     {t.add}

@@ -36,6 +36,8 @@ interface ClockContextType {
       // Custom mode configuration
       customTimerInfo: CustomTimerInfo
       setCustomTimerInfo: (customTimerInfo: CustomTimerInfo) => void;
+
+      resetClock: () => void;
 }
 
 const ClockContext = createContext<ClockContextType | undefined>(undefined);
@@ -125,6 +127,30 @@ export const ClockProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             }
       }, [customTimerInfo.intervals, customTimerInfo.sets]);
 
+      const resetClock = () => {
+            setClockStatus(ClockStatus.ZERO);
+            setTime(0);
+            setIsPaused(true);
+            setReset(false);
+            setIsSimpleMode(true);
+            setSimpleTimerInfo({
+                  workLapDuration: 0,
+                  restLapDuration: 0,
+                  sets: 1,
+                  remainingSets: 1,
+                  isWorkLap: true,
+                  currentAnimation: AnimationType.NONE,
+            });
+            setIsAlternate(false);
+            setCustomTimerInfo({
+                  intervals: defaultIntervals,
+                  sets: 1,
+                  currentAnimation: AnimationType.NONE,
+                  remainingIntervals: [],
+                  remainingSets: 1,
+            });
+      };
+
       return (
             <ClockContext.Provider value={{
                   clockStatus,
@@ -142,7 +168,8 @@ export const ClockProvider: React.FC<{ children: React.ReactNode }> = ({ childre
                   isAlternate,
                   setIsAlternate,
                   customTimerInfo,
-                  setCustomTimerInfo
+                  setCustomTimerInfo,
+                  resetClock
             }}>
                   {children}
             </ClockContext.Provider>

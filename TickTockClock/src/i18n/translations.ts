@@ -74,6 +74,8 @@ export const translations = {
     // Settings - Advanced
     advanced: 'Advanced',
     clearCacheData: 'Clear Cache / Data',
+    clearDataConfirmation: 'This will reset all settings, timers, theme, and audio to their default values.',
+    confirm: 'Confirm',
     version: 'Version',
   },
 
@@ -152,6 +154,8 @@ export const translations = {
     // Settings - Advanced
     advanced: 'Avanzado',
     clearCacheData: 'Borrar caché / datos',
+    clearDataConfirmation: 'Esto restablecerá todos los ajustes, temporizadores, tema y audio a sus valores predeterminados.',
+    confirm: 'Confirmar',
     version: 'Versión',
   },
 
@@ -230,6 +234,8 @@ export const translations = {
     // Settings - Advanced
     advanced: 'Erweitert',
     clearCacheData: 'Cache / Daten löschen',
+    clearDataConfirmation: 'Dadurch werden alle Einstellungen, Timer, Themen und Audio auf die Standardwerte zurückgesetzt.',
+    confirm: 'Bestätigen',
     version: 'Version',
   },
 } as const;

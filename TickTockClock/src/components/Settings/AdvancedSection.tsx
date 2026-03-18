@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import SettingsCard from './SettingsCard';
 import { useSettings } from '../../context/SettingsContext';
+import { useTheme } from '../../context/ThemeContext';
+import { useClockStatus } from '../../context/ClockContext';
 import { useTranslation } from '../../i18n/useTranslation';
 import { version } from '../../../package.json';
 
@@ -18,26 +20,65 @@ const TrashIcon = () => (
 
 const AdvancedSection: React.FC = () => {
   const { clearAllData } = useSettings();
+  const { resetTheme } = useTheme();
+  const { resetClock } = useClockStatus();
   const { t } = useTranslation();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleClearData = () => {
+    clearAllData();
+    resetTheme();
+    resetClock();
+    setIsModalOpen(false);
+  };
 
   return (
-    <SettingsCard title={t.advanced} icon={<GearIcon />}>
-      <button
-        onClick={clearAllData}
-        className="w-full flex items-center justify-center gap-3 rounded-xl px-4 py-3
-          border-2 border-secondary/40
-          hover:scale-[1.02] transition-transform duration-200 cursor-pointer"
-      >
-        <TrashIcon />
-        <span className="font-bold text-secondary text-sm lg:text-base">
-          {t.clearCacheData}
-        </span>
-      </button>
+    <>
+      <SettingsCard title={t.advanced} icon={<GearIcon />}>
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="w-full flex items-center justify-center gap-3 rounded-xl px-4 py-3
+            border-2 border-secondary/40
+            hover:scale-[1.02] transition-transform duration-200 cursor-pointer"
+        >
+          <TrashIcon />
+          <span className="font-bold text-secondary text-sm lg:text-base">
+            {t.clearCacheData}
+          </span>
+        </button>
 
-      <p className="text-baseClr/40 dark:text-muted/30 text-xs text-right italic">
-        {t.version} {version}
-      </p>
-    </SettingsCard>
+        <p className="text-baseClr/40 dark:text-muted/30 text-xs text-right italic">
+          {t.version} {version}
+        </p>
+      </SettingsCard>
+
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-lg">
+          <div className="m-3 bg-surface dark:bg-baseClr p-10 rounded-2xl shadow-lg max-w-md w-full">
+            <h2 className="text-baseClr dark:text-muted text-4xl lg:text-5xl font-black mb-4">
+              {t.areYouSure}
+            </h2>
+            <p className="text-baseClr/70 dark:text-muted/70 mb-6 text-xl font-bold dark:font-semibold">
+              {t.clearDataConfirmation}
+            </p>
+            <div className="flex justify-evenly gap-4">
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="px-8 py-4 bg-baseClr dark:bg-muted text-surface dark:text-baseClr rounded-2xl hover:bg-surfaceDark dark:hover:bg-surface transition-colors text-2xl font-bold"
+              >
+                {t.cancel}
+              </button>
+              <button
+                onClick={handleClearData}
+                className="px-8 py-4 bg-secondary text-white rounded-2xl hover:bg-red-700 transition-colors text-2xl font-bold"
+              >
+                {t.confirm}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
