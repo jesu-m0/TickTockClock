@@ -9,12 +9,15 @@ export interface Interval {
       name: string; // Interval type (e.g., "work", "rest", "cooldown")
 }
 
-/** Configuration and state of a custom workout timer */
-export interface CustomTimerInfo {
+/** Configuration set by the user — does not change while the timer runs */
+export interface CustomTimerConfig {
       intervals: Interval[]; // Workout intervals sequence
       sets: number; // Number of sets to repeat
+}
+
+/** Runtime state that changes as the timer progresses */
+export interface CustomTimerState {
       currentAnimation: AnimationType; // Current animation state
-      
-      remainingSets: number; //Sets remaaining
+      remainingSets: number; // Sets remaining
       remainingIntervals: Interval[]; // Intervals left in the current set
 }

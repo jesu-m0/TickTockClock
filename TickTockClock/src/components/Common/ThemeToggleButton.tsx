@@ -23,7 +23,7 @@ const ThemeToggleButton: React.FC = () => {
   };
 
   return (
-    <div
+    <button
       className="col-span-1 lg:col-start-12 lg:row-start-1 w-[60px] h-[60px] lg:w-[80px] lg:h-[80px] mx-auto rounded-full bg-surfaceDark flex justify-center items-center cursor-pointer"
       onClick={handleToggle}
     >
@@ -47,7 +47,7 @@ const ThemeToggleButton: React.FC = () => {
               </svg>
 
             )}
-    </div>
+    </button>
   );
 };
 

@@ -3,6 +3,7 @@ import './SimpleInfo.css';
 import { AnimationType, ClockStatus } from '../../types';
 import { useClockStatus } from '../../context/ClockContext';
 import { useTranslation } from '../../i18n/useTranslation';
+import { formatTime } from '../../utils/formatTime';
 import TimeDigits from '../Common/TimeDigits';
 
 export interface WorkDurationButton {
@@ -15,8 +16,10 @@ export interface WorkDurationButton {
 
 const SimpleInfo: React.FC = () => {
       const {
-            simpleTimerInfo,
-            setSimpleTimerInfo,
+            simpleTimerConfig,
+            setSimpleTimerConfig,
+            simpleTimerState,
+            setSimpleTimerState,
             clockStatus
       } = useClockStatus();
       const { t } = useTranslation();
@@ -56,11 +59,8 @@ const SimpleInfo: React.FC = () => {
       const [minusClicked, setMinusClicked] = useState(false);
 
       const handleWorkDurationUp = (seconds: number, buttonId: string) => {
-
-            console.log('Current clockStatus:', clockStatus);
-
             if (clockStatus === ClockStatus.ZERO || clockStatus === ClockStatus.READY) {
-                  setSimpleTimerInfo({ ...simpleTimerInfo, workLapDuration: simpleTimerInfo.workLapDuration + seconds });
+                  setSimpleTimerConfig(prev => ({ ...prev, workLapDuration: prev.workLapDuration + seconds }));
 
                   // Update only the clicked button's state
                   setWorkUpButtons(prev => prev.map(button => ({
@@ -78,15 +78,14 @@ const SimpleInfo: React.FC = () => {
 
             } else if (clockStatus === ClockStatus.RUNNING || clockStatus === ClockStatus.PAUSED) {
                   setButtonDoAnimation(buttonId);
-                  setSimpleTimerInfo({ ...simpleTimerInfo, currentAnimation: AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_NOT_00 })
-                  console.log(AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_NOT_00);
+                  setSimpleTimerState(prev => ({ ...prev, currentAnimation: AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_NOT_00 }));
 
             }
       };
 
       const handleWorkDurationDown = (seconds: number, buttonId: string) => {
             if (clockStatus === ClockStatus.ZERO || clockStatus === ClockStatus.READY) {
-                  setSimpleTimerInfo({ ...simpleTimerInfo, workLapDuration: Math.max(0, simpleTimerInfo.workLapDuration - seconds) })
+                  setSimpleTimerConfig(prev => ({ ...prev, workLapDuration: Math.max(0, prev.workLapDuration - seconds) }));
 
 
                   setWorkDownButtons(prev => prev.map(button => ({
@@ -102,14 +101,14 @@ const SimpleInfo: React.FC = () => {
                   }, 300);
             } else if (clockStatus === ClockStatus.RUNNING || clockStatus === ClockStatus.PAUSED) {
                   setButtonDoAnimation(buttonId);
-                  setSimpleTimerInfo({ ...simpleTimerInfo, currentAnimation: AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_NOT_00 })
+                  setSimpleTimerState(prev => ({ ...prev, currentAnimation: AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_NOT_00 }));
             }
       };
 
       const handleRestDurationUp = (seconds: number, buttonId: string) => {
             if (clockStatus === ClockStatus.ZERO || clockStatus === ClockStatus.READY) {
 
-                  setSimpleTimerInfo({ ...simpleTimerInfo, restLapDuration: simpleTimerInfo.restLapDuration + seconds })
+                  setSimpleTimerConfig(prev => ({ ...prev, restLapDuration: prev.restLapDuration + seconds }));
 
                   setRestUpButtons(prev => prev.map(button => ({
                         ...button,
@@ -124,14 +123,14 @@ const SimpleInfo: React.FC = () => {
                   }, 300);
             } else if (clockStatus === ClockStatus.RUNNING || clockStatus === ClockStatus.PAUSED) {
                   setButtonDoAnimation(buttonId);
-                  setSimpleTimerInfo({ ...simpleTimerInfo, currentAnimation: AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_NOT_00 })
+                  setSimpleTimerState(prev => ({ ...prev, currentAnimation: AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_NOT_00 }));
             }
       };
 
       const handleRestDurationDown = (seconds: number, buttonId: string) => {
             if (clockStatus === ClockStatus.ZERO || clockStatus === ClockStatus.READY) {
 
-                  setSimpleTimerInfo({ ...simpleTimerInfo, restLapDuration: Math.max(0, simpleTimerInfo.restLapDuration - seconds) })
+                  setSimpleTimerConfig(prev => ({ ...prev, restLapDuration: Math.max(0, prev.restLapDuration - seconds) }));
 
                   setRestDownButtons(prev => prev.map(button => ({
                         ...button,
@@ -146,30 +145,24 @@ const SimpleInfo: React.FC = () => {
                   }, 300);
             } else if (clockStatus === ClockStatus.RUNNING || clockStatus === ClockStatus.PAUSED) {
                   setButtonDoAnimation(buttonId);
-                  setSimpleTimerInfo({ ...simpleTimerInfo, currentAnimation: AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_NOT_00 })
+                  setSimpleTimerState(prev => ({ ...prev, currentAnimation: AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_NOT_00 }));
             }
       };
 
       const handleSetsUp = () => {
-            setSimpleTimerInfo({ ...simpleTimerInfo, sets: simpleTimerInfo.sets + 1 })
+            setSimpleTimerConfig(prev => ({ ...prev, sets: prev.sets + 1 }));
             setPlusClicked(true);
             setTimeout(() => setPlusClicked(false), 300);
       };
 
       const handleSetsDown = () => {
-            if (simpleTimerInfo.sets > 1) {
-                  setSimpleTimerInfo({ ...simpleTimerInfo, sets: simpleTimerInfo.sets - 1 });
+            if (simpleTimerConfig.sets > 1) {
+                  setSimpleTimerConfig(prev => ({ ...prev, sets: prev.sets - 1 }));
                   setMinusClicked(true);
                   setTimeout(() => setMinusClicked(false), 300);
             }
       };
 
-
-      const formatTime = (seconds: number): string => {
-            const minutes = Math.floor(seconds / 60);
-            const remainingSeconds = seconds % 60;
-            return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
-      };
 
       const getSizeClass = (size: 'xs' | 's' | 'm' | 'l' | 'xl'): string => {
             const sizeMap = {
@@ -195,8 +188,8 @@ const SimpleInfo: React.FC = () => {
                                     <div className='time-controls-layout'>
                                           <p className="timer-phase-title">{t.workLap}</p>
                                           <div className={`lap-timer-display-container
-                                                ${simpleTimerInfo.currentAnimation === AnimationType.EMPTY_LAPS_DURATION && simpleTimerInfo.workLapDuration === 0 ? 'button-error-animation' : ''}`}>
-                                                <TimeDigits value={formatTime(simpleTimerInfo.workLapDuration)} className='lap-timer-digits' />
+                                                ${simpleTimerState.currentAnimation === AnimationType.EMPTY_LAPS_DURATION && simpleTimerConfig.workLapDuration === 0 ? 'button-error-animation' : ''}`}>
+                                                <TimeDigits value={formatTime(simpleTimerConfig.workLapDuration)} className='lap-timer-digits' />
                                           </div>
                                     </div>
 
@@ -204,29 +197,29 @@ const SimpleInfo: React.FC = () => {
                                     <div className='timer-lap-buttons-layout'>
                                           <div className="flex gap-1 justify-center max-w-full">
                                                 {workUpButtons.map(button => (
-                                                      <a
+                                                      <button
                                                             key={button.id}
                                                             className={`time-button ${getSizeClass(button.size)}
                                                                   ${button.isClicked ? 'scale-animation' : ''}
-                                                                  ${(simpleTimerInfo.currentAnimation === AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_NOT_00) && buttonDoAnimation === button.id ? 'button-error-animation' : ''}`}
+                                                                  ${(simpleTimerState.currentAnimation === AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_NOT_00) && buttonDoAnimation === button.id ? 'button-error-animation' : ''}`}
                                                             onClick={() => handleWorkDurationUp(button.seconds, button.id)}
                                                       >
                                                             {button.label}
-                                                      </a>
+                                                      </button>
                                                 ))}
                                           </div>
 
                                           <div className="flex gap-1 justify-center max-w-full">
                                                 {workDownButtons.map(button => (
-                                                      <a
+                                                      <button
                                                             key={button.id}
                                                             className={`time-button ${getSizeClass(button.size)}
                                                                   ${button.isClicked ? 'scale-animation' : ''}
-                                                                  ${(simpleTimerInfo.currentAnimation === AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_NOT_00) && buttonDoAnimation === button.id ? 'button-error-animation' : ''}`}
+                                                                  ${(simpleTimerState.currentAnimation === AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_NOT_00) && buttonDoAnimation === button.id ? 'button-error-animation' : ''}`}
                                                             onClick={() => handleWorkDurationDown(button.seconds, button.id)}
                                                       >
                                                             {button.label}
-                                                      </a>
+                                                      </button>
                                                 ))}
                                           </div>
                                     </div>
@@ -239,8 +232,8 @@ const SimpleInfo: React.FC = () => {
                                     <div className='time-controls-layout'>
                                           <p className="timer-phase-title">{t.restLap}</p>
                                           <div className={`lap-timer-display-container
-                                                ${simpleTimerInfo.currentAnimation === AnimationType.EMPTY_LAPS_DURATION && simpleTimerInfo.restLapDuration === 0 ? 'button-error-animation' : ''}`}>
-                                                <TimeDigits value={formatTime(simpleTimerInfo.restLapDuration)} className='lap-timer-digits' />
+                                                ${simpleTimerState.currentAnimation === AnimationType.EMPTY_LAPS_DURATION && simpleTimerConfig.restLapDuration === 0 ? 'button-error-animation' : ''}`}>
+                                                <TimeDigits value={formatTime(simpleTimerConfig.restLapDuration)} className='lap-timer-digits' />
                                           </div>
                                     </div>
 
@@ -248,29 +241,29 @@ const SimpleInfo: React.FC = () => {
                                     <div className='timer-lap-buttons-layout'>
                                           <div className="flex gap-1 justify-center max-w-full">
                                                 {restUpButtons.map(button => (
-                                                      <a
+                                                      <button
                                                             key={button.id}
                                                             className={`time-button ${getSizeClass(button.size)}
                                                                   ${button.isClicked ? 'scale-animation' : ''}
-                                                                  ${(simpleTimerInfo.currentAnimation === AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_NOT_00) && buttonDoAnimation === button.id ? 'button-error-animation' : ''}`}
+                                                                  ${(simpleTimerState.currentAnimation === AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_NOT_00) && buttonDoAnimation === button.id ? 'button-error-animation' : ''}`}
                                                             onClick={() => handleRestDurationUp(button.seconds, button.id)}
                                                       >
                                                             {button.label}
-                                                      </a>
+                                                      </button>
                                                 ))}
                                           </div>
 
                                           <div className="flex gap-1 justify-center max-w-full">
                                                 {restDownButtons.map(button => (
-                                                      <a
+                                                      <button
                                                             key={button.id}
                                                             className={`time-button ${getSizeClass(button.size)}
                                                                   ${button.isClicked ? 'scale-animation' : ''}
-                                                                  ${(simpleTimerInfo.currentAnimation === AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_NOT_00) && buttonDoAnimation === button.id ? 'button-error-animation' : ''}`}
+                                                                  ${(simpleTimerState.currentAnimation === AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_NOT_00) && buttonDoAnimation === button.id ? 'button-error-animation' : ''}`}
                                                             onClick={() => handleRestDurationDown(button.seconds, button.id)}
                                                       >
                                                             {button.label}
-                                                      </a>
+                                                      </button>
                                                 ))}
                                           </div>
                                     </div>
@@ -292,7 +285,7 @@ const SimpleInfo: React.FC = () => {
                               <p className="dark:text-muted text-baseClr text-3xl lg:text-5xl font-black">-</p>
                         </div>
                         <div className='col-span-2 lg:w-1/5 dark:bg-surfaceDark bg-surface rounded-3xl h-full flex items-center justify-center'>
-                              <p className="dark:text-muted text-baseClr text-3xl lg:text-5xl font-black">{simpleTimerInfo.sets}</p>
+                              <p className="dark:text-muted text-baseClr text-3xl lg:text-5xl font-black">{simpleTimerConfig.sets}</p>
                         </div>
                         <div
                               className={`col-span-1 lg:w-1/5 dark:bg-surfaceDark bg-surface rounded-3xl h-full flex items-center justify-center

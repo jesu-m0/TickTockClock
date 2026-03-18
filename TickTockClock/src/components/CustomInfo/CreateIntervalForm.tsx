@@ -24,7 +24,7 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
       setDivFormExist,
       openFormAnimation,
 }) => {
-      const { customTimerInfo, setCustomTimerInfo } = useClockStatus();
+      const { setCustomTimerConfig } = useClockStatus();
       const { t } = useTranslation();
       const [id, setId] = useState(uuidv4());
       const [name, setName] = useState("");
@@ -89,10 +89,10 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
                   color: selectedColor,
             };
 
-            setCustomTimerInfo({
-                  ...customTimerInfo,
-                  intervals: [...customTimerInfo.intervals, newInterval],
-            });
+            setCustomTimerConfig(prev => ({
+                  ...prev,
+                  intervals: [...prev.intervals, newInterval],
+            }));
 
             setId(uuidv4());
             setDuration(0);

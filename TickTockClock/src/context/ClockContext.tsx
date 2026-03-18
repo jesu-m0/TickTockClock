@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useMemo, useRef } from 'react';
 import { AnimationType, ClockStatus, Colors } from '../types';
-import { SimpleTimerInfo } from '../types/SimpleTimerInfo';
-import { CustomTimerInfo } from '../types/CustomTimerInfo';
+import { SimpleTimerConfig, SimpleTimerState } from '../types/SimpleTimerInfo';
+import { CustomTimerConfig, CustomTimerState } from '../types/CustomTimerInfo';
 import { v4 as uuidv4 } from "uuid";
 import { loadIntervalsFromLocalStorage, saveIntervalsToLocalStorage, loadSetsFromLocalStorage, saveSetsToLocalStorage } from '../utils/localStorage';
 
@@ -21,21 +21,25 @@ interface ClockContextType {
       reset: boolean;
       setReset: (reset: boolean) => void;
 
-      // Mode. Depending on the mode, the clock will look on the simpleTimerInfo or the customTimerInfo to work
+      // Mode. Depending on the mode, the clock will look on the simpleTimer or the customTimer to work
       isSimpleMode: boolean;
       setIsSimpleMode: (isSimpleMode: boolean) => void;
 
-      // Simple mode configuration
-      simpleTimerInfo: SimpleTimerInfo;
-      setSimpleTimerInfo: React.Dispatch<React.SetStateAction<SimpleTimerInfo>>;
+      // Simple mode — config (user-set) and state (runtime)
+      simpleTimerConfig: SimpleTimerConfig;
+      setSimpleTimerConfig: React.Dispatch<React.SetStateAction<SimpleTimerConfig>>;
+      simpleTimerState: SimpleTimerState;
+      setSimpleTimerState: React.Dispatch<React.SetStateAction<SimpleTimerState>>;
 
       // Animation state
       isAlternate: boolean;
       setIsAlternate: (isAlternate: boolean | ((prev: boolean) => boolean)) => void;
 
-      // Custom mode configuration
-      customTimerInfo: CustomTimerInfo
-      setCustomTimerInfo: React.Dispatch<React.SetStateAction<CustomTimerInfo>>;
+      // Custom mode — config (user-set) and state (runtime)
+      customTimerConfig: CustomTimerConfig;
+      setCustomTimerConfig: React.Dispatch<React.SetStateAction<CustomTimerConfig>>;
+      customTimerState: CustomTimerState;
+      setCustomTimerState: React.Dispatch<React.SetStateAction<CustomTimerState>>;
 
       resetClock: () => void;
 }
@@ -60,9 +64,6 @@ export const ClockProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             }
       ], []);
 
-      // Load intervals and sets from local storage, or use defaults
-      const loadedIntervals = loadIntervalsFromLocalStorage();
-      const loadedSets = loadSetsFromLocalStorage();
 
       // Use ref to track if this is the initial mount
       const isInitialMount = useRef(true);
@@ -72,22 +73,38 @@ export const ClockProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       const [isPaused, setIsPaused] = useState<boolean>(true);
       const [reset, setReset] = useState<boolean>(false);
       const [isSimpleMode, setIsSimpleMode] = useState<boolean>(true);
-      const [simpleTimerInfo, setSimpleTimerInfo] = useState<SimpleTimerInfo>({
-            workLapDuration: 0,      // Duration of work intervals in seconds
-            restLapDuration: 0,      // Duration of rest intervals in seconds
-            sets: 1,               // Number of work/rest sets to perform
-            remainingSets: 1,     // Remaining sets to perform. This will change as the timer progresses
-            isWorkLap: true,         // Tracks if we're currently in a work lap (true) or rest lap (false)
-            currentAnimation: AnimationType.NONE  // Current UI animation state, starts with no animation
+
+      // Simple mode — separated into config and runtime state
+      const [simpleTimerConfig, setSimpleTimerConfig] = useState<SimpleTimerConfig>({
+            workLapDuration: 0,
+            restLapDuration: 0,
+            sets: 1,
       });
-      const [isAlternate, setIsAlternate] = useState<boolean>(false);
-      const [customTimerInfo, setCustomTimerInfo] = useState<CustomTimerInfo>({
-            intervals: loadedIntervals || defaultIntervals,
-            sets: loadedSets || 1,
+      const [simpleTimerState, setSimpleTimerState] = useState<SimpleTimerState>({
+            remainingSets: 1,
+            isWorkLap: true,
             currentAnimation: AnimationType.NONE,
-            remainingIntervals: [],
-            remainingSets: loadedSets || 1,
-      })
+      });
+
+      const [isAlternate, setIsAlternate] = useState<boolean>(false);
+
+      // Custom mode — separated into config and runtime state
+      const [customTimerConfig, setCustomTimerConfig] = useState<CustomTimerConfig>(() => {
+            const loadedIntervals = loadIntervalsFromLocalStorage();
+            const loadedSets = loadSetsFromLocalStorage();
+            return {
+                  intervals: loadedIntervals || defaultIntervals,
+                  sets: loadedSets || 1,
+            };
+      });
+      const [customTimerState, setCustomTimerState] = useState<CustomTimerState>(() => {
+            const loadedSets = loadSetsFromLocalStorage();
+            return {
+                  currentAnimation: AnimationType.NONE,
+                  remainingIntervals: [],
+                  remainingSets: loadedSets || 1,
+            };
+      });
 
       // Save intervals and sets to local storage whenever they change
       // We use a ref to track the previous values to avoid saving when only runtime values change
@@ -96,36 +113,29 @@ export const ClockProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
       useEffect(() => {
             // Serialize intervals to compare by value, not by reference
-            const currentIntervalsStr = JSON.stringify(customTimerInfo.intervals);
-            const currentSets = customTimerInfo.sets;
+            const currentIntervalsStr = JSON.stringify(customTimerConfig.intervals);
+            const currentSets = customTimerConfig.sets;
 
             // Check if this is initial mount
             if (isInitialMount.current) {
                   isInitialMount.current = false;
                   prevIntervalsRef.current = currentIntervalsStr;
                   prevSetsRef.current = currentSets;
-                  console.log("[localStorage] Initial mount - skipping save");
                   return;
             }
 
-            // Only save if intervals or sets actually changed (not remainingIntervals/remainingSets)
+            // Only save if intervals or sets actually changed
             const intervalsChanged = prevIntervalsRef.current !== currentIntervalsStr;
             const setsChanged = prevSetsRef.current !== currentSets;
 
             if (intervalsChanged || setsChanged) {
-                  console.log("[localStorage] Saving to localStorage", {
-                        intervalsChanged,
-                        setsChanged,
-                        intervalsCount: customTimerInfo.intervals.length,
-                        sets: currentSets
-                  });
-                  saveIntervalsToLocalStorage(customTimerInfo.intervals);
+                  saveIntervalsToLocalStorage(customTimerConfig.intervals);
                   saveSetsToLocalStorage(currentSets);
 
                   prevIntervalsRef.current = currentIntervalsStr;
                   prevSetsRef.current = currentSets;
             }
-      }, [customTimerInfo.intervals, customTimerInfo.sets]);
+      }, [customTimerConfig.intervals, customTimerConfig.sets]);
 
       const resetClock = () => {
             setClockStatus(ClockStatus.ZERO);
@@ -133,18 +143,22 @@ export const ClockProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             setIsPaused(true);
             setReset(false);
             setIsSimpleMode(true);
-            setSimpleTimerInfo({
+            setSimpleTimerConfig({
                   workLapDuration: 0,
                   restLapDuration: 0,
                   sets: 1,
+            });
+            setSimpleTimerState({
                   remainingSets: 1,
                   isWorkLap: true,
                   currentAnimation: AnimationType.NONE,
             });
             setIsAlternate(false);
-            setCustomTimerInfo({
+            setCustomTimerConfig({
                   intervals: defaultIntervals,
                   sets: 1,
+            });
+            setCustomTimerState({
                   currentAnimation: AnimationType.NONE,
                   remainingIntervals: [],
                   remainingSets: 1,
@@ -163,12 +177,16 @@ export const ClockProvider: React.FC<{ children: React.ReactNode }> = ({ childre
                   setReset,
                   isSimpleMode,
                   setIsSimpleMode,
-                  simpleTimerInfo,
-                  setSimpleTimerInfo,
+                  simpleTimerConfig,
+                  setSimpleTimerConfig,
+                  simpleTimerState,
+                  setSimpleTimerState,
                   isAlternate,
                   setIsAlternate,
-                  customTimerInfo,
-                  setCustomTimerInfo,
+                  customTimerConfig,
+                  setCustomTimerConfig,
+                  customTimerState,
+                  setCustomTimerState,
                   resetClock
             }}>
                   {children}

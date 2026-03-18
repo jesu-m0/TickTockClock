@@ -57,9 +57,10 @@ const MainPage: React.FC = () => {
             isSimpleMode,
             setIsSimpleMode,
 
-            // Simple mode configuration
-            simpleTimerInfo,
-            setSimpleTimerInfo,
+            // Simple mode — config and state
+            simpleTimerConfig,
+            simpleTimerState,
+            setSimpleTimerState,
       } = useClockStatus();
 
       //Change mode
@@ -81,49 +82,7 @@ const MainPage: React.FC = () => {
             }
       };
 
-      //Start or stop
-      const handlePauseStart = useCallback(() => {
-            if (
-                  isSimpleMode &&
-                  (simpleTimerInfo.workLapDuration === 0 ||
-                        simpleTimerInfo.restLapDuration === 0)
-            ) {
-                  setSimpleTimerInfo({
-                        ...simpleTimerInfo,
-                        currentAnimation: AnimationType.EMPTY_LAPS_DURATION,
-                  });
-                  return;
-            } else {
-                  // Initialize audio context when starting (required for iOS)
-                  if (isPaused) {
-                        initializeAudioContext().catch(console.error);
-                        // Auto-expand when starting
-                        if (!isExpanded) {
-                              expand();
-                        }
-                  }
-                  setIsPaused(!isPaused);
-                  setIsClickedPause(true);
-                  setTimeout(() => setIsClickedPause(false), 300);
-            }
-      }, [isSimpleMode, simpleTimerInfo, isPaused, isExpanded]);
-
-      const handleReset = useCallback(() => {
-            if (clockStatus === ClockStatus.ZERO) {
-                  setSimpleTimerInfo({
-                        ...simpleTimerInfo,
-                        currentAnimation: AnimationType.ALREADY_RESET,
-                  });
-            }
-
-            setIsPaused(true);
-            setReset(true);
-            setTimeout(() => setReset(false), 100);
-            setIsClickedReset(true);
-            setTimeout(() => setIsClickedReset(false), 300);
-      }, [clockStatus, simpleTimerInfo]);
-
-      const expand = () => {
+      const expand = useCallback(() => {
             setTimeout(() => {
                   setShowExpandLetters(false); // 200ms "Expand" disappear animation
                   setOpenAnimation(true);
@@ -142,7 +101,49 @@ const MainPage: React.FC = () => {
                   }
             }, 0); //0 Timeout to let react render the button before getting the position.
             setTimeout(() => setShowContent(true), 1000); // 200ms content appear animation
-      };
+      }, []);
+
+      //Start or stop
+      const handlePauseStart = useCallback(() => {
+            if (
+                  isSimpleMode &&
+                  (simpleTimerConfig.workLapDuration === 0 ||
+                        simpleTimerConfig.restLapDuration === 0)
+            ) {
+                  setSimpleTimerState(prev => ({
+                        ...prev,
+                        currentAnimation: AnimationType.EMPTY_LAPS_DURATION,
+                  }));
+                  return;
+            } else {
+                  // Initialize audio context when starting (required for iOS)
+                  if (isPaused) {
+                        initializeAudioContext().catch(console.error);
+                        // Auto-expand when starting
+                        if (!isExpanded) {
+                              expand();
+                        }
+                  }
+                  setIsPaused(!isPaused);
+                  setIsClickedPause(true);
+                  setTimeout(() => setIsClickedPause(false), 300);
+            }
+      }, [isSimpleMode, simpleTimerConfig, setSimpleTimerState, isPaused, setIsPaused, isExpanded, expand]);
+
+      const handleReset = useCallback(() => {
+            if (clockStatus === ClockStatus.ZERO) {
+                  setSimpleTimerState(prev => ({
+                        ...prev,
+                        currentAnimation: AnimationType.ALREADY_RESET,
+                  }));
+            }
+
+            setIsPaused(true);
+            setReset(true);
+            setTimeout(() => setReset(false), 100);
+            setIsClickedReset(true);
+            setTimeout(() => setIsClickedReset(false), 300);
+      }, [clockStatus, setSimpleTimerState, setIsPaused, setReset]);
 
       useEffect(() => {
             const handleKeyDown = (e: KeyboardEvent) => {
@@ -159,16 +160,16 @@ const MainPage: React.FC = () => {
       }, [handlePauseStart, handleReset]);
 
       useEffect(() => {
-            if (simpleTimerInfo.currentAnimation !== AnimationType.NONE) {
+            if (simpleTimerState.currentAnimation !== AnimationType.NONE) {
                   const timer = setTimeout(() => {
-                        setSimpleTimerInfo({
-                              ...simpleTimerInfo,
+                        setSimpleTimerState(prev => ({
+                              ...prev,
                               currentAnimation: AnimationType.NONE,
-                        });
+                        }));
                   }, 300);
                   return () => clearTimeout(timer);
             }
-      }, [simpleTimerInfo.currentAnimation]);
+      }, [simpleTimerState.currentAnimation]);
 
       return (
             <div className="pb-4 lg:pb-16">
@@ -185,8 +186,8 @@ const MainPage: React.FC = () => {
                                     className={`col-span-2 lg:col-start-1 lg:row-start-7 h-full bg-tertiary p-4 rounded-3xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer flex items-center justify-center
                                     ${isClickedReset ? "scale-animation" : ""}
                                     ${resetButtonError ? "button-error-animation" : ""}
-                                    ${simpleTimerInfo.currentAnimation === AnimationType.ALREADY_RESET ? "button-error-animation" : ""}
-                                    ${simpleTimerInfo.currentAnimation === AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_NOT_00 ? "button-error-animation" : ""}`}
+                                    ${simpleTimerState.currentAnimation === AnimationType.ALREADY_RESET ? "button-error-animation" : ""}
+                                    ${simpleTimerState.currentAnimation === AnimationType.CANT_CHANGE_LAPS_DURATION_CLOCK_NOT_00 ? "button-error-animation" : ""}`}
                                     onClick={handleReset}
                               >
                                     <p className="font-bold text-surfaceDark text-3xl lg:text-5xl text-center">
@@ -199,7 +200,7 @@ const MainPage: React.FC = () => {
                                     className={`col-span-2 lg:col-start-3 lg:row-start-7 h-full p-4 rounded-3xl content-center hover:scale-105 transition-transform duration-200 cursor-pointer flex items-center justify-center
                                     ${isPaused ? "dark:bg-muted bg-baseClr" : "bg-secondary"}
                                     ${isClickedPause ? "scale-animation" : ""}
-                                    ${simpleTimerInfo.currentAnimation === AnimationType.EMPTY_LAPS_DURATION ? "button-error-animation" : ""}`}
+                                    ${simpleTimerState.currentAnimation === AnimationType.EMPTY_LAPS_DURATION ? "button-error-animation" : ""}`}
                                     onClick={handlePauseStart}
                               >
                                     <p className="font-bold dark:text-surfaceDark text-surface text-3xl lg:text-5xl text-center">

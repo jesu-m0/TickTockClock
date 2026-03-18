@@ -32,9 +32,8 @@ const loadTheme = (): StoredTheme => {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const stored = loadTheme();
-    const [isDarkMode, setDarkMode] = useState<boolean>(stored.isDarkMode);
-    const [colorTheme, setColorTheme] = useState<ColorTheme>(stored.colorTheme);
+    const [isDarkMode, setDarkMode] = useState<boolean>(() => loadTheme().isDarkMode);
+    const [colorTheme, setColorTheme] = useState<ColorTheme>(() => loadTheme().colorTheme);
 
     // Persist theme to localStorage
     useEffect(() => {

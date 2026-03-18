@@ -59,12 +59,12 @@ const SettingsPage: React.FC = () => {
           </div>
 
           {/* Back arrow - 1x1, flows to row 2 on mobile */}
-          <div
+          <button
             className="col-span-1 lg:col-start-1 lg:row-start-1 h-full rounded-3xl bg-surface dark:bg-surfaceDark flex items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-200"
             onClick={() => navigate('/')}
           >
             <BackArrowIcon />
-          </div>
+          </button>
 
           {/* Settings label - mobile: 2x1 (row 2), desktop: 5x1 */}
           <div className="col-span-2 lg:col-span-5 lg:col-start-7 lg:row-start-1 h-full p-4 rounded-3xl bg-surface dark:bg-surfaceDark flex items-center justify-center">

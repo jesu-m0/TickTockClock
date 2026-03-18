@@ -1,5 +1,5 @@
-import { useTranslation } from "../../../i18n/useTranslation";
-import TimeDigits from "../../Common/TimeDigits";
+import { formatTime } from "../../../utils/formatTime";
+import ClockCard from "../../Common/ClockCard";
 
 interface IntervalTimeDisplayProps {
       duration: number;
@@ -10,37 +10,16 @@ const IntervalTimeDisplay: React.FC<IntervalTimeDisplayProps> = ({
       duration,
       variant = "create"
 }) => {
-      const { t } = useTranslation();
-      const formatTime = (seconds: number) => {
-            const mins = String(Math.floor(seconds / 60)).padStart(2, "0");
-            const secs = String(seconds % 60).padStart(2, "0");
-            return `${mins}:${secs}`;
-      };
-
       const stripeColor = variant === "create" ? "bg-tertiary" : "bg-primary";
 
       return (
-            <div className="order-4 col-span-12 lg:col-span-4 row-span-3 lg:row-span-4 bg-surface dark:bg-muted rounded-3xl flex flex-col">
-                  <div className="p-4 h-full flex flex-col justify-center items-center">
-                        <TimeDigits value={formatTime(duration)} className="font-black text-baseClr text-8xl md:text-8xl xl:text-9xl text-center" />
-                        <div className="flex px-8 w-full">
-                              <p className="font-medium text-baseClr text-lg text-center w-1/2">
-                                    {t.min}
-                              </p>
-                              <p className="font-medium text-baseClr text-lg text-center w-1/2">
-                                    {t.sec}
-                              </p>
-                        </div>
-                  </div>
-                  <div className="w-full flex flex-row">
-                        <div className="h-6 flex-1 rounded-bl-3xl bg-secondary"></div>
-                        <div className={`h-6 flex-1 ${stripeColor}`}></div>
-                        <div className="h-6 flex-1 bg-secondary"></div>
-                        <div className={`h-6 flex-1 ${stripeColor}`}></div>
-                        <div className="h-6 flex-1 bg-secondary"></div>
-                        <div className={`h-6 flex-1 rounded-br-3xl ${stripeColor}`}></div>
-                  </div>
-            </div>
+            <ClockCard
+                  value={formatTime(duration)}
+                  barCount={6}
+                  barColorA="bg-secondary"
+                  barColorB={stripeColor}
+                  className="order-4 col-span-12 lg:col-span-4 row-span-3 lg:row-span-4"
+            />
       );
 };
 

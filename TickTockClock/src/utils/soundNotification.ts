@@ -1,12 +1,32 @@
 // Shared AudioContext instance for iOS compatibility
 let audioContext: AudioContext | null = null;
 
+// Silent buffer for iOS unlock — playing a silent buffer on user interaction
+// ensures the AudioContext stays unlocked for future programmatic playback
+let silentBuffer: AudioBuffer | null = null;
+
 /**
  * Initializes the AudioContext (should be called on user interaction for iOS compatibility)
- * This ensures audio can play on iOS Safari, which requires user interaction to enable audio
+ * This ensures audio can play on iOS Safari, which requires user interaction to enable audio.
+ * On iOS, we also play a silent buffer to fully unlock the audio context.
  */
 export const initializeAudioContext = async (): Promise<void> => {
-  await getAudioContext();
+  const ctx = await getAudioContext();
+  if (!ctx) return;
+
+  // Play a silent buffer to fully unlock audio on iOS Safari.
+  // This is the most reliable way to ensure future programmatic playback works.
+  try {
+    if (!silentBuffer) {
+      silentBuffer = ctx.createBuffer(1, 1, ctx.sampleRate);
+    }
+    const source = ctx.createBufferSource();
+    source.buffer = silentBuffer;
+    source.connect(ctx.destination);
+    source.start(0);
+  } catch {
+    // Silent buffer play failed — not critical
+  }
 };
 
 /**
@@ -26,12 +46,32 @@ const getAudioContext = async (): Promise<AudioContext | null> => {
       await audioContext.resume();
     }
 
+    // If still not running after resume attempt, try recreating
+    if (audioContext.state !== 'running') {
+      try {
+        audioContext.close();
+      } catch {
+        // ignore close errors
+      }
+      audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      await audioContext.resume();
+    }
+
     return audioContext;
   } catch (error) {
     console.warn('Could not create/resume AudioContext:', error);
     return null;
   }
 };
+
+// Re-resume AudioContext when the page becomes visible again (iOS suspends it in background)
+if (typeof document !== 'undefined') {
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && audioContext && audioContext.state === 'suspended') {
+      audioContext.resume().catch(() => {});
+    }
+  });
+}
 
 /**
  * Helper function to play a tone using Web Audio API

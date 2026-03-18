@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Interval } from "../../types/CustomTimerInfo";
 import { UUIDTypes } from "uuid";
 import EditIntervalForm from "./EditIntervalForm";
@@ -17,7 +17,7 @@ const IntervalCard = ({ interval, onDelete, onUpdate }: IntervalCardProps) => {
       const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
       const handleDeleteClick = () => {
-            if (clockStatus != ClockStatus.RUNNING && clockStatus != ClockStatus.PAUSED) {
+            if (clockStatus !== ClockStatus.RUNNING && clockStatus !== ClockStatus.PAUSED) {
                   setIsDeleteModalOpen(true);
             }
       };
@@ -49,15 +49,16 @@ const IntervalCard = ({ interval, onDelete, onUpdate }: IntervalCardProps) => {
       });
 
       const { clockStatus } = useClockStatus();
+      const cardRef = useRef<HTMLDivElement>(null);
 
       const showEditForm = () => {
-            if (clockStatus != ClockStatus.RUNNING && clockStatus != ClockStatus.PAUSED) {
+            if (clockStatus !== ClockStatus.RUNNING && clockStatus !== ClockStatus.PAUSED) {
                   setTimeout(() => {
                         setShowCardContent(false);
                         setOpenEditFormAnimation(true);
-                        const button = document.getElementById(interval.id.toString());
-                        if (button) {
-                              const rect = button.getBoundingClientRect();
+                        const card = cardRef.current;
+                        if (card) {
+                              const rect = card.getBoundingClientRect();
                               setCardPosition({
                                     top: rect.top,
                                     left: rect.left,
@@ -83,7 +84,7 @@ const IntervalCard = ({ interval, onDelete, onUpdate }: IntervalCardProps) => {
       return (
             <>
                   {/* Interval Card */}
-                  <div id={interval.id.toString()} className="bg-muted dark:bg-baseClr rounded-xl p-2 flex flex-row gap-2">
+                  <div ref={cardRef} className="bg-muted dark:bg-baseClr rounded-xl p-2 flex flex-row gap-2">
                         {/* Drag Handle */}
                         <div className={`flex items-center cursor-grab transition-opacity duration-200 ${showCardContent ? 'opacity-100' : 'opacity-0'}`}>
                               <svg width="24" height="24" viewBox="0 0 24 24" className="fill-base dark:fill-muted" xmlns="http://www.w3.org/2000/svg">

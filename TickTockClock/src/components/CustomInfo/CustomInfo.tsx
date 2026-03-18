@@ -19,8 +19,8 @@ const CustomInfo: React.FC<CustomInfoProps> = ({ onResetButtonError }) => {
 
       const {
             clockStatus,
-            customTimerInfo,
-            setCustomTimerInfo,
+            customTimerConfig,
+            setCustomTimerConfig,
       } = useClockStatus();
 
       //Control the animation of + or - when clicked
@@ -37,23 +37,23 @@ const CustomInfo: React.FC<CustomInfoProps> = ({ onResetButtonError }) => {
       const addButtonRef = useRef<HTMLButtonElement>(null);
 
       const handleSetsUp = () => {
-            if (clockStatus == ClockStatus.RUNNING || clockStatus == ClockStatus.PAUSED) {
+            if (clockStatus === ClockStatus.RUNNING || clockStatus === ClockStatus.PAUSED) {
                   triggerSetsUpError();
                   onResetButtonError();
             } else {
-                  setCustomTimerInfo({ ...customTimerInfo, sets: customTimerInfo.sets + 1 })
+                  setCustomTimerConfig({ ...customTimerConfig, sets: customTimerConfig.sets + 1 })
                   setPlusClicked(true);
                   setTimeout(() => setPlusClicked(false), 300);
             }
       };
 
       const handleSetsDown = () => {
-            if (clockStatus == ClockStatus.RUNNING || clockStatus == ClockStatus.PAUSED) {
+            if (clockStatus === ClockStatus.RUNNING || clockStatus === ClockStatus.PAUSED) {
                   triggerSetsDownError();
                   onResetButtonError();
             } else {
-                  if (customTimerInfo.sets > 1) {
-                        setCustomTimerInfo({ ...customTimerInfo, sets: customTimerInfo.sets - 1 });
+                  if (customTimerConfig.sets > 1) {
+                        setCustomTimerConfig({ ...customTimerConfig, sets: customTimerConfig.sets - 1 });
                         setMinusClicked(true);
                         setTimeout(() => setMinusClicked(false), 300);
                   }
@@ -62,11 +62,11 @@ const CustomInfo: React.FC<CustomInfoProps> = ({ onResetButtonError }) => {
 
       const onDragEnd = (result: DropResult) => {
             if (!result.destination) return;
-            const items = Array.from(customTimerInfo.intervals);
+            const items = Array.from(customTimerConfig.intervals);
             const [reorderedItem] = items.splice(result.source.index, 1);
             items.splice(result.destination.index, 0, reorderedItem);
-            setCustomTimerInfo({
-                  ...customTimerInfo,
+            setCustomTimerConfig({
+                  ...customTimerConfig,
                   intervals: items
             });
       };
@@ -84,7 +84,7 @@ const CustomInfo: React.FC<CustomInfoProps> = ({ onResetButtonError }) => {
       });
 
       const showForm = () => {
-            if (clockStatus == ClockStatus.RUNNING || clockStatus == ClockStatus.PAUSED) {
+            if (clockStatus === ClockStatus.RUNNING || clockStatus === ClockStatus.PAUSED) {
                   triggerAddButtonError();
                   onResetButtonError();
             } else {
@@ -109,16 +109,16 @@ const CustomInfo: React.FC<CustomInfoProps> = ({ onResetButtonError }) => {
       };
 
       const handleDeleteInterval = (id: UUIDTypes) => {
-            setCustomTimerInfo({
-                  ...customTimerInfo,
-                  intervals: customTimerInfo.intervals.filter((interval) => interval.id !== id),
+            setCustomTimerConfig({
+                  ...customTimerConfig,
+                  intervals: customTimerConfig.intervals.filter((interval) => interval.id !== id),
             });
       };
 
       const updateInterval = (updatedInterval: Interval) => {
-            setCustomTimerInfo({
-                  ...customTimerInfo,
-                  intervals: customTimerInfo.intervals.map((interval) =>
+            setCustomTimerConfig({
+                  ...customTimerConfig,
+                  intervals: customTimerConfig.intervals.map((interval) =>
                         interval.id === updatedInterval.id ? updatedInterval : interval
                   ),
             });
@@ -135,8 +135,8 @@ const CustomInfo: React.FC<CustomInfoProps> = ({ onResetButtonError }) => {
                   {clockStatus === ClockStatus.RUNNING || clockStatus === ClockStatus.PAUSED ? (
                         <div onClick={errorDragDrop} className={`col-span-4 row-span-6 lg:col-span-8 lg:col-start-5 lg:row-start-3 lg:row-span-5 h-full rounded-3xl bg-surface dark:bg-surfaceDark px-4 py-6 ${intervalsContainerError ? "button-error-animation" : ""}`}>
                               <div className="overflow-y-auto flex flex-col gap-2 h-full pr-2">
-                                    {customTimerInfo.intervals.map((interval, index) => (
-                                          <div key={index}>
+                                    {customTimerConfig.intervals.map((interval) => (
+                                          <div key={String(interval.id)}>
                                                 <IntervalCard interval={interval} onDelete={handleDeleteInterval} onUpdate={updateInterval} />
                                           </div>
                                     ))}
@@ -157,10 +157,10 @@ const CustomInfo: React.FC<CustomInfoProps> = ({ onResetButtonError }) => {
                                                                   provided.innerRef(el);
                                                             }
                                                       }}>
-                                                      {customTimerInfo.intervals.map((interval, index) => (
+                                                      {customTimerConfig.intervals.map((interval, index) => (
                                                             <Draggable
-                                                                  key={index}
-                                                                  draggableId={`interval-${index}`}
+                                                                  key={String(interval.id)}
+                                                                  draggableId={String(interval.id)}
                                                                   index={index}
                                                             >
                                                                   {(provided) => (
@@ -197,7 +197,7 @@ const CustomInfo: React.FC<CustomInfoProps> = ({ onResetButtonError }) => {
                               <p className="dark:text-muted text-baseClr text-3xl lg:text-5xl font-black">-</p>
                         </div>
                         <div className='col-span-2 lg:w-1/5 dark:bg-surfaceDark bg-surface rounded-3xl h-full flex items-center justify-center'>
-                              <p className="dark:text-muted text-baseClr text-3xl lg:text-5xl font-black">{customTimerInfo.sets}</p>
+                              <p className="dark:text-muted text-baseClr text-3xl lg:text-5xl font-black">{customTimerConfig.sets}</p>
                         </div>
                         <div className={`col-span-1 lg:w-1/5 dark:bg-surfaceDark bg-surface rounded-3xl h-full flex items-center justify-center
                 hover:scale-105 transition-transform duration-200 cursor-pointer
