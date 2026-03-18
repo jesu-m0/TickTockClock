@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from "react";
+import React, { useEffect, useCallback, useState, useRef } from "react";
 import { AnimationType, ClockStatus, Colors } from "../../types";
 import { useClockStatus } from "../../context/ClockContext";
 import { useTheme } from "../../context/ThemeContext";
@@ -42,6 +42,14 @@ const Clock: React.FC = () => {
             setIsAlternate,
       } = useClockStatus();
 
+      // Refs to always access the latest timer info inside setTimeout callbacks,
+      // avoiding stale closures that capture outdated state.
+      const simpleTimerInfoRef = useRef(simpleTimerInfo);
+      simpleTimerInfoRef.current = simpleTimerInfo;
+
+      const customTimerInfoRef = useRef(customTimerInfo);
+      customTimerInfoRef.current = customTimerInfo;
+
       const [showShortcuts, setShowShortcuts] = useState(false);
 
       const setReadyToRunningSimple = useCallback(() => {
@@ -74,22 +82,22 @@ const Clock: React.FC = () => {
       }, [simpleTimerInfo, setSimpleTimerInfo, setTime, setClockStatus]);
 
       const setRunningToRunningWorkLapEndedSimple = useCallback(() => {
-            setSimpleTimerInfo({ ...simpleTimerInfo, isWorkLap: false });
-            setTime(simpleTimerInfo.restLapDuration);
+            setSimpleTimerInfo(prev => ({ ...prev, isWorkLap: false }));
+            setTime(simpleTimerInfoRef.current.restLapDuration);
             setClockStatus(ClockStatus.RUNNING);
-      }, [simpleTimerInfo, setSimpleTimerInfo, setTime, setClockStatus]);
+      }, [setSimpleTimerInfo, setTime, setClockStatus]);
 
       const setRunningToRunningRestLapEndedSimple = useCallback(() => {
-            setSimpleTimerInfo({
-                  ...simpleTimerInfo,
+            setSimpleTimerInfo(prev => ({
+                  ...prev,
                   isWorkLap: true,
-                  remainingSets: simpleTimerInfo.remainingSets - 1,
-            });
-            if (simpleTimerInfo.remainingSets != 0) {
-                  setTime(simpleTimerInfo.workLapDuration);
+                  remainingSets: prev.remainingSets - 1,
+            }));
+            if (simpleTimerInfoRef.current.remainingSets != 0) {
+                  setTime(simpleTimerInfoRef.current.workLapDuration);
             }
             setClockStatus(ClockStatus.RUNNING);
-      }, [simpleTimerInfo, setSimpleTimerInfo, setTime, setClockStatus]);
+      }, [setSimpleTimerInfo, setTime, setClockStatus]);
 
       const setFinishedToZeroSimple = useCallback(() => {
             setSimpleTimerInfo({ ...simpleTimerInfo, remainingSets: 0 });
@@ -298,11 +306,11 @@ const Clock: React.FC = () => {
                                           playWorkLapFinishedSound();
 
                                           setTimeout(() => {
-                                                setCustomTimerInfo({
-                                                      ...customTimerInfo,
-                                                      remainingIntervals: customTimerInfo.remainingIntervals.slice(1),
-                                                });
-                                                setTime(customTimerInfo.remainingIntervals[1].duration)
+                                                setCustomTimerInfo(prev => ({
+                                                      ...prev,
+                                                      remainingIntervals: prev.remainingIntervals.slice(1),
+                                                }));
+                                                setTime(customTimerInfoRef.current.remainingIntervals[1].duration);
                                           }, 1000);
                                     } else if (time == 0 && customTimerInfo.remainingIntervals.length == 1 && customTimerInfo.remainingSets > 1) {
                                           console.log("Set finished, loading intervals: RUNNING -> RUNNING");
@@ -311,12 +319,12 @@ const Clock: React.FC = () => {
                                           playRestLapFinishedSound();
 
                                           setTimeout(() => {
-                                                setCustomTimerInfo({
-                                                      ...customTimerInfo,
-                                                      remainingSets: customTimerInfo.remainingSets - 1,
-                                                      remainingIntervals: [...customTimerInfo.intervals]
-                                                });
-                                                setTime(customTimerInfo.intervals[0].duration)
+                                                setCustomTimerInfo(prev => ({
+                                                      ...prev,
+                                                      remainingSets: prev.remainingSets - 1,
+                                                      remainingIntervals: [...prev.intervals],
+                                                }));
+                                                setTime(customTimerInfoRef.current.intervals[0].duration);
                                           }, 1000);
 
                                     } else if (time == 0 && customTimerInfo.remainingIntervals.length == 1 && customTimerInfo.remainingSets == 1) {

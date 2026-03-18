@@ -27,7 +27,7 @@ interface ClockContextType {
 
       // Simple mode configuration
       simpleTimerInfo: SimpleTimerInfo;
-      setSimpleTimerInfo: (simpleTimerInfo: SimpleTimerInfo) => void;
+      setSimpleTimerInfo: React.Dispatch<React.SetStateAction<SimpleTimerInfo>>;
 
       // Animation state
       isAlternate: boolean;
@@ -35,7 +35,7 @@ interface ClockContextType {
 
       // Custom mode configuration
       customTimerInfo: CustomTimerInfo
-      setCustomTimerInfo: (customTimerInfo: CustomTimerInfo) => void;
+      setCustomTimerInfo: React.Dispatch<React.SetStateAction<CustomTimerInfo>>;
 
       resetClock: () => void;
 }
