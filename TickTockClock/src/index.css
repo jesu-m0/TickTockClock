@@ -31,7 +31,7 @@
   --color-muted: 203 243 240;         /* light mint #CBF3F0 */
 }
 
-/* Coral Reef theme */
+/* Oceanic Cactus theme */
 /* https://coolors.co/palette/1a535c-4ecdc4-f7fff7-ff6b6b-ffe66d */
 [data-color-theme="coral"] {
   --color-primary: 78 205 196;          /* teal #4ECDC4 */
@@ -84,4 +84,13 @@ a, div {
 
 ::-webkit-scrollbar-button {
       display: none; /* Hide arrow buttons */
+}
+
+/* Hide scrollbar for swipeable tab bars */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

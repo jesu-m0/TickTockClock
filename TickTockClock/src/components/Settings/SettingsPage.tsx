@@ -76,13 +76,13 @@ const SettingsPage: React.FC = () => {
         </div>
 
         {/* ===== MOBILE TAB BAR ===== */}
-        <div className="lg:hidden mt-3 rounded-3xl bg-surface dark:bg-surfaceDark p-2 flex gap-1">
+        <div className="lg:hidden mt-3 rounded-3xl bg-surface dark:bg-surfaceDark p-2 flex gap-1 overflow-x-auto snap-x snap-mandatory scrollbar-hide">
           {navItems.map((item) => (
             <NavLink
               key={item.to}
               to={item.to}
               className={({ isActive }) =>
-                `flex-1 flex items-center justify-center gap-2 rounded-xl px-3 py-2.5 font-semibold text-sm transition-colors duration-200
+                `shrink-0 flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 font-semibold text-sm transition-colors duration-200 snap-start
                 ${isActive
                   ? 'bg-primary/15 text-primary'
                   : 'text-baseClr dark:text-muted'
