@@ -1,7 +1,8 @@
 import { useEffect, useCallback, useRef } from "react";
 import { AnimationType, ClockStatus } from "../types";
 import { useClockStatus } from "../context/ClockContext";
-import { playTimerFinishedSound, playWorkLapFinishedSound, playRestLapFinishedSound } from "../utils/soundNotification";
+import { useSettings } from "../context/SettingsContext";
+import { previewSound } from "../utils/soundNotification";
 
 /**
  * State machine that drives both simple and custom timer modes.
@@ -26,6 +27,12 @@ export function useTimerStateMachine() {
             customTimerState,
             setCustomTimerState,
       } = useClockStatus();
+
+      const { settings } = useSettings();
+
+      const playIntervalEnd = useCallback(() => previewSound(settings.endIntervalSound), [settings.endIntervalSound]);
+      const playSetEnd = useCallback(() => previewSound(settings.endSetSound), [settings.endSetSound]);
+      const playFinish = useCallback(() => previewSound(settings.finishSound), [settings.finishSound]);
 
       // Refs to always access the latest values inside setTimeout callbacks,
       // avoiding stale closures that capture outdated state.
@@ -61,8 +68,8 @@ export function useTimerStateMachine() {
                   currentAnimation: AnimationType.WORKOUT_FINISHED_SIMPLE,
             }));
             setClockStatus(ClockStatus.FINISHED);
-            playTimerFinishedSound();
-      }, [setSimpleTimerState, setTime, setClockStatus]);
+            playFinish();
+      }, [setSimpleTimerState, setTime, setClockStatus, playFinish]);
 
       const setRunningToRunningWorkLapEndedSimple = useCallback(() => {
             setSimpleTimerState(prev => ({ ...prev, isWorkLap: false }));
@@ -167,12 +174,12 @@ export function useTimerStateMachine() {
                         ) {
                               setRunningToFinishedSimple();
                         } else if (time === 0 && simpleTimerState.isWorkLap) {
-                              playWorkLapFinishedSound();
+                              playIntervalEnd();
                               setTimeout(() => {
                                     setRunningToRunningWorkLapEndedSimple();
                               }, 1000);
                         } else if (time === 0 && !simpleTimerState.isWorkLap) {
-                              playRestLapFinishedSound();
+                              playSetEnd();
                               setTimeout(() => {
                                     setRunningToRunningRestLapEndedSimple();
                               }, 1000);
@@ -246,7 +253,7 @@ export function useTimerStateMachine() {
                         if (isPaused) {
                               setClockStatus(ClockStatus.PAUSED);
                         } else if (time === 0 && customTimerState.remainingIntervals.length > 1) {
-                              playWorkLapFinishedSound();
+                              playIntervalEnd();
                               setTimeout(() => {
                                     setCustomTimerState(prev => ({
                                           ...prev,
@@ -255,7 +262,7 @@ export function useTimerStateMachine() {
                                     setTime(customTimerStateRef.current.remainingIntervals[1].duration);
                               }, 1000);
                         } else if (time === 0 && customTimerState.remainingIntervals.length === 1 && customTimerState.remainingSets > 1) {
-                              playRestLapFinishedSound();
+                              playSetEnd();
                               setTimeout(() => {
                                     setCustomTimerState(prev => ({
                                           ...prev,
@@ -266,7 +273,7 @@ export function useTimerStateMachine() {
                               }, 1000);
                         } else if (time === 0 && customTimerState.remainingIntervals.length === 1 && customTimerState.remainingSets === 1) {
                               setClockStatus(ClockStatus.FINISHED);
-                              playTimerFinishedSound();
+                              playFinish();
                         }
                         break;
 

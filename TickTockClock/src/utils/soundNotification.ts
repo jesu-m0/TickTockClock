@@ -200,10 +200,32 @@ const soundPreviewMap: Record<string, () => Promise<void>> = {
   'tone': playSimpleTone,
 };
 
+const funSoundUrls: Record<string, string> = {
+  'fun-siuu': new URL('./sounds/Siuu.mp3', import.meta.url).href,
+  'fun-ruidoo': new URL('./sounds/RUIDOOOO.mp3', import.meta.url).href,
+  'fun-epic': new URL('./sounds/that was epic.mp3', import.meta.url).href,
+  'fun-damn': new URL('./sounds/ohh got damn it.mp3', import.meta.url).href,
+  'fun-penalti': new URL('./sounds/Penalti a favor del real madrid.mp3', import.meta.url).href,
+};
+
+const playFunSound = async (key: string): Promise<void> => {
+  const url = funSoundUrls[key];
+  if (!url) return;
+  const audio = new Audio(url);
+  audio.volume = 0.5;
+  await audio.play().catch(() => {});
+};
+
+export const isFunSound = (key: string): boolean => key.startsWith('fun-');
+
 /**
  * Preview a sound by its key (used in settings)
  */
 export const previewSound = async (soundKey: string): Promise<void> => {
+  if (isFunSound(soundKey)) {
+    await playFunSound(soundKey);
+    return;
+  }
   const playFn = soundPreviewMap[soundKey];
   if (playFn) {
     await playFn();

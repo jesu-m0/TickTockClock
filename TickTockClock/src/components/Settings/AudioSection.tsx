@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import SettingsCard from './SettingsCard';
 import SettingsToggle from './SettingsToggle';
 import SettingsSlider from './SettingsSlider';
-import SettingsSelect from './SettingsSelect';
+import SoundPicker, { SoundPickerVariant } from './SoundPicker';
 import { useSettings } from '../../context/SettingsContext';
-import { previewSound } from '../../utils/soundNotification';
 import { useTranslation } from '../../i18n/useTranslation';
 
 const SpeakerIcon = () => (
@@ -13,20 +12,52 @@ const SpeakerIcon = () => (
   </svg>
 );
 
+const standardSoundKeys = [
+  { value: 'beep', translationKey: 'beep', icon: '•' },
+  { value: 'chime', translationKey: 'chime', icon: '♪' },
+  { value: 'boxing-bell', translationKey: 'boxingBell', icon: '◉' },
+  { value: 'whistle', translationKey: 'whistle', icon: '▸' },
+  { value: 'tone', translationKey: 'tone', icon: '∿' },
+] as const;
+
+const funSounds = [
+  { value: 'fun-siuu', label: 'SIUUU', icon: '⚽' },
+  { value: 'fun-ruidoo', label: 'RUIDO', icon: '◆' },
+  { value: 'fun-epic', label: 'Epic', icon: '★' },
+  { value: 'fun-damn', label: 'Damn!', icon: '✕' },
+  { value: 'fun-penalti', label: 'Penalti', icon: '⚑' },
+];
+
+const variantLabels: Record<SoundPickerVariant, string> = {
+  1: 'Grid',
+  2: 'Chips',
+  3: 'List',
+};
+
 const AudioSection: React.FC = () => {
   const { settings, updateSetting } = useSettings();
   const { t } = useTranslation();
+  const [variant, setVariant] = useState<SoundPickerVariant>(1);
 
-  const soundOptions = [
-    { value: 'beep', label: t.beep },
-    { value: 'chime', label: t.chime },
-    { value: 'boxing-bell', label: t.boxingBell },
-    { value: 'whistle', label: t.whistle },
-    { value: 'tone', label: t.tone },
-  ];
+  const cheatMode = true;
+
+  const soundOptions = standardSoundKeys.map(s => ({
+    value: s.value,
+    icon: s.icon,
+    label: t[s.translationKey] as string,
+  }));
 
   return (
     <SettingsCard title={t.audio} icon={<SpeakerIcon />}>
+      <div className="flex rounded-lg overflow-hidden bg-baseClr/10 dark:bg-surfaceDark mb-1">
+        {([1, 2, 3] as SoundPickerVariant[]).map(v => (
+          <button key={v} type="button" onClick={() => setVariant(v)}
+            className={`flex-1 py-1.5 text-xs font-semibold transition-colors duration-200 cursor-pointer
+              ${variant === v ? 'bg-primary/20 text-primary' : 'text-baseClr dark:text-muted hover:bg-baseClr/5 dark:hover:bg-surfaceDark/50'}`}
+          >{variantLabels[v]}</button>
+        ))}
+      </div>
+
       <SettingsSlider
         label={t.masterVolume}
         value={settings.masterVolume}
@@ -38,26 +69,32 @@ const AudioSection: React.FC = () => {
         checked={settings.countdownBeeps}
         onChange={(v) => updateSetting('countdownBeeps', v)}
       />
-      <SettingsSelect
+      <SoundPicker
         label={t.endIntervalSound}
         value={settings.endIntervalSound}
         options={soundOptions}
+        funOptions={funSounds}
+        cheatMode={cheatMode}
+        variant={variant}
         onChange={(v) => updateSetting('endIntervalSound', v)}
-        onPreview={previewSound}
       />
-      <SettingsSelect
+      <SoundPicker
         label={t.endSetSound}
         value={settings.endSetSound}
         options={soundOptions}
+        funOptions={funSounds}
+        cheatMode={cheatMode}
+        variant={variant}
         onChange={(v) => updateSetting('endSetSound', v)}
-        onPreview={previewSound}
       />
-      <SettingsSelect
+      <SoundPicker
         label={t.finishSound}
         value={settings.finishSound}
         options={soundOptions}
+        funOptions={funSounds}
+        cheatMode={cheatMode}
+        variant={variant}
         onChange={(v) => updateSetting('finishSound', v)}
-        onPreview={previewSound}
       />
     </SettingsCard>
   );
