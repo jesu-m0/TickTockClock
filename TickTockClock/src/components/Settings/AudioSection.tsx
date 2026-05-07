@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import SettingsCard from './SettingsCard';
 import SettingsToggle from './SettingsToggle';
 import SettingsSlider from './SettingsSlider';
-import SoundPicker, { SoundPickerVariant } from './SoundPicker';
+import SoundPicker from './SoundPicker';
 import { useSettings } from '../../context/SettingsContext';
 import { useTranslation } from '../../i18n/useTranslation';
 
@@ -28,16 +28,9 @@ const funSounds = [
   { value: 'fun-penalti', label: 'Penalti', icon: '⚑' },
 ];
 
-const variantLabels: Record<SoundPickerVariant, string> = {
-  1: 'Grid',
-  2: 'Chips',
-  3: 'List',
-};
-
 const AudioSection: React.FC = () => {
   const { settings, updateSetting } = useSettings();
   const { t } = useTranslation();
-  const [variant, setVariant] = useState<SoundPickerVariant>(1);
 
   const cheatMode = true;
 
@@ -49,15 +42,6 @@ const AudioSection: React.FC = () => {
 
   return (
     <SettingsCard title={t.audio} icon={<SpeakerIcon />}>
-      <div className="flex rounded-lg overflow-hidden bg-baseClr/10 dark:bg-surfaceDark mb-1">
-        {([1, 2, 3] as SoundPickerVariant[]).map(v => (
-          <button key={v} type="button" onClick={() => setVariant(v)}
-            className={`flex-1 py-1.5 text-xs font-semibold transition-colors duration-200 cursor-pointer
-              ${variant === v ? 'bg-primary/20 text-primary' : 'text-baseClr dark:text-muted hover:bg-baseClr/5 dark:hover:bg-surfaceDark/50'}`}
-          >{variantLabels[v]}</button>
-        ))}
-      </div>
-
       <SettingsSlider
         label={t.masterVolume}
         value={settings.masterVolume}
@@ -75,7 +59,6 @@ const AudioSection: React.FC = () => {
         options={soundOptions}
         funOptions={funSounds}
         cheatMode={cheatMode}
-        variant={variant}
         onChange={(v) => updateSetting('endIntervalSound', v)}
       />
       <SoundPicker
@@ -84,7 +67,6 @@ const AudioSection: React.FC = () => {
         options={soundOptions}
         funOptions={funSounds}
         cheatMode={cheatMode}
-        variant={variant}
         onChange={(v) => updateSetting('endSetSound', v)}
       />
       <SoundPicker
@@ -93,7 +75,6 @@ const AudioSection: React.FC = () => {
         options={soundOptions}
         funOptions={funSounds}
         cheatMode={cheatMode}
-        variant={variant}
         onChange={(v) => updateSetting('finishSound', v)}
       />
     </SettingsCard>
