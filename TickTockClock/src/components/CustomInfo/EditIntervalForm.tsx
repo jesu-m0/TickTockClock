@@ -4,6 +4,8 @@ import ColorPicker from "./shared/ColorPicker";
 import IntervalNameInput from "./shared/IntervalNameInput";
 import IntervalTimeDisplay from "./shared/IntervalTimeDisplay";
 import DurationPicker from "./shared/DurationPicker";
+import IntervalSoundPicker from "./shared/IntervalSoundPicker";
+import { DEFAULT_INTERVAL_SOUND } from "../../utils/soundNotification";
 import { useTranslation } from "../../i18n/useTranslation";
 
 interface EditIntervalFormProps {
@@ -17,6 +19,7 @@ const EditIntervalForm: React.FC<EditIntervalFormProps> = ({ interval, onSave, o
       const [name, setName] = useState(interval.name);
       const [duration, setDuration] = useState(interval.duration);
       const [selectedColor, setSelectedColor] = useState(interval.color);
+      const [selectedSound, setSelectedSound] = useState(interval.soundKey || DEFAULT_INTERVAL_SOUND);
 
       const [isClickedCancel, setIsClickedCancel] = useState(false);
       const [isClickedSave, setIsClickedSave] = useState(false);
@@ -37,6 +40,7 @@ const EditIntervalForm: React.FC<EditIntervalFormProps> = ({ interval, onSave, o
                   name: name.trim(),
                   duration: duration,
                   color: selectedColor,
+                  soundKey: selectedSound,
             };
 
             onSave(updatedInterval);
@@ -100,14 +104,21 @@ const EditIntervalForm: React.FC<EditIntervalFormProps> = ({ interval, onSave, o
                                                 onDurationChange={setDuration}
                                           />
 
+                                          {/* Sound picker */}
+                                          <IntervalSoundPicker
+                                                selectedSound={selectedSound}
+                                                onSoundChange={setSelectedSound}
+                                                variant="edit"
+                                          />
+
                                           {/* Cancel and Save */}
-                                          <div className={`order-8 col-span-6 lg:col-span-4 row-span-1 bg-secondary rounded-3xl flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer
+                                          <div className={`order-8 col-span-6 row-span-1 bg-secondary rounded-3xl flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer
                                                             ${isClickedCancel ? "scale-animation" : ""}`}
                                                 onClick={handleCancel}
                                           >
                                                 <p className="text-center text-baseClr dark:text-surfaceDark text-4xl lg:text-5xl font-black">{t.cancel}</p>
                                           </div>
-                                          <button type="submit" className={`order-9 col-span-6 lg:col-span-4 row-span-1 bg-primary rounded-3xl flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer
+                                          <button type="submit" className={`order-9 col-span-6 row-span-1 bg-primary rounded-3xl flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer
                                                 ${isClickedSave ? "scale-animation" : ""}`}>
                                                 <p className="text-4xl lg:text-5xl text-surface font-black">
                                                       {t.save}

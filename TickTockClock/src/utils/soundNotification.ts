@@ -218,6 +218,37 @@ const playFunSound = async (key: string): Promise<void> => {
 
 export const isFunSound = (key: string): boolean => key.startsWith('fun-');
 
+/** Sound options shared between settings and per-interval picker */
+export interface SoundOption {
+  value: string;
+  label: string;
+  icon: string;
+  translationKey?: string;
+}
+
+export const STANDARD_SOUND_OPTIONS: SoundOption[] = [
+  { value: 'beep', label: 'Beep', icon: '•', translationKey: 'beep' },
+  { value: 'chime', label: 'Chime', icon: '♪', translationKey: 'chime' },
+  { value: 'boxing-bell', label: 'Bell', icon: '◉', translationKey: 'boxingBell' },
+  { value: 'whistle', label: 'Whistle', icon: '▸', translationKey: 'whistle' },
+  { value: 'tone', label: 'Tone', icon: '∿', translationKey: 'tone' },
+];
+
+export const FUN_SOUND_OPTIONS: SoundOption[] = [
+  { value: 'fun-siuu', label: 'SIUUU', icon: '⚽' },
+  { value: 'fun-ruidoo', label: 'RUIDO', icon: '◆' },
+  { value: 'fun-epic', label: 'Epic', icon: '★' },
+  { value: 'fun-damn', label: 'Damn!', icon: '✕' },
+  { value: 'fun-penalti', label: 'Penalti', icon: '⚑' },
+];
+
+export const DEFAULT_INTERVAL_SOUND = 'beep';
+
+export const getRandomStandardSound = (): string => {
+  const opts = STANDARD_SOUND_OPTIONS;
+  return opts[Math.floor(Math.random() * opts.length)].value;
+};
+
 /**
  * Preview a sound by its key (used in settings)
  */

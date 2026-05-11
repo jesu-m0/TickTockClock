@@ -17,7 +17,7 @@ const IntervalNameInput: React.FC<IntervalNameInputProps> = ({
             : "bg-surface dark:bg-surfaceDark";
 
       return (
-            <div className={`order-3 col-span-9 lg:col-span-6 row-span-1 rounded-3xl ${bgClasses} pt-4 px-8 pb-6 relative`}>
+            <div className={`order-3 col-span-9 lg:col-span-7 row-span-1 rounded-3xl ${bgClasses} pt-4 px-8 pb-6 relative`}>
                   <div className="w-full h-full flex flex-col justify-end items-center">
                         {/* Input Field */}
                         <input

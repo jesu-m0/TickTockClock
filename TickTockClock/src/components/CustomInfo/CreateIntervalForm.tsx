@@ -6,6 +6,8 @@ import ColorPicker from "./shared/ColorPicker";
 import IntervalNameInput from "./shared/IntervalNameInput";
 import IntervalTimeDisplay from "./shared/IntervalTimeDisplay";
 import DurationPicker from "./shared/DurationPicker";
+import IntervalSoundPicker from "./shared/IntervalSoundPicker";
+import { getRandomStandardSound } from "../../utils/soundNotification";
 import { useTranslation } from "../../i18n/useTranslation";
 
 
@@ -32,6 +34,7 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
       const [selectedColor, setSelectedColor] = useState(
             Object.values(Colors)[Math.floor(Math.random() * Object.values(Colors).length)]
       );
+      const [selectedSound, setSelectedSound] = useState(getRandomStandardSound);
 
       const getDefaultName = (color?: string) => {
             const targetColor = color || selectedColor;
@@ -64,6 +67,7 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
             setDuration(0);
             const randomColor = Object.values(Colors)[Math.floor(Math.random() * Object.values(Colors).length)];
             setSelectedColor(randomColor);
+            setSelectedSound(getRandomStandardSound());
             setName(getDefaultName(randomColor));
             closeForm();
             setTimeout(() => setIsClickedCancel(false), 200);
@@ -87,6 +91,7 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
                   name: name.trim(),
                   duration: duration,
                   color: selectedColor,
+                  soundKey: selectedSound,
             };
 
             setCustomTimerConfig(prev => ({
@@ -98,6 +103,7 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
             setDuration(0);
             const randomColor = Object.values(Colors)[Math.floor(Math.random() * Object.values(Colors).length)];
             setSelectedColor(randomColor);
+            setSelectedSound(getRandomStandardSound());
             setName(getDefaultName(randomColor));
             closeForm();
       };
@@ -150,15 +156,22 @@ const CreateIntervalForm: React.FC<CreateIntervalFormProps> = ({
                                                 onDurationChange={setDuration}
                                           />
 
+                                          {/* Sound picker */}
+                                          <IntervalSoundPicker
+                                                selectedSound={selectedSound}
+                                                onSoundChange={setSelectedSound}
+                                                variant="create"
+                                          />
+
                                           {/* Cancel and add */}
                                           <div
-                                                className={`order-8 col-span-6 lg:col-span-4 row-span-1 bg-secondary rounded-3xl flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer
+                                                className={`order-8 col-span-6 row-span-1 bg-secondary rounded-3xl flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer
                                                             ${isClickedCancel ? "scale-animation" : ""}`}
                                                 onClick={handleCancel}
                                           >
                                                 <p className="text-center text-surface dark:text-muted text-4xl lg:text-5xl font-black">{t.cancel}</p>
                                           </div>
-                                          <button type="submit" className={`order-9 col-span-6 lg:col-span-4 row-span-1 bg-surface dark:bg-muted rounded-3xl flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer
+                                          <button type="submit" className={`order-9 col-span-6 row-span-1 bg-surface dark:bg-muted rounded-3xl flex items-center justify-center hover:scale-105 transition-transform duration-200 cursor-pointer
                                                 ${isClickedAdd ? "scale-animation" : ""}`}>
                                                 <p className=" text-4xl lg:text-5xl text-baseClr font-black">
                                                       {t.add}

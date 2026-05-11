@@ -25,6 +25,7 @@ export const translations = {
     editInterval: 'Edit interval',
     intervalName: 'Interval name',
     intervalColor: 'Interval color',
+    intervalSound: 'Interval sound',
     cancel: 'Cancel',
     save: 'Save',
 
@@ -105,6 +106,7 @@ export const translations = {
     editInterval: 'Editar intervalo',
     intervalName: 'Nombre del intervalo',
     intervalColor: 'Color del intervalo',
+    intervalSound: 'Sonido del intervalo',
     cancel: 'Cancelar',
     save: 'Guardar',
 
@@ -185,6 +187,7 @@ export const translations = {
     editInterval: 'Intervall bearbeiten',
     intervalName: 'Intervallname',
     intervalColor: 'Intervallfarbe',
+    intervalSound: 'Intervall-Sound',
     cancel: 'Abbrechen',
     save: 'Speichern',
 

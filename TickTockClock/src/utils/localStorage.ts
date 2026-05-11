@@ -1,4 +1,5 @@
 import { Interval } from '../types/CustomTimerInfo';
+import { DEFAULT_INTERVAL_SOUND } from './soundNotification';
 
 const INTERVALS_STORAGE_KEY = 'ticktockclock_intervals';
 const SETS_STORAGE_KEY = 'ticktockclock_sets';
@@ -22,7 +23,13 @@ export const loadIntervalsFromLocalStorage = (): Interval[] | null => {
   try {
     const stored = localStorage.getItem(INTERVALS_STORAGE_KEY);
     if (stored) {
-      return JSON.parse(stored) as Interval[];
+      const parsed = JSON.parse(stored) as Interval[];
+      // Ensure backwards compatibility: intervals saved before soundKey existed
+      // get a default sound so the picker and timer always have a value to use.
+      return parsed.map(interval => ({
+        ...interval,
+        soundKey: interval.soundKey || DEFAULT_INTERVAL_SOUND,
+      }));
     }
     return null;
   } catch (error) {

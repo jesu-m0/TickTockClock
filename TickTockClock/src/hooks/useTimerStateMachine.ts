@@ -30,7 +30,7 @@ export function useTimerStateMachine() {
 
       const { settings } = useSettings();
 
-      const playIntervalEnd = useCallback(() => previewSound(settings.endIntervalSound), [settings.endIntervalSound]);
+      const playIntervalEnd = useCallback((soundKey?: string) => previewSound(soundKey || settings.endIntervalSound), [settings.endIntervalSound]);
       const playSetEnd = useCallback(() => previewSound(settings.endSetSound), [settings.endSetSound]);
       const playFinish = useCallback(() => previewSound(settings.finishSound), [settings.finishSound]);
 
@@ -253,7 +253,7 @@ export function useTimerStateMachine() {
                         if (isPaused) {
                               setClockStatus(ClockStatus.PAUSED);
                         } else if (time === 0 && customTimerState.remainingIntervals.length > 1) {
-                              playIntervalEnd();
+                              playIntervalEnd(customTimerState.remainingIntervals[0].soundKey);
                               setTimeout(() => {
                                     setCustomTimerState(prev => ({
                                           ...prev,

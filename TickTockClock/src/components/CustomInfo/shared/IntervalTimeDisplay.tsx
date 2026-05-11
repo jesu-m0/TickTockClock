@@ -18,7 +18,7 @@ const IntervalTimeDisplay: React.FC<IntervalTimeDisplayProps> = ({
                   barCount={6}
                   barColorA="bg-secondary"
                   barColorB={stripeColor}
-                  className="order-4 col-span-12 lg:col-span-4 row-span-3 lg:row-span-4"
+                  className="order-4 col-span-12 lg:col-span-3 row-span-3"
             />
       );
 };

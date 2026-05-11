@@ -4,6 +4,8 @@ import SettingsToggle from './SettingsToggle';
 import SettingsSlider from './SettingsSlider';
 import SoundPicker from './SoundPicker';
 import { useSettings } from '../../context/SettingsContext';
+import { useClockStatus } from '../../context/ClockContext';
+import { useCheatMode } from '../../hooks/useCheatMode';
 import { useTranslation } from '../../i18n/useTranslation';
 
 const SpeakerIcon = () => (
@@ -30,9 +32,11 @@ const funSounds = [
 
 const AudioSection: React.FC = () => {
   const { settings, updateSetting } = useSettings();
+  const { simpleTimerConfig } = useClockStatus();
   const { t } = useTranslation();
 
-  const cheatMode = true;
+  // 4:20 easter egg: rest lap set to exactly 4:20 in simple mode unlocks fun sounds.
+  const cheatMode = useCheatMode(simpleTimerConfig.restLapDuration);
 
   const soundOptions = standardSoundKeys.map(s => ({
     value: s.value,

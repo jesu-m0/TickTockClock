@@ -7,6 +7,7 @@ export interface Interval {
       duration: number; // Duration in seconds
       color: Colors;
       name: string; // Interval type (e.g., "work", "rest", "cooldown")
+      soundKey: string; // Sound played when this interval ends
 }
 
 /** Configuration set by the user — does not change while the timer runs */

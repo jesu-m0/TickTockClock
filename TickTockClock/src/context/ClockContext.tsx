@@ -55,12 +55,14 @@ export const ClockProvider: React.FC<{ children: React.ReactNode }> = ({ childre
                   name: "Warm Up",
                   duration: 300, // 5 minutes in seconds
                   color: Colors.BurntSienna,
+                  soundKey: 'beep',
             },
             {
                   id: uuidv4(),
                   name: "High Intensity",
                   duration: 180, // 3 minutes in seconds
                   color: Colors.Jade,
+                  soundKey: 'beep',
             }
       ], []);
 
